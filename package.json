@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer#readme",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "elasticsearch": "^13.3.1",
     "mongodb": "^2.2.31",
     "twitter": "^1.7.1"
