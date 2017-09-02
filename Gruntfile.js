@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
     eslint: {
       target: [
-        // Blank for now--adust after create-react-app
+        'src/*.js*'
       ]
     },
   });
