@@ -1,0 +1,31 @@
+{
+  "name": "tiwtter_conversation_explorer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer.git"
+  },
+  "author": "Garima Batra, Peter Warner-Medley, Scott Mitchell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer/issues"
+  },
+  "homepage": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer#readme",
+  "dependencies": {
+    "elasticsearch": "^13.3.1",
+    "mongodb": "^2.2.31",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.1.0"
+  }
+}
