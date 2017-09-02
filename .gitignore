@@ -7,10 +7,11 @@
 *.o
 *.so
 
-# Output #
-##########
+# Output and config #
+#####################
 *.txt
 *.csv
+.env
 
 # Modules and packages #
 ########################
