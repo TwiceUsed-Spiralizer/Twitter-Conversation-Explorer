@@ -20,12 +20,16 @@
   },
   "homepage": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer#readme",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "elasticsearch": "^13.3.1",
     "mongodb": "^2.2.31",
     "twitter": "^1.7.1"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.1.0"
+    "eslint": "^4.4.1",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.2.0"
   }
 }
