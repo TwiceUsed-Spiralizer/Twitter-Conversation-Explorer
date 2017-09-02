@@ -36,6 +36,10 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.2.0"
+    "eslint-plugin-react": "^7.2.0",
+    "grunt": "^1.0.1",
+    "grunt-eslint": "^20.1.0",
+    "grunt-mocha-test": "^0.13.2",
+    "mocha": "^3.5.0"
   }
 }
