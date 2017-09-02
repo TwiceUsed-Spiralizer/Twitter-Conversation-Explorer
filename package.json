@@ -1,0 +1,22 @@
+{
+  "name": "tiwtter_conversation_explorer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer.git"
+  },
+  "author": "Garima Batra, Peter Warner-Medley, Scott Mitchell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer/issues"
+  },
+  "homepage": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer#readme"
+}
