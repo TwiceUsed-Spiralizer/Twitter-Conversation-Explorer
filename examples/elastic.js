@@ -18,9 +18,27 @@ const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
 });
 
-const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'low', track: 'a,b,c, ' });
-stream.on('data', tweet => tweet && esClient.index({
-  index: 'index',
-  type: 'type',
-  body: tweet,
-}));
+let newItems = [];
+const tweetHandler = function tweetHandler(tweet) {
+  if (!/RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
+    tweet.complete = false;
+    newItems.push({
+      index: {
+        _index: 'tweets',
+        _type: 'tweet',
+      },
+      tweet,
+    });
+  }
+  if (newItems.length > 100) {
+    const itemsToStore = newItems;
+    newItems = [];
+    esClient.bulk({
+      body: itemsToStore,
+    })
+      .catch(console.error);
+  }
+};
+
+const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'low', track: 'a,e,i,o,u,y, ' });
+stream.on('data', tweet => tweet && tweetHandler(tweet));
