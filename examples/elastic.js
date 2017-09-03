@@ -18,7 +18,7 @@ const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
 });
 
-const batchSize = 500;
+const batchSize = 1000;
 const index = { index: { _index: 'twitter', _type: 'tweet' } };
 let newItems = Array(batchSize);
 let items = 0;
@@ -40,5 +40,5 @@ const tweetHandler = function tweetHandler(tweet) {
   }
 };
 
-const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'low', track: 'a,e,i,o,u,y, ' });
+const stream = client.stream('statuses/filter', { language: 'en', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
 stream.on('data', tweet => tweet && tweetHandler(tweet));
