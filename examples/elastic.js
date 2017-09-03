@@ -18,21 +18,21 @@ const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
 });
 
-let newItems = [];
+const batchSize = 500;
+const index = { index: { _index: 'twitter', _type: 'tweet' } };
+let newItems = Array(batchSize);
+let items = 0;
+
 const tweetHandler = function tweetHandler(tweet) {
-  if (!/RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
+  if (!/^RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
     tweet.complete = false;
-    newItems.push({
-      index: {
-        _index: 'tweets',
-        _type: 'tweet',
-      },
-      tweet,
-    });
+    newItems[items++] = index;
+    newItems[items++] = tweet;
   }
-  if (newItems.length > 100) {
+  if (items >= batchSize) {
     const itemsToStore = newItems;
-    newItems = [];
+    newItems = Array(batchSize);
+    items = 0;
     esClient.bulk({
       body: itemsToStore,
     })
