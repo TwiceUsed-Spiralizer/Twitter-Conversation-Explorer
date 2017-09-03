@@ -1,0 +1,44 @@
+/*
+ * elastic.js 
+ * 
+ * Example file, demonstrating usage of twitter stream
+ * and elastic search.
+ */
+require('dotenv').config();
+
+const elasticsearch = require('elasticsearch');
+const client = require('twitter')({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_TOKEN_SECRET,
+});
+
+const esClient = new elasticsearch.Client({
+  host: process.env.ELASTICSEARCH_HOST,
+});
+
+let newItems = [];
+const tweetHandler = function tweetHandler(tweet) {
+  if (!/RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
+    tweet.complete = false;
+    newItems.push({
+      index: {
+        _index: 'tweets',
+        _type: 'tweet',
+      },
+      tweet,
+    });
+  }
+  if (newItems.length > 100) {
+    const itemsToStore = newItems;
+    newItems = [];
+    esClient.bulk({
+      body: itemsToStore,
+    })
+      .catch(console.error);
+  }
+};
+
+const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'low', track: 'a,e,i,o,u,y, ' });
+stream.on('data', tweet => tweet && tweetHandler(tweet));
