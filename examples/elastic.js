@@ -18,21 +18,21 @@ const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
 });
 
-let newItems = [];
+const batchSize = 1000;
+const index = { index: { _index: 'twitter', _type: 'tweet' } };
+let newItems = Array(batchSize);
+let items = 0;
+
 const tweetHandler = function tweetHandler(tweet) {
-  if (!/RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
+  if (!/^RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
     tweet.complete = false;
-    newItems.push({
-      index: {
-        _index: 'tweets',
-        _type: 'tweet',
-      },
-      tweet,
-    });
+    newItems[items++] = index;
+    newItems[items++] = tweet;
   }
-  if (newItems.length > 100) {
+  if (items >= batchSize) {
     const itemsToStore = newItems;
-    newItems = [];
+    newItems = Array(batchSize);
+    items = 0;
     esClient.bulk({
       body: itemsToStore,
     })
@@ -40,5 +40,5 @@ const tweetHandler = function tweetHandler(tweet) {
   }
 };
 
-const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'low', track: 'a,e,i,o,u,y, ' });
+const stream = client.stream('statuses/filter', { language: 'en', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
 stream.on('data', tweet => tweet && tweetHandler(tweet));
