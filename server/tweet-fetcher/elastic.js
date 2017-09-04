@@ -46,5 +46,5 @@ const tweetHandler = function tweetHandler(tweet) {
   }
 };
 
-const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'none', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
+const stream = client.stream('statuses/filter', { language: 'en', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
 stream.on('data', tweet => tweet && tweetHandler(tweet));
