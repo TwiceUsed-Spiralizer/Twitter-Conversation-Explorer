@@ -5,6 +5,6 @@ const twitterClient = require('twitter')({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET,
 });
 
-module.exports = function twitterStream(statusFilter) {
+exports.stream = function twitterStream(statusFilter) {
   return twitterClient.stream('statuses/filter', statusFilter);
 };
