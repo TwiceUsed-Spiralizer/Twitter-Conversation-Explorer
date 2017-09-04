@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoConnect = require('./mongo');
 const { Tweet } = require('./models.js');
-const twitterStream = require('./twitter-stream').stream;
+const twitterStream = require('./twitter-client').stream;
 
 const isCandidate = function isCandidate(tweet) {
   return !/^RT @/.test(tweet.text)
