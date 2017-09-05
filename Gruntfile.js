@@ -30,6 +30,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('travis', [
-    'eslint', 'mochaTest'
+    'eslint', 'mochaTest',
   ]);
 };
