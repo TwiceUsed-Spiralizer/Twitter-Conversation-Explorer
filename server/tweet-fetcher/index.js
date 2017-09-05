@@ -42,11 +42,23 @@ class TweetFetcher extends EventEmitter {
 module.exports = class TweetManager {
   constructor() {
     mongoConnect()
-      .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 5}).on('tweets', this.populateRecipients.bind(this)))
+      .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 100}).on('tweets', this.populateRecipients.bind(this)))
       .catch(console.error);
     this.checkTime = Date.now();
     this.userLookups = 0;
-    this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'), ['populateRecipients']);
+    this.recipientsProcessProcessReady = false;
+    this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
+    this.recipientsProcess.on('message', (message) => {
+      if (message === 'ready') {
+        this.recipientsProcessProcessReady = true;
+        this.populateRecipients();
+      } else if (message === 'no tweets') {
+        this.recipientsProcessProcessReady = true;
+      } else {
+        const { lookups } = message;
+        this.userLookups += lookups;
+      }
+    })
   }
 
   populateRecipients() {
@@ -54,7 +66,11 @@ module.exports = class TweetManager {
       this.checkTime = Date.now();
       this.userLookups = 0;
     }
+    if (!this.recipientsProcessProcessReady) {
+      return;
+    }
     if (this.userLookups <= 800) {
+      this.recipientsProcessProcessReady = false;
       this.recipientsProcess.send('');
     }
   }
