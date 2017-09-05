@@ -51,8 +51,8 @@ module.exports = class TweetManager {
     mongoConnect()
       .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 100}).on('tweets', this.populateRecipients.bind(this)))
       .catch(console.error);
-    this.checkTime = Date.now();
     this.userLookups = 0;
+    setTimeout(this.resetLookups.bind(this), 1000 * 60 * 15); // Max of 900 lookups per 15 mins
     this.recipientsProcessProcessReady = false;
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
     this.recipientsProcess.on('message', (message) => {
@@ -68,11 +68,11 @@ module.exports = class TweetManager {
     })
   }
 
+  resetLookups() {
+    this.userLookups = 0;
+  }
+
   populateRecipients() {
-    if (Date.now() - this.checkTime >= 1000 * 60 * 15) { // Max of 900 lookups per 15 mins
-      this.checkTime = Date.now();
-      this.userLookups = 0;
-    }
     if (!this.recipientsProcessProcessReady) {
       return;
     }
