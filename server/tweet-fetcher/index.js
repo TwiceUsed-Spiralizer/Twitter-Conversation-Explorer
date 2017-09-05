@@ -15,6 +15,7 @@ const twitterStream = require('./twitter-client').stream;
 const { fork } = require('child_process');
 const EventEmitter = require('events');
 const path = require('path');
+const throttle = require('lodash/throttle');
 
 const isCandidate = function isCandidate(tweet) {
   return !/^RT @/.test(tweet.text)
@@ -50,11 +51,10 @@ module.exports = class TweetManager {
   constructor() {
     // Initialise tweet fetcher and listen for tweets
     mongoConnect()
-      .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 100}).on('tweets', this.populateRecipients.bind(this)))
+      .then(tweetsDB => new TweetFetcher(tweetsDB).on('tweets', this.populateRecipients.bind(this)))
       .catch(console.error);
     // Rate limit lookups
-    this.userLookups = 0;
-    setTimeout(this.resetLookups.bind(this), 1000 * 60 * 15); // Max of 900 lookups per 15 mins
+    this.populateRecipients = throttle(this.populateRecipients, 2000);
     // Fork process and handle communication
     this.recipientsProcessProcessReady = false;
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
@@ -64,22 +64,12 @@ module.exports = class TweetManager {
         this.populateRecipients();
       } else if (message === 'no tweets') {
         this.recipientsProcessProcessReady = true;
-      } else {
-        const { lookups } = message;
-        this.userLookups += lookups;
       }
-    })
-  }
-
-  resetLookups() {
-    this.userLookups = 0;
+    });
   }
 
   populateRecipients() {
-    if (!this.recipientsProcessProcessReady) {
-      return;
-    }
-    if (this.userLookups <= 800) {
+    if (this.recipientsProcessProcessReady) {
       this.recipientsProcessProcessReady = false;
       this.recipientsProcess.send('');
     }
