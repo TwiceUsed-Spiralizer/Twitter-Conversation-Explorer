@@ -48,11 +48,14 @@ class TweetFetcher extends EventEmitter {
 
 module.exports = class TweetManager {
   constructor() {
+    // Initialise tweet fetcher and listen for tweets
     mongoConnect()
       .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 100}).on('tweets', this.populateRecipients.bind(this)))
       .catch(console.error);
+    // Rate limit lookups
     this.userLookups = 0;
     setTimeout(this.resetLookups.bind(this), 1000 * 60 * 15); // Max of 900 lookups per 15 mins
+    // Fork process and handle communication
     this.recipientsProcessProcessReady = false;
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
     this.recipientsProcess.on('message', (message) => {
