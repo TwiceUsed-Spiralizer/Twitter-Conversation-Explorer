@@ -6,46 +6,48 @@ const { forEach, map } = require('lodash');
 let tweetsDB;
 
 mongoConnect()
-  .then(db =>
-    (tweetsDB = db).find({ recipients_processed: false })
-      .sort({ created_at: 1 }).limit(100).toArray()
-  )
-  .then((tweets) => {
-    const userIds = new Set();
-    const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
-      if (typeof recipient === 'string') {
-        userIds.add(recipient);
-      }
-    });
-    forEach(tweets, pushUserIds);
-    return lookupUsers(Array.from(userIds).slice(0, 100))
-      .then(users => ({ users, tweets }));
-  })
-  .then(({ users, tweets }) => {
-    const userIdsToObjects = {};
-    const mongoBatch = tweetsDB.initializeUnorderedBulkOp();
-    const mapUserIdToObject = (id) => {
-      if (typeof id === 'string') {
-        return userIdsToObjects[id] ? userIdsToObjects[id] : id;
-      }
-      return id;
-    };
-    forEach(users, (user) => {
-      if (!userIdsToObjects[user.id_str]) {
-        userIdsToObjects[user.id_str] = new User(user);
-      }
-    });
-    forEach(tweets, (tweet) => {
-      const recipients = map(tweet.recipients, mapUserIdToObject);
-      let recipientsProcessed = true;
-      for (let i = 0, n = recipients.length; i < n; i++) {
-        if (typeof recipients[i] === 'string') {
-          recipientsProcessed = false;
-          break;
+  .then((db) => { tweetsDB = db; });
+
+process.on('message', () => {
+  tweetsDB.find({ recipients_processed: false }).sort({ created_at: 1 }).limit(100).toArray()
+    .then((tweets) => {
+      console.log(tweets)
+      const userIds = new Set();
+      const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
+        if (typeof recipient === 'string') {
+          userIds.add(recipient);
         }
-      }
-      mongoBatch.find({ _id: tweet._id }).updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
-    });
-    mongoBatch.execute();
-  })
-  .catch(console.error);
+      });
+      forEach(tweets, pushUserIds);
+      return lookupUsers(Array.from(userIds).slice(0, 100))
+        .then(users => ({ users, tweets }));
+    })
+    .then(({ users, tweets }) => {
+      const userIdsToObjects = {};
+      const mongoBatch = tweetsDB.initializeUnorderedBulkOp();
+      const mapUserIdToObject = (id) => {
+        if (typeof id === 'string') {
+          return userIdsToObjects[id] ? userIdsToObjects[id] : id;
+        }
+        return id;
+      };
+      forEach(users, (user) => {
+        if (!userIdsToObjects[user.id_str]) {
+          userIdsToObjects[user.id_str] = new User(user);
+        }
+      });
+      forEach(tweets, (tweet) => {
+        const recipients = map(tweet.recipients, mapUserIdToObject);
+        let recipientsProcessed = true;
+        for (let i = 0, n = recipients.length; i < n; i++) {
+          if (typeof recipients[i] === 'string') {
+            recipientsProcessed = false;
+            break;
+          }
+        }
+        mongoBatch.find({ _id: tweet._id }).updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
+      });
+      mongoBatch.execute();
+    })
+    .catch(console.error);
+});
