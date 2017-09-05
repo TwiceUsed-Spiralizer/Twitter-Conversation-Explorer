@@ -1,20 +1,20 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     mochaTest: {
       test: {
         options: {
-          reporter: 'spec'
+          reporter: 'spec',
         },
-        src: ['test/**/*.js'] // For Scott's amendment
-      }
+        src: ['test/**/*.js'], // For Scott's amendment
+      },
     },
 
     eslint: {
       target: [
-        'src/*.js*'
-      ]
+        'src/*.js*',
+      ],
     },
   });
 
@@ -22,11 +22,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('test', [
-    'mochaTest'
+    'mochaTest',
   ]);
 
   grunt.registerTask('lint', [
-    'eslint'
+    'eslint',
   ]);
-
 };
