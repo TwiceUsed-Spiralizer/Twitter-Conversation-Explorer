@@ -28,4 +28,8 @@ module.exports = function (grunt) {
   grunt.registerTask('lint', [
     'eslint',
   ]);
+
+  grunt.registerTask('travis', [
+    'eslint', 'mochaTest'
+  ]);
 };
