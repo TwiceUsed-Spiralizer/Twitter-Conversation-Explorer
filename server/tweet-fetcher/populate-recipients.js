@@ -9,7 +9,7 @@
 const mongoConnect = require('./mongo');
 const { User } = require('./models');
 const { lookupUsers } = require('./twitter-client');
-const { forEach, map } = require('lodash');
+const { forEach, map, uniq } = require('lodash');
 
 let tweetsDB;
 mongoConnect()
@@ -26,15 +26,16 @@ process.on('message', () => {
         throw 'no tweets';
       }
       // Gather all user ids
-      const userIds = new Set();
+      const userIds = new Array(100);
+      let index = 0;
       const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
-        if (typeof recipient === 'string') {
-          userIds.add(recipient);
+        if (index < 100 && typeof recipient === 'string') {
+          userIds[index++] = recipient;
         }
       });
       forEach(tweets, pushUserIds);
       // Query Twitter REST API for up to 100 user ids
-      return lookupUsers(Array.from(userIds).slice(0, 100))
+      return lookupUsers(userIds)
         .then(users => ({ users, tweets }));
     })
     .then(({ users, tweets }) => {
