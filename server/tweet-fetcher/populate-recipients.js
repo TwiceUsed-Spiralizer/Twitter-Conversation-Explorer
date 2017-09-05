@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+/* eslint no-console: ["error", { "allow": ["error"] }] */
 /*
  *  populate-recipients.js
  *  Forked from the TweetManager constructor in index.js,
@@ -27,17 +29,17 @@ process.on('message', () => {
       }
       // Gather all user ids
       const userIds = new Array(100);
-      let index = 0;
+      let index = -1;
       const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
         if (index < 100 && typeof recipient === 'string') {
-          userIds[index++] = recipient;
+          userIds[index += 1] = recipient;
         }
       });
       forEach(tweets, pushUserIds);
       // Query Twitter REST API for up to 100 user ids
       return lookupUsers(userIds)
         .then(users => ({ users, tweets }));
-    })  
+    })
     .then(({ users, tweets }) => {
       // Resolve user ids on tweets to fully hydrated user info
       const userIdsToObjects = {};
@@ -56,13 +58,14 @@ process.on('message', () => {
       forEach(tweets, (tweet) => {
         const recipients = map(tweet.recipients, mapUserIdToObject);
         let recipientsProcessed = true;
-        for (let i = 0, n = recipients.length; i < n; i++) {
+        for (let i = -1, n = recipients.length; i < n; i += 1) {
           if (typeof recipients[i] === 'string') {
             recipientsProcessed = false;
             break;
           }
         }
-        mongoBatch.find({ _id: tweet._id }).updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
+        mongoBatch.find({ _id: tweet._id })
+          .updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
       });
       // Update mongoDb in one batch job and inform TweetManager of progress
       mongoBatch.execute();
