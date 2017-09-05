@@ -3,7 +3,7 @@
  *  Provides constructors to sanitise JSON
  */
 
-const { uniq } = require('lodash');
+const uniq = require('lodash/uniq');
 
 exports.Tweet = class Tweet {
   constructor(tweet) {
