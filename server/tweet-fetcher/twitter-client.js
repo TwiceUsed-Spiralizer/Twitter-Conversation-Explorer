@@ -1,3 +1,8 @@
+/*
+ *  twitter-client.js
+ *  Exports interface with convenience functions for using Twitter API
+ */
+
 require('dotenv').config();
 const twitterClient = require('twitter')({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,

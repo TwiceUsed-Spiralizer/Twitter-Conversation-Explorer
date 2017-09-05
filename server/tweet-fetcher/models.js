@@ -1,3 +1,8 @@
+/*
+ *  models.js
+ *  Provides constructors to sanitise JSON
+ */
+
 const { uniq } = require('lodash');
 
 exports.Tweet = class Tweet {

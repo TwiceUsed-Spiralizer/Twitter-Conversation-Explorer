@@ -1,3 +1,10 @@
+/*
+ *  tweet-fetcher/index.js
+ *  Coordinates fetching and parsing pipeline.
+ *  Exports TweetManager class, which instantiates all necessary objects and processes
+ *  to fetch and parse tweets.
+ */
+
 // Inject envinronment variables
 require('dotenv').config();
 // TCE Modules

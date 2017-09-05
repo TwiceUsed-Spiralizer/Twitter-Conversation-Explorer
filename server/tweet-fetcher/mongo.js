@@ -1,3 +1,9 @@
+/*
+ *  mongo.js
+ *  This module simple exports a convenience function for connecting
+ *  to mongoDb and accessing the correct collection.
+ */
+
 const { MongoClient } = require('bluebird').promisifyAll(require('mongodb'));
 require('dotenv').config();
 
