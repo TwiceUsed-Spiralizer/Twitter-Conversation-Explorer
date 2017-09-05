@@ -9,7 +9,7 @@
 const mongoConnect = require('./mongo');
 const { User } = require('./models');
 const { lookupUsers } = require('./twitter-client');
-const { forEach, map, uniq } = require('lodash');
+const { forEach, map } = require('lodash');
 
 let tweetsDB;
 mongoConnect()
@@ -37,7 +37,7 @@ process.on('message', () => {
       // Query Twitter REST API for up to 100 user ids
       return lookupUsers(userIds)
         .then(users => ({ users, tweets }));
-    })
+    })  
     .then(({ users, tweets }) => {
       // Resolve user ids on tweets to fully hydrated user info
       const userIdsToObjects = {};
