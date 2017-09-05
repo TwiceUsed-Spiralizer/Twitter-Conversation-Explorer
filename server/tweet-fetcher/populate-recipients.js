@@ -6,12 +6,17 @@ const { forEach, map } = require('lodash');
 let tweetsDB;
 
 mongoConnect()
-  .then((db) => { tweetsDB = db; });
+  .then((db) => {
+    tweetsDB = db;
+    process.send('ready');
+  });
 
 process.on('message', () => {
   tweetsDB.find({ recipients_processed: false }).sort({ created_at: 1 }).limit(100).toArray()
     .then((tweets) => {
-      console.log(tweets)
+      if (tweets.length < 1) {
+        throw 'no tweets';
+      }
       const userIds = new Set();
       const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
         if (typeof recipient === 'string') {
@@ -48,6 +53,15 @@ process.on('message', () => {
         mongoBatch.find({ _id: tweet._id }).updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
       });
       mongoBatch.execute();
+      process.send({ lookups: Object.keys(userIdsToObjects).length });
+      process.send('ready');
     })
-    .catch(console.error);
+    .catch((err) => {
+      if (err === 'no tweets') {
+        process.send(err);
+      } else {
+        console.error(err);
+        process.send('ready');
+      }
+    });
 });
