@@ -1,3 +1,5 @@
+const { uniq } = require('lodash');
+
 exports.Tweet = class Tweet {
   constructor(tweet) {
     this.id_str = tweet.id_str;
@@ -6,7 +8,7 @@ exports.Tweet = class Tweet {
     this.short_text = tweet.truncated ? tweet.text : null;
     this.sender = new exports.User(tweet.user);
     this.hashtags = tweet.entities.hashtags;
-    this.recipients = tweet.entities.user_mentions.map(user => user.id_str).concat(tweet.in_reply_to_user_id_str);
+    this.recipients = uniq(tweet.entities.user_mentions.map(user => user.id_str).concat(tweet.in_reply_to_user_id_str));
     this.recipients_processed = false;
     this.gender = false;
   }
