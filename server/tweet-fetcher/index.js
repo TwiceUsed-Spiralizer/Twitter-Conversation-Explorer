@@ -51,7 +51,7 @@ module.exports = class TweetManager {
   constructor() {
     // Initialise tweet fetcher and listen for tweets
     mongoConnect()
-      .then(tweetsDB => new TweetFetcher(tweetsDB, {batchSize: 10}).on('tweets', this.populateRecipients.bind(this)))
+      .then(tweetsDB => new TweetFetcher(tweetsDB).on('tweets', this.populateRecipients.bind(this)))
       .catch(console.error);
     // Rate limit lookups
     this.populateRecipients = throttle(this.populateRecipients, 2000);
