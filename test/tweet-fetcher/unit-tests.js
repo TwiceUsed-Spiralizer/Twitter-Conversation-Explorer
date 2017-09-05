@@ -47,3 +47,11 @@ describe('TweetManager', () => {
 describe('Populate Recipients', () => {
 
 });
+
+describe('Set gender from name', () => {
+  it('Sets common male names to male', (done) => {
+  //   mongoConnectTest()
+  //     .then(tweetsDB =>
+  //       tweetsDB.insert(tweets[1]));
+  });
+});
