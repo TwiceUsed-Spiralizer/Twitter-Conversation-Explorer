@@ -24,13 +24,17 @@
   },
   "homepage": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "chai": "^4.1.2",
     "dotenv": "^4.0.0",
     "elasticsearch": "^13.3.1",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
-    "twitter": "^1.7.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.13",
+    "sinon": "^3.2.1",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "eslint": "^4.4.1",
