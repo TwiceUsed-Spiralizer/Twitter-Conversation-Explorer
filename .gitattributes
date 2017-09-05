@@ -1,0 +1,2 @@
+# Stops git on Windows adjusting files on checkout
+* text eol=lf
