@@ -22,6 +22,8 @@ const batchSize = 1000;
 const index = { index: { _index: 'twitter', _type: 'tweet' } };
 let newItems = Array(batchSize);
 let items = 0;
+let averageTime;
+let startTime = Date.now();
 
 const tweetHandler = function tweetHandler(tweet) {
   if (!/^RT @/.test(tweet.text) && !tweet.retweeted_status && ((tweet.entities && tweet.entities.user_mentions.length > 0) || tweet.in_reply_to_status_id)) {
@@ -30,6 +32,10 @@ const tweetHandler = function tweetHandler(tweet) {
     newItems[items++] = tweet;
   }
   if (items >= batchSize) {
+    const currTime = (Date.now() - startTime) / 1000;
+    averageTime = averageTime ? (averageTime + currTime) / 2 : currTime;
+    startTime = Date.now();
+    console.log(`Average: ${averageTime}  Current: ${currTime}`);
     const itemsToStore = newItems;
     newItems = Array(batchSize);
     items = 0;
@@ -40,5 +46,5 @@ const tweetHandler = function tweetHandler(tweet) {
   }
 };
 
-const stream = client.stream('statuses/filter', { language: 'en', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
+const stream = client.stream('statuses/filter', { language: 'en', filter_level: 'none', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' });
 stream.on('data', tweet => tweet && tweetHandler(tweet));
