@@ -69,7 +69,7 @@ module.exports = class TweetManager {
   }
 
   populateRecipients() {
-    if (Date.now() - this.checkTime >= 1000 * 60 * 16) {
+    if (Date.now() - this.checkTime >= 1000 * 60 * 15) { // Max of 900 lookups per 15 mins
       this.checkTime = Date.now();
       this.userLookups = 0;
     }
