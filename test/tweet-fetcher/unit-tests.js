@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 // Node modules
 const { fork } = require('child_process');
 // Testing libraries
@@ -19,13 +20,12 @@ describe('Model behaviour', () => {
 });
 
 describe('TweetManager', () => {
-  expect(TweetManager).to.be.a('function');
-  expect(() => new TweetManager()).to.not.throw();
-});
+  it('TweetManager exists', () => {
+    expect(TweetManager).to.be.a('function');
+    expect(() => new TweetManager()).to.not.throw();
+  });
 
-describe('Populate Recipients', () => {
-
-  it('Tests mongo insertion and removal', (done) => {
+  it('Mongo successfully inserts and removes example tweets', (done) => {
     mongoConnectTest()
       .then(tweetsDB =>
         tweetsDB.insert(new Tweet(tweets[2]))
@@ -42,4 +42,8 @@ describe('Populate Recipients', () => {
         done();
       });
   });
+});
+
+describe('Populate Recipients', () => {
+
 });
