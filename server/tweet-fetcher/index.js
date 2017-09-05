@@ -28,7 +28,7 @@ class TweetFetcher extends EventEmitter {
     super();
     this.statusFilter = params.statusFilter || { language: 'en', track: 'a,e,i,o,u,y,A,E,I,O,U,Y, ' };
     this.batchSize = params.batchSize || 500;
-    this.numTweets = 0;
+    this.numTweets = -1;
     this.tweets = new Array(this.batchSize);
     this.tweetsDB = tweetsDB;
     twitterStream(this.statusFilter).on('data', tweet => tweet && this.tweetHandler(tweet));
@@ -36,16 +36,16 @@ class TweetFetcher extends EventEmitter {
 
   tweetHandler(tweet) {
     if (isCandidate(tweet)) {
-      this.tweets[this.numTweets++] = new Tweet(tweet);
+      this.tweets[this.numTweets += 1] = new Tweet(tweet);
     }
     if (this.numTweets >= this.batchSize) {
       this.tweetsDB.insert(this.tweets);
       this.tweets = new Array(this.batchSize);
       this.emit('tweets', this.numTweets);
-      this.numTweets = 0;
+      this.numTweets = -1;
     }
   }
-};
+}
 
 module.exports = class TweetManager {
   constructor() {
