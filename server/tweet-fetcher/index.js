@@ -51,10 +51,10 @@ module.exports = class TweetManager {
   constructor() {
     // Initialise tweet fetcher and listen for tweets
     mongoConnect()
-      .then(tweetsDB => new TweetFetcher(tweetsDB).on('tweets', this.populateRecipients.bind(this)))
+      .then(tweetsDB => new TweetFetcher(tweetsDB).on('tweets', this.populateRecipients))
       .catch(console.error);
     // Rate limit lookups
-    this.populateRecipients = throttle(this.populateRecipients, 2000);
+    this.populateRecipients = throttle(this.populateRecipients, 2000).bind(this);
     // Fork process and handle communication
     this.recipientsProcessProcessReady = false;
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
