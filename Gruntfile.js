@@ -2,12 +2,22 @@ module.exports = function gruntFile(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    run: {
+      jest: {
+        cmd: 'npm', // for client-side we use jest
+        args: [
+          'run',
+          'testreact',
+        ],
+      },
+    },
+
     mochaTest: {
       test: {
         options: {
           reporter: 'spec',
         },
-        src: ['test/**/*.js'], // For Scott's amendment
+        src: ['server/tests/**/*.js'], // For server-side we use mocha/chai
       },
     },
 
@@ -20,9 +30,10 @@ module.exports = function gruntFile(grunt) {
 
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-run');
 
   grunt.registerTask('test', [
-    'mochaTest',
+    'mochaTest', 'run',
   ]);
 
   grunt.registerTask('lint', [
@@ -30,6 +41,6 @@ module.exports = function gruntFile(grunt) {
   ]);
 
   grunt.registerTask('travis', [
-    'eslint', 'mochaTest',
+    'eslint', 'run', 'mochaTest',
   ]);
 };

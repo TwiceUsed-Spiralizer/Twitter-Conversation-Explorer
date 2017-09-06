@@ -4,9 +4,9 @@ const { fork } = require('child_process');
 // Testing libraries
 const { expect } = require('chai');
 // Modules to test
-const { User, Tweet } = require('../../server/tweet-fetcher/models');
-const TweetManager = require('../../server/tweet-fetcher');
-const mongoConnectTest = require('../../server/tweet-fetcher/mongo');
+const { User, Tweet } = require('../../../server/tweet-fetcher/models');
+const TweetManager = require('../../../server/tweet-fetcher');
+const mongoConnectTest = require('../../../server/tweet-fetcher/mongo');
 // Mock data
 const tweets = require('./example-tweets');
 
