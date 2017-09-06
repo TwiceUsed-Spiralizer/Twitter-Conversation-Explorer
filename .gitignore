@@ -13,6 +13,7 @@
 *.txt
 *.csv
 .env
+!requirements.txt
 
 # Modules and packages #
 ########################
