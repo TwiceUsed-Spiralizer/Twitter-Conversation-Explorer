@@ -9,7 +9,7 @@ const path = require('path');
 const py = require('child_process').spawn('python', [path.join(__dirname, 'gender-compute.py'), process.env.MONGODB_URI]);
 
 py.stderr.setEncoding('utf8');
-py.stderr.on('data', console.error);
+py.stderr.on('data', data => !/narrow Python build/.test(data) && console.error(data));
 
 module.exports = {
   compute: function genderCompute() {
