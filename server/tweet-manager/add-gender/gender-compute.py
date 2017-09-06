@@ -40,6 +40,6 @@ if __name__ == '__main__':
     if sys.stdin.readline() == 'end\n':
       break
     tweets = db.find({ 'gender': False, 'recipients_processed': True }).limit(200)
-    while(tweets):
+    while(tweets.count()):
       gender_names(tweets)
       tweets = db.find({ 'gender': False, 'recipients_processed': True }).limit(200)
