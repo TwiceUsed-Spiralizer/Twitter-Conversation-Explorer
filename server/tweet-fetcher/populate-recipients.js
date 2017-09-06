@@ -11,7 +11,7 @@
 const mongoConnect = require('./mongo');
 const { User } = require('./models');
 const { lookupUsers } = require('./twitter-client');
-const { forEach, map } = require('lodash');
+const { forEach, map, identity, includes } = require('lodash');
 
 let tweetsDB;
 mongoConnect()
@@ -31,22 +31,25 @@ process.on('message', () => {
       const userIds = new Array(100);
       let index = -1;
       const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
-        if (index < 100 && typeof recipient === 'string') {
+        if (index < 99 && typeof recipient === 'string') {
           userIds[index += 1] = recipient;
         }
       });
       forEach(tweets, pushUserIds);
       // Query Twitter REST API for up to 100 user ids
       return lookupUsers(userIds)
-        .then(users => ({ users, tweets }));
+        .then(users => ({ users, tweets, userIds }));
     })
-    .then(({ users, tweets }) => {
+    .then(({ users, tweets, userIds }) => {
       // Resolve user ids on tweets to fully hydrated user info
       const userIdsToObjects = {};
       const mongoBatch = tweetsDB.initializeUnorderedBulkOp();
       const mapUserIdToObject = (id) => {
         if (typeof id === 'string') {
-          return userIdsToObjects[id] ? userIdsToObjects[id] : id;
+          if (userIdsToObjects[id]) {
+            return userIdsToObjects[id]
+          }
+          return includes(userIds, id) ? null : id;
         }
         return id;
       };
@@ -56,7 +59,7 @@ process.on('message', () => {
         }
       });
       forEach(tweets, (tweet) => {
-        const recipients = map(tweet.recipients, mapUserIdToObject);
+        const recipients = map(tweet.recipients, mapUserIdToObject).filter(identity);
         let recipientsProcessed = true;
         for (let i = -1, n = recipients.length; i < n; i += 1) {
           if (typeof recipients[i] === 'string') {
