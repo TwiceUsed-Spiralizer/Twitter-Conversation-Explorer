@@ -16,6 +16,7 @@ exports.Tweet = class Tweet {
     this.recipients = uniq(tweet.entities.user_mentions.map(user => user.id_str).concat(tweet.in_reply_to_user_id_str || []));
     this.recipients_processed = false;
     this.gender = false;
+    this.elastic = false;
   }
 };
 
