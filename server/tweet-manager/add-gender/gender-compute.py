@@ -1,3 +1,10 @@
+'''
+  tweet-manager/add-gender/gender-compute.py
+
+  Python script that updates tweets in MongoDB with gender for users
+  based on their names.
+  Spawned from tweet-manager/add-gender/index.js
+'''
 import sys, os
 from unidecode import unidecode
 from pymongo import MongoClient

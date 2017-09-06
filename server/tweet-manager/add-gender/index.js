@@ -1,4 +1,9 @@
 /* eslint no-console: ["error", { "allow": ["error"] }] */
+/*
+ *  tweet-manager/add-gender/index.js
+ *  Exports interface to Python process for adding gender
+ *  to tweets. 
+ */
 require('dotenv').config();
 const path = require('path');
 const py = require('child_process').spawn('python', [path.join(__dirname, 'gender-compute.py'), process.env.MONGODB_URI]);
