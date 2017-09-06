@@ -67,8 +67,10 @@ process.on('message', () => {
             break;
           }
         }
-        mongoBatch.find({ _id: tweet._id })
-          .updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
+        if (recipients.length > 0) {
+          mongoBatch.find({ _id: tweet._id })
+            .updateOne({ $set: { recipients, recipients_processed: recipientsProcessed } });
+        }
       });
       // Update mongoDb in one batch job and inform TweetManager of progress
       mongoBatch.execute();
