@@ -149,6 +149,9 @@ def getFirstNameFromSplitName(splitName, order):
 '''Extract the first name from a <name>, assuming a 
 given <order>ing of first/last name parts (direct, inverse)'''
 def extractFirstName(name, order):
+    '''Return on empty string'''
+    if len(name) < 1:
+        return ''
     '''Split on dots'''
     name = ' '.join(name.split('.'))
     '''Replace numbers by whitespace'''

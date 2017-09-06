@@ -555,6 +555,10 @@ class GenderComputer():
 		'''Check if name is written in Cyrillic or Greek script, and transliterate'''
 		if only_cyrillic_chars(name) or only_greek_chars(name):
 			name = unidecode(name)
+
+		'''Check if empty string'''
+		if len(name) < 1:
+			return None
 		
 		'''Initial check for gender-specific words at the beginning of the name'''
 		f = name.split()[0]
