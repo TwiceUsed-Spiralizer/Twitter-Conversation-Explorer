@@ -557,7 +557,7 @@ class GenderComputer():
 			name = unidecode(name)
 
 		'''Check if empty string'''
-		if len(name) < 1:
+		if len(name.strip()) < 1:
 			return None
 		
 		'''Initial check for gender-specific words at the beginning of the name'''
