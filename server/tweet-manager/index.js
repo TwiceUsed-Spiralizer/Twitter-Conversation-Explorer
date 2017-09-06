@@ -12,6 +12,7 @@ const TweetFetcher = require('./tweet-fetcher');
 const { fork } = require('child_process');
 const path = require('path');
 const throttle = require('lodash/throttle');
+const AddGender = require('./add-gender');
 
 module.exports = class TweetManager {
   constructor() {
@@ -26,6 +27,7 @@ module.exports = class TweetManager {
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
     this.recipientsProcess.on('message', (message) => {
       if (message === 'ready') {
+        AddGender.compute();
         this.recipientsProcessProcessReady = true;
         this.populateRecipients();
       } else if (message === 'no tweets') {
