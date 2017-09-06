@@ -2,6 +2,12 @@ module.exports = function gruntFile(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    run: {
+      commands: {
+        exec: 'jest',
+      },
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -20,6 +26,7 @@ module.exports = function gruntFile(grunt) {
 
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-run');
 
   grunt.registerTask('test', [
     'mochaTest',
@@ -30,6 +37,6 @@ module.exports = function gruntFile(grunt) {
   ]);
 
   grunt.registerTask('travis', [
-    'eslint', 'mochaTest',
+    'eslint', 'run',
   ]);
 };
