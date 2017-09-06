@@ -1,8 +1,11 @@
 import sys, os
 from unidecode import unidecode
 from pymongo import MongoClient
+# Import and initialise GenderComputer
 from genderComputer.genderComputer import GenderComputer
 gc = GenderComputer(os.path.abspath('./genderComputer/nameLists'))
+# Open database
+db = MongoClient(sys.argv[1]).tweets.tweets
 
 def resolve_gender_from_user(user):
   # Defaults location to USA until we can sort better country parsing
@@ -11,12 +14,11 @@ def resolve_gender_from_user(user):
     gender = gc.resolveGender(user[u'screen_name'], 'USA')
   return gender
 
-def gender_names():
-  # Open database and create bulk operation
-  db = MongoClient(sys.argv[1]).tweets.tweets
+def gender_names(tweets):
+  # Create bulk operation
   bulk = db.initialize_unordered_bulk_op()
   # Find unprocessed tweets and process
-  for tweet in db.find({ 'gender': False, 'recipients_processed': True }).limit(200):
+  for tweet in tweets:
     user_gender = resolve_gender_from_user(tweet[u'sender'])
     recipients = tweet[u'recipients']
     for recipient in recipients:
@@ -26,4 +28,11 @@ def gender_names():
   bulk.execute()
 
 if __name__ == '__main__':
-  gender_names()
+  # Basic event loop--blocks on input from stdin
+  while True:
+    if sys.stdin.readline() == 'end\n':
+      break
+    tweets = db.find({ 'gender': False, 'recipients_processed': True }).limit(200)
+    while(tweets):
+      gender_names(tweets)
+      tweets = db.find({ 'gender': False, 'recipients_processed': True }).limit(200)
