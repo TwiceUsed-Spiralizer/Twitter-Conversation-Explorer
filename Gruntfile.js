@@ -17,7 +17,7 @@ module.exports = function gruntFile(grunt) {
         options: {
           reporter: 'spec',
         },
-        src: ['server/tests/tweet-fetcher/*.js'], // For server-side we use mocha/chai
+        src: ['server/tests/**/*.js'], // For server-side we use mocha/chai
       },
     },
 
