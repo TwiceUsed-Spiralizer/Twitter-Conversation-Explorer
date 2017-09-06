@@ -10,7 +10,7 @@ from unidecode import unidecode
 from pymongo import MongoClient
 # Import and initialise GenderComputer
 from genderComputer.genderComputer import GenderComputer
-gc = GenderComputer(os.path.abspath('./genderComputer/nameLists'))
+gc = GenderComputer(os.path.join(os.path.dirname(__file__), './genderComputer/nameLists'))
 # Open database
 db = MongoClient(sys.argv[1]).tweets.tweets
 
