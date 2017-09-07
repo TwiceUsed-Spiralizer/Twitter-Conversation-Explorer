@@ -7,7 +7,6 @@ module.exports = function gruntFile(grunt) {
         cmd: 'npm', // for client-side we use jest
         args: [
           'run',
-          'testreact',
         ],
       },
     },

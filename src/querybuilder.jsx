@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Col, Button, Icon, Row, Input } from '../node_modules/react-materialize';
+import { Row, Input } from '../node_modules/react-materialize';
 
 class QueryBuilder extends Component {
   constructor() {
@@ -20,8 +20,8 @@ class QueryBuilder extends Component {
         <Input type="password" label="password" s={12} />
         <Input type="email" label="Email" s={12} />
         <Row>
-            <p> WHEN </p>
-          <Input name="on" type="date" label="Click to pick your date!" onChange={function (e, value) {}} />
+          <p> WHEN </p>
+          <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
       </Row>
     );
