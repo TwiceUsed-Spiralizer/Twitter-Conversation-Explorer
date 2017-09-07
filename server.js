@@ -1,5 +1,6 @@
 const express = require('express');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 const port = process.env.PORT || 8080
@@ -8,3 +9,10 @@ app.listen(port, () => {
   console.log(`Listening on port: ${port}`)
 })
 
+app.use(bodyParser.urlencoded( {extended: true }));
+app.use(bodyParser.json());
+
+
+module.exports = app;
+
+require('./server/routes');
