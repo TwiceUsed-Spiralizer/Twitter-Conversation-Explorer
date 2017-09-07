@@ -13,13 +13,15 @@ class QueryBuilder extends Component {
   render() {
     return (
       <Row>
+        <p>WHO</p>
         <Input placeholder="Placeholder" s={6} label="First Name" />
         <Input s={6} label="Last Name" />
         <Input s={12} label="disabled" defaultValue="I am not editable" disabled />
         <Input type="password" label="password" s={12} />
         <Input type="email" label="Email" s={12} />
         <Row>
-          <Input name="on" type="date" onChange={function (e, value) {}} /> Date Picker
+            <p> WHEN </p>
+          <Input name="on" type="date" label="Click to pick your date!" onChange={function (e, value) {}} />
         </Row>
       </Row>
     );
