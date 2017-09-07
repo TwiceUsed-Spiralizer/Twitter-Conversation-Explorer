@@ -6,12 +6,14 @@
 *.exe
 *.o
 *.so
+*.pyc
 
 # Output and config #
 #####################
 *.txt
 *.csv
 .env
+!requirements.txt
 
 # Modules and packages #
 ########################
