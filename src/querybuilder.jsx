@@ -23,7 +23,7 @@ class QueryBuilder extends Component {
           <p> WHEN </p>
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
-        <Button onClick={this.props.getData} />
+        <Button onClick={this.props.getData} >Submit yo' shizz</Button>
       </Row>
     );
   }

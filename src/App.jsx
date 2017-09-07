@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from '../node_modules/react-materialize';
 import QueryBuilder from './querybuilder';
+import TCECanvas from './canvas';
 
 class App extends Component {
   constructor() {
@@ -10,12 +11,12 @@ class App extends Component {
     this.state = {
       temp: '',
     };
-    this.getData();
+    this.getData = this.getData.bind(this);
   }
 
   getData() {
     axios.get('/api/example')
-      .then(console.log);
+      .then(res => this.setState({ data: res.data }));
   }
 
   render() {
@@ -40,7 +41,7 @@ class App extends Component {
 
           <Col l={3}><QueryBuilder getData={this.getData} /></Col>
 
-          <Col l={9}>Hello</Col>
+          <Col l={9}><TCECanvas data={this.state.data} /></Col>
 
         </div>
       </div>
