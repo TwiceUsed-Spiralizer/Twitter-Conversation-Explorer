@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from '../node_modules/react-materialize';
+import QueryBuilder from './querybuilder';
 
 class App extends Component {
   constructor() {
@@ -13,13 +14,28 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <nav>
+          <Navbar brand="Twitter Conversation Explorer" css="margin:5px" right>
+            <Button waves="light">Log In<Icon right>face</Icon></Button>
+            <Button waves="light">Sign Up<Icon right>face</Icon></Button>
+            <Dropdown trigger={
+              <Button waves="light"><Icon right>menu</Icon><Badge newIcon>4</Badge></Button>
+            }
+            >
+              <NavItem>Profile</NavItem>
+              <NavItem>Dashboard</NavItem>
+              <NavItem>Saved Searches</NavItem>
+              <NavItem>Logout</NavItem>
+            </Dropdown>
+          </Navbar>
+        </nav>
+        <div className="row">
+
+          <Col l={3}><QueryBuilder /></Col>
+
+          <Col l={9}>Hello</Col>
+
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
