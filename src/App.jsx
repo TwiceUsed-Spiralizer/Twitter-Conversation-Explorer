@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from '../node_modules/react-materialize';
+import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './canvas';
 
@@ -9,14 +9,21 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      temp: '',
+      data: {},
     };
     this.getData = this.getData.bind(this);
   }
 
   getData() {
     axios.get('/api/example')
-      .then(res => this.setState({ data: res.data }));
+      .then((res) => {
+        const womenPercent = (res.data.femaleSorry / res.data.female) * 100;
+        const menPercent = (res.data.maleSorry / res.data.male) * 100;
+        const total = womenPercent + menPercent;
+        const womenLength = (womenPercent / total) * 600;
+        const menLength = (menPercent / total) * 600;
+        this.setState({ data: { menLength, womenLength }  });
+      });
   }
 
   render() {

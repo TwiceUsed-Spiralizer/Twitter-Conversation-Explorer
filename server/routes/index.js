@@ -18,37 +18,66 @@ app.get('/api/example', (req, res) => {
         bool: {
           must: [
             { match: { 'sender.gender': 'female' }},
-            { match: { 'recipients.gender': 'male' }},
+            // { match: { 'recipients.gender': 'male' }},
             { match: { 'full_text': 'sorry' }},
           ],
-          must_not: [
-            { match: {full_text: 'not sorry'} }
-          ]
         },
       },
     }
   }).then((body) => {
 
-    var hits1 = body.hits.total;
+    var femaleSorry = body.hits.total;
 
     return client.search({
       index: 'tweets',
       type: 'tweet',
       body: {
         query: {
-          match: {
-            full_text: 'sorry'
+          bool: {
+            must: [
+              { match: { 'sender.gender': 'female' }},
+              // { match: { 'recipients.gender': 'male' }},
+            ],
           },
         },
       }
-    }).then((body) => ({hits1, body}))
+    }).then((body) => ({femaleSorry, body}))
 
   }, function (err) {
       console.trace(err.message);
-  }).then( ({hits1, body}) => {
-    var hits2 = body.hits.total;
-    res.send({hits1, body});
-  })
+  }).then( ({femaleSorry, body}) => {
+    var female = body.hits.total;
+    return client.search({
+      index: 'tweets',
+      type: 'tweet',
+      body: {
+        query: {
+          bool: {
+            must: [
+              { match: { 'sender.gender': 'male' }},
+              // { match: { 'recipients.gender': 'female' }},
+              { match: { 'full_text': 'sorry' }},
+            ],
+          },
+        },
+      }
+    }).then((body) => ({femaleSorry, female, maleSorry: body.hits.total}));
+  }).then(({femaleSorry, female, maleSorry}) => {
+    return client.search({
+      index: 'tweets',
+      type: 'tweet',
+      body: {
+        query: {
+          bool: {
+            must: [
+              { match: { 'sender.gender': 'male' }},
+              // { match: { 'recipients.gender': 'female' }},
+            ],
+          },
+        },
+      }
+    }).then((body) => ({femaleSorry, female, maleSorry, male: body.hits.total}));
+  }).then(data => res.send(data));
 
 
 })
