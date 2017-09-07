@@ -22,7 +22,6 @@ mongoConnect()
   });
 
 process.on('message', () => {
-  console.log('ELASTIC')
   const index = { index: { _index: 'tweets', _type: 'tweet' } };
   tweetsDB.find({ gender: true, recipients_processed: true, elastic: false }).limit(500).toArray()
     .then((tweets) => {
@@ -32,8 +31,7 @@ process.on('message', () => {
       return tweets;
     })
     .then(results => reduce(results, (acc, result) =>
-      // acc.concat(index, omit(result, ['_id'])),
-      acc.concat(index, result),
+      acc.concat(index, omit(result, ['_id'])),
     []))
     .then(body =>
       esClient.bulk({ body })
