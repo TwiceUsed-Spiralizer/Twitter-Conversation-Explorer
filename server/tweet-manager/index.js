@@ -3,6 +3,8 @@
  *  Coordinates fetching and parsing pipeline.
  *  Exports TweetManager class, which instantiates all necessary objects and processes
  *  to fetch and parse tweets.
+ *  This file is not very DRY, which needs rectifying ASAP.
+ *  It makes it verbose and cryptic.
  */
 
 // TCE Modules
@@ -22,23 +24,42 @@ module.exports = class TweetManager {
       .catch(console.error);
     // Rate limit lookups
     this.populateRecipients = throttle(this.populateRecipients, 2000).bind(this);
-    // Fork process and handle communication
-    this.recipientsProcessProcessReady = false;
+    // Fork recipients process and handle communication
+    this.recipientsProcessReady = false;
     this.recipientsProcess = fork(path.join(__dirname, './populate-recipients'));
     this.recipientsProcess.on('message', (message) => {
       if (message === 'ready') {
         AddGender.compute();
-        this.recipientsProcessProcessReady = true;
+        this.recipientsProcessReady = true;
         this.populateRecipients();
+        this.elasticTransfer();
       } else if (message === 'no tweets') {
-        this.recipientsProcessProcessReady = true;
+        this.recipientsProcessReady = true;
+      }
+    });
+    // Fork elastic process and handle communication
+    this.elasticProcessReady = false;
+    this.elasticProcess = fork(path.join(__dirname, './elastic'));
+    this.elasticProcess.on('message', (message) => {
+      if (message === 'ready') {
+        this.elasticProcessReady = true;
+        this.elasticTransfer();
+      } else if (message === 'no tweets') {
+        this.elasticProcessReady = true;
       }
     });
   }
 
+  elasticTransfer() {
+    if (this.elasticProcessReady) {
+      this.elasticProcessReady = false;
+      this.elasticProcess.send('');
+    }   
+  }
+
   populateRecipients() {
-    if (this.recipientsProcessProcessReady) {
-      this.recipientsProcessProcessReady = false;
+    if (this.recipientsProcessReady) {
+      this.recipientsProcessReady = false;
       this.recipientsProcess.send('');
     }
   }

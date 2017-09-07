@@ -6,6 +6,7 @@
  */
 
 require('dotenv').config();
+const mongoConnect = require('./mongo');
 const elasticsearch = require('elasticsearch');
 const { reduce, chain, omit } = require('lodash');
 
@@ -13,10 +14,22 @@ const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
 });
 
-module.exports = function storeTweetsInElastic(tweetsDB) {
-  start = Date.now();
+let tweetsDB;
+mongoConnect()
+  .then((db) => {
+    tweetsDB = db;
+    process.send('ready');
+  });
+
+process.on('message', () => {
   const index = { index: { _index: 'tweets', _type: 'tweet' } };
   tweetsDB.find({ gender: true, recipients_processed: true, elastic: false }).limit(500).toArray()
+    .then((tweets) => {
+      if (tweets.length < 1) {
+        throw 'no tweets';
+      }
+      return tweets;
+    })
     .then(results => reduce(results, (acc, result) =>
       acc.concat(index, omit(result, ['_id'])),
     []))
@@ -29,9 +42,17 @@ module.exports = function storeTweetsInElastic(tweetsDB) {
     )
     .then(({ body, results }) => {
       if (!results.errors) {
-        console.log((Date.now() - start) / 1000)
         return tweetsDB.updateMany({ id_str: { $in: body } }, { $set: { elastic: true } });
       }
       console.log(results.errors);
+    })
+    .then(() => process.send('ready'))
+    .catch((err) => {
+      if (err === 'no tweets') {
+        process.send('no tweets');
+      } else {
+        console.error(err);
+        process.send('ready');
+      }
     });
-};
+});
