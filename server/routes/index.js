@@ -29,31 +29,26 @@ app.get('/api/example', (req, res) => {
     }
   }).then((body) => {
 
-      var hits1 = body.hits.total;
+    var hits1 = body.hits.total;
 
-      return client.search({
-        index: 'tweets',
-        type: 'tweet',
-        body: {
-          must: {
-            match: [{
-              full_text: 'sorry'
-            }],
+    return client.search({
+      index: 'tweets',
+      type: 'tweet',
+      body: {
+        query: {
+          match: {
+            full_text: 'sorry'
           },
-          aggs: {
-            gender: {
-              terms: {field: 'sender.follower_count'}
-            }
-          }
-        }
-      }).then((body) => ({hits1, body}))
+        },
+      }
+    }).then((body) => ({hits1, body}))
 
-      }, function (err) {
-          console.trace(err.message);
-      }).then( ({hits1, body}) => {
-        var hits2 = body.hits.total;
-        res.send({hits1, body});
-      })
-
-
+  }, function (err) {
+      console.trace(err.message);
+  }).then( ({hits1, body}) => {
+    var hits2 = body.hits.total;
+    res.send({hits1, body});
   })
+
+
+})
