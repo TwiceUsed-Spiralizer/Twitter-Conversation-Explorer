@@ -8,7 +8,7 @@
 require('dotenv').config();
 const mongoConnect = require('./mongo');
 const elasticsearch = require('elasticsearch');
-const { reduce, chain, omit } = require('lodash');
+const { reduce, filter, chain, omit } = require('lodash');
 
 const esClient = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
@@ -22,6 +22,7 @@ mongoConnect()
   });
 
 process.on('message', () => {
+  console.log('ELASTIC')
   const index = { index: { _index: 'tweets', _type: 'tweet' } };
   tweetsDB.find({ gender: true, recipients_processed: true, elastic: false }).limit(500).toArray()
     .then((tweets) => {
@@ -31,7 +32,8 @@ process.on('message', () => {
       return tweets;
     })
     .then(results => reduce(results, (acc, result) =>
-      acc.concat(index, omit(result, ['_id'])),
+      // acc.concat(index, omit(result, ['_id'])),
+      acc.concat(index, result),
     []))
     .then(body =>
       esClient.bulk({ body })
@@ -44,7 +46,9 @@ process.on('message', () => {
       if (!results.errors) {
         return tweetsDB.updateMany({ id_str: { $in: body } }, { $set: { elastic: true } });
       }
-      console.log(results.errors);
+      return tweetsDB.updateMany({ id_str: { 
+        $in: filter(body, (item, i) => !results.items[i].index.error),
+      } }, { $set: { elastic: true } });
     })
     .then(() => process.send('ready'))
     .catch((err) => {
