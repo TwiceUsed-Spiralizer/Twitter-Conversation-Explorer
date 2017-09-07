@@ -73,7 +73,7 @@ process.on('message', () => {
         }
       });
       // Update mongoDb in one batch job and inform TweetManager of progress
-      mongoBatch.execute()
+      return mongoBatch.execute();
     })
     .then(() => process.send('ready'))
     .catch((err) => {
