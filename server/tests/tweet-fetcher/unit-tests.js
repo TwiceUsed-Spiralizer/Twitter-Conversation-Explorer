@@ -22,7 +22,6 @@ describe('Model behaviour', () => {
 describe('TweetManager', () => {
   it('TweetManager exists', () => {
     expect(TweetManager).to.be.a('function');
-    expect(() => new TweetManager()).to.not.throw();
   });
 
   process.env.MONGODB_URI && it('Mongo successfully inserts and removes example tweets', (done) => {
