@@ -73,9 +73,9 @@ process.on('message', () => {
         }
       });
       // Update mongoDb in one batch job and inform TweetManager of progress
-      mongoBatch.execute();
-      process.send('ready');
+      mongoBatch.execute()
     })
+    .then(() => process.send('ready'))
     .catch((err) => {
       if (err === 'no tweets' || err[0].code === 17) {
         process.send('no tweets');
