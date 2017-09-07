@@ -11,34 +11,38 @@ var client = new elasticsearch.Client({
 app.get('/api/example', (req, res) => {
 
   client.search({
-    index: 'twitter',
+    index: 'tweets',
     type: 'tweet',
     body: {
       query: {
-        match: {
-          'sender.gender': 'female',
-          'recipients.gender': 'male',
-          'full_text': 'sorry'
-          // 'text': 'the',
-          // 'text': 'love'
-        }
-      }
+        bool: {
+          must: [
+            { match: { 'sender.gender': 'female' }},
+            { match: { 'recipients.gender': 'male' }},
+            { match: { 'full_text': 'sorry' }},
+          ],
+          must_not: [
+            { match: {full_text: 'not sorry'} }
+          ]
+        },
+      },
     }
   }).then((body) => {
 
       var hits1 = body.hits.total;
 
       return client.search({
-        index: 'twitter',
+        index: 'tweets',
         type: 'tweet',
         body: {
-          query: {
-            match: {
-              'sender.gender': 'male',
-              'recipients.gender': 'female',
-              'full_text': 'sorry'
-              // 'text': 'the',
-              // 'text': 'hate'
+          must: {
+            match: [{
+              full_text: 'sorry'
+            }],
+          },
+          aggs: {
+            gender: {
+              terms: {field: 'sender.follower_count'}
             }
           }
         }
@@ -48,7 +52,7 @@ app.get('/api/example', (req, res) => {
           console.trace(err.message);
       }).then( ({hits1, body}) => {
         var hits2 = body.hits.total;
-        res.send({hits1, hits2});
+        res.send({hits1, body});
       })
 
 
