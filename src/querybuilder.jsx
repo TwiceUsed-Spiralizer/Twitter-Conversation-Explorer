@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Row, Input } from '../node_modules/react-materialize';
+import { Row, Input, Button } from '../node_modules/react-materialize';
 
 class QueryBuilder extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       temp: '',
     };
@@ -23,6 +23,7 @@ class QueryBuilder extends Component {
           <p> WHEN </p>
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
+        <Button onClick={this.props.getData} />
       </Row>
     );
   }
