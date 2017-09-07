@@ -16,11 +16,11 @@ app.get('/api/example', (req, res) => {
     body: {
       query: {
         match: {
-          // 'sender.gender': 'female',
-          // 'recipients.gender': 'male',
-          // 'full_text': 'sorry'
-          'text': 'the',
-          'text': 'love'
+          'sender.gender': 'female',
+          'recipients.gender': 'male',
+          'full_text': 'sorry'
+          // 'text': 'the',
+          // 'text': 'love'
         }
       }
     }
@@ -34,11 +34,11 @@ app.get('/api/example', (req, res) => {
         body: {
           query: {
             match: {
-              // 'sender.gender': 'male',
-              // 'recipients.gender': 'female',
-              // 'full_text': 'sorry'
-              'text': 'the',
-              'text': 'hate'
+              'sender.gender': 'male',
+              'recipients.gender': 'female',
+              'full_text': 'sorry'
+              // 'text': 'the',
+              // 'text': 'hate'
             }
           }
         }
