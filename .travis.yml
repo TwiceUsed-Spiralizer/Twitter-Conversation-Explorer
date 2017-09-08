@@ -3,7 +3,11 @@ node_js:
   - "lts/*"
 before_install:
   - npm install -g grunt-cli
-install: npm install
+  - pwd
+  - ls
+install:
+  - npm install
+  - pip install -r requirements.txt
 cache:
   directories:
     - "node_modules"

@@ -1,9 +1,10 @@
+import Chart from 'chart.js';
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
-import TCECanvas from './canvas';
+import TCECanvas from './Canvas';
 
 class App extends Component {
   constructor() {
