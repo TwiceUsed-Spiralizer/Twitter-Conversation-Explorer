@@ -1,4 +1,4 @@
-import { Doughnut } from 'react-chartjs';
+import { Doughnut } from 'react-chartjs-2';
 import React from 'react';
 import './App.css';
 import { Col, Row, Container, Button, Card } from 'react-materialize';
@@ -10,13 +10,7 @@ const TCECanvas = (props) => {
         <Container>
           <Col m={6}>
             <Card className="blue-grey" textClassName="white" title="Results" actions={[<a href='#'>Export yo' shizzle</a>]}>
-              <Button className="hot pink" style={{width:`${Math.round(props.data.menLength)}px`}}>
-                {props.data.hasOwnProperty('menLength') ? '% men tweeting sorry' : ''}
-              </Button>
-              <div />
-              <Button className="blue" style={{width:`${Math.round(props.data.womenLength)}px`}}>
-                {props.data.hasOwnProperty('menLength') ? '% women tweeting sorry' : ''}
-              </Button>
+              <Doughnut data={{datasets: [{data:[props.data.womenLength, props.data.menLength], backgroundColor:['blue', 'hotpink']}], labels: ['Women', 'Men'] }} />
             </Card>
           </Col>
         </Container>
