@@ -42,11 +42,11 @@ process.on('message', () => {
     )
     .then(({ body, results }) => {
       if (!results.errors) {
-        return tweetsDB.updateMany({ id_str: { $in: body } }, { $set: { elastic: true } });
+        return tweetsDB.remove({ id_str: { $in: body } });
       }
-      return tweetsDB.updateMany({ id_str: { 
+      return tweetsDB.remove({ id_str: {
         $in: filter(body, (item, i) => !results.items[i].index.error),
-      } }, { $set: { elastic: true } });
+      } });
     })
     .then(() => process.send('ready'))
     .catch((err) => {
