@@ -81,3 +81,33 @@ app.get('/api/example', (req, res) => {
 
 
 })
+
+
+app.get('/api/KeywordAcrossGender', (req, res) => {
+client.search({
+    index: 'tweets',
+    type: 'tweet',
+    "size": 0,
+    "from": 0,
+    body: {
+      "aggs" : {
+        "interactions" : {
+          "adjacency_matrix" : {
+            "filters" : {
+              "female" : { "terms" : { 'sender.gender' : ["female"] }},
+              "male" : { "terms" : { 'sender.gender' : ["male"] }},
+              "keyword" : { "match" : { 'full_text': 'sorry' }}
+            }
+          }
+        }
+      }
+    }
+  }).then((body) => {
+    return body.aggregations.interactions.buckets
+  }).then((data) => res.send(data))
+})
+
+
+
+
+
