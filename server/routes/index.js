@@ -112,9 +112,11 @@ client.search({
 
 
 
-app.get('/api/KeywordOverTime', (req, res) => {
+app.post('/api/SelectionsOverTime', (req, res) => {
 
-const keyword = req.keyword || '*'
+const keyword = req.body.keyword || '*'
+const senderGender = req.body.senderGender || '*'
+const recipientsGender = req.body.recipientsGender || '*'
 
 client.search({
     index: 'tweets',
@@ -126,6 +128,8 @@ client.search({
         "bool": {
           "must": [
             { "wildcard" : { "full_text" : keyword } },
+            { "wildcard" : { "sender.gender" : senderGender } },
+            { "wildcard" : { "recipients.gender" : recipientsGender } },
           ],
         },
       },
@@ -141,6 +145,14 @@ client.search({
   }).then((body) => {
     return body.aggregations.histogram.buckets;
   }).then((data) => res.send(data))
+})
+
+
+
+app.post('/api/reqbod', (req, res) => {
+  console.log(req.body)
+  res.send(req.body.keyword)
+
 })
 
 
