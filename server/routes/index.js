@@ -1,24 +1,25 @@
+require('dotenv').config();
 const app = require('../../server.js')
 const elasticsearch = require('elasticsearch');
 
-var client = new elasticsearch.Client({
-  host: 'localhost:9200',
+const client = new elasticsearch.Client({
+  host: process.env.ELASTICSEARCH_HOST,
   log: 'trace'
 });
-
+const index = 'twitter';
+const type = 'tweet';
 
 
 app.get('/api/example', (req, res) => {
 
   client.search({
-    index: 'tweets',
-    type: 'tweet',
+    index,
+    type,
     body: {
       query: {
         bool: {
           must: [
-            { match: { 'sender.gender': 'female' }},
-            // { match: { 'recipients.gender': 'male' }},
+            { match: { 'sender.gender': 1 }},
             { match: { 'full_text': 'sorry' }},
           ],
         },
@@ -29,14 +30,13 @@ app.get('/api/example', (req, res) => {
     var femaleSorry = body.hits.total;
 
     return client.search({
-      index: 'tweets',
-      type: 'tweet',
+      index,
+      type,
       body: {
         query: {
           bool: {
             must: [
-              { match: { 'sender.gender': 'female' }},
-              // { match: { 'recipients.gender': 'male' }},
+              { match: { 'sender.gender': 1 }},
             ],
           },
         },
@@ -48,14 +48,13 @@ app.get('/api/example', (req, res) => {
   }).then( ({femaleSorry, body}) => {
     var female = body.hits.total;
     return client.search({
-      index: 'tweets',
-      type: 'tweet',
+      index,
+      type,
       body: {
         query: {
           bool: {
             must: [
-              { match: { 'sender.gender': 'male' }},
-              // { match: { 'recipients.gender': 'female' }},
+              { match: { 'sender.gender': 0 }},
               { match: { 'full_text': 'sorry' }},
             ],
           },
@@ -64,20 +63,19 @@ app.get('/api/example', (req, res) => {
     }).then((body) => ({femaleSorry, female, maleSorry: body.hits.total}));
   }).then(({femaleSorry, female, maleSorry}) => {
     return client.search({
-      index: 'tweets',
-      type: 'tweet',
+      index,
+      type,
       body: {
         query: {
           bool: {
             must: [
-              { match: { 'sender.gender': 'male' }},
-              // { match: { 'recipients.gender': 'female' }},
+              { match: { 'sender.gender': 0 }},
             ],
           },
         },
       }
     }).then((body) => ({femaleSorry, female, maleSorry, male: body.hits.total}));
-  }).then(data => res.send(data));
+  }).then(data => res.send(data)).catch(console.error);
 
 
 })
@@ -85,8 +83,8 @@ app.get('/api/example', (req, res) => {
 
 app.get('/api/KeywordAcrossGender', (req, res) => {
 client.search({
-    index: 'tweets',
-    type: 'tweet',
+    index,
+    type,
     "size": 0,
     "from": 0,
     body: {
@@ -113,8 +111,8 @@ app.post('/api/KeywordOverTime', (req, res) => {
 const keyword = req.body.keyword || '*'
 
 client.search({
-    index: 'tweets',
-    type: 'tweet',
+    index,
+    type,
     size: 0,
     from: 0,
     body: {
