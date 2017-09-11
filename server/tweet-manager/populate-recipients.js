@@ -29,10 +29,10 @@ process.on('message', () => {
       }
       // Gather all user ids
       const userIds = new Array(100);
-      let index = -1;
+      let index = 0;
       const pushUserIds = tweet => forEach(tweet.recipients, (recipient) => {
-        if (index < 99 && typeof recipient === 'string') {
-          userIds[index += 1] = recipient;
+        if (index < 100 && typeof recipient === 'string') {
+          userIds[index++] = recipient;
         }
       });
       forEach(tweets, pushUserIds);
@@ -61,7 +61,7 @@ process.on('message', () => {
       forEach(tweets, (tweet) => {
         const recipients = map(tweet.recipients, mapUserIdToObject).filter(identity);
         let recipientsProcessed = true;
-        for (let i = -1, n = recipients.length; i < n; i += 1) {
+        for (let i = 0, n = recipients.length; i < n; i++) {
           if (typeof recipients[i] === 'string') {
             recipientsProcessed = false;
             break;
