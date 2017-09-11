@@ -108,7 +108,9 @@ client.search({
 
 app.post('/api/KeywordOverTime', (req, res) => {
 
-const keyword = req.body.keyword || '*'
+const keyword = req.body.keyword || '*';
+const senderGender = req.body.senderGender || false;
+const recipientsGender = req.body.recipientsGender || false;
 
 const esBody =
 { "query": {
@@ -129,6 +131,19 @@ const esBody =
 }
 
 
+// if senderGender exists we add senderGender to the musts
+if (senderGender) {
+  const toAdd = { match: { 'sender.gender': senderGender } }
+  esBody.query.bool.must.push(toAdd)
+}
+
+// if recipientsGender exists we add recipientsGender to the musts
+if (recipientsGender) {
+  const toAdd = { match: { 'recipients.gender': recipientsGender } }
+  esBody.query.bool.must.push(toAdd)
+}
+
+//console.log(JSON.stringify(esBody.query.bool.must) + "SCOTTSCOTTSCOTT")
 
 client.search({
     index,
@@ -139,6 +154,9 @@ client.search({
   }).then((body) => {
     return body.aggregations.histogram.buckets;
   }).then((data) => res.send(data))
+
+
+
 })
 
 
