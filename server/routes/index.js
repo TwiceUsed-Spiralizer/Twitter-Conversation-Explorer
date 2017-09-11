@@ -108,6 +108,39 @@ client.search({
 })
 
 
+app.post('/api/KeywordOverTime', (req, res) => {
+
+const keyword = req.body.keyword || '*'
+
+client.search({
+    index: 'tweets',
+    type: 'tweet',
+    size: 0,
+    from: 0,
+    body: {
+    "query": {
+      "bool": {
+        "must": [
+          { "wildcard" : { "full_text" : keyword } }
+        ]
+      }
+    },
+      "aggs" : {
+        "histogram" : {
+          "date_histogram" : {
+              "field" : "created_at",
+              "interval" : "day"
+          }
+        }
+      }
+    }
+  }).then((body) => {
+    return body.aggregations.histogram.buckets;
+  }).then((data) => res.send(data))
+})
+
+
+
 
 
 
