@@ -83,7 +83,6 @@ app.get('/api/example', (req, res) => {
 })
 
 
-
 app.get('/api/KeywordAcrossGender', (req, res) => {
 client.search({
     index: 'tweets',
@@ -109,14 +108,9 @@ client.search({
 })
 
 
-
-
-
-app.post('/api/SelectionsOverTime', (req, res) => {
+app.post('/api/KeywordOverTime', (req, res) => {
 
 const keyword = req.body.keyword || '*'
-const senderGender = req.body.senderGender || '*'
-const recipientsGender = req.body.recipientsGender || '*'
 
 client.search({
     index: 'tweets',
@@ -124,15 +118,13 @@ client.search({
     size: 0,
     from: 0,
     body: {
-      "query": {
-        "bool": {
-          "must": [
-            { "wildcard" : { "full_text" : keyword } },
-            { "wildcard" : { "sender.gender" : senderGender } },
-            { "wildcard" : { "recipients.gender" : recipientsGender } },
-          ],
-        },
-      },
+    "query": {
+      "bool": {
+        "must": [
+          { "wildcard" : { "full_text" : keyword } }
+        ]
+      }
+    },
       "aggs" : {
         "histogram" : {
           "date_histogram" : {
@@ -146,21 +138,6 @@ client.search({
     return body.aggregations.histogram.buckets;
   }).then((data) => res.send(data))
 })
-
-
-
-app.post('/api/reqbod', (req, res) => {
-  console.log(req.body)
-  res.send(req.body.keyword)
-
-})
-
-
-
-
-
-
-
 
 
 
