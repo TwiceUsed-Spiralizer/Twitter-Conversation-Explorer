@@ -106,12 +106,11 @@ client.search({
 })
 
 
-app.post('/api/KeywordOverTime', (req, res) => {
+app.post('/api/SelectionsOverTime', (req, res) => {
 
 const keyword = req.body.keyword || '*';
 const senderGender = req.body.senderGender || false;
 const recipientsGender = req.body.recipientsGender || false;
-
 const esBody =
 { "query": {
   "bool": {
@@ -129,7 +128,6 @@ const esBody =
     }
   }
 }
-
 
 // if senderGender exists we add senderGender to the musts
 if (senderGender) {
@@ -154,7 +152,6 @@ client.search({
   }).then((data) => res.send(data))
 
 })
-
 
 
 
