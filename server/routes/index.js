@@ -1,10 +1,10 @@
 require('dotenv').config();
-const app = require('../../server.js')
+const app = require('../../server.js');
 const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'trace'
+  log: 'trace',
 });
 const index = 'twitter';
 const type = 'tweet';
