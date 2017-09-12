@@ -143,8 +143,6 @@ if (recipientsGender) {
   esBody.query.bool.must.push(toAdd)
 }
 
-//console.log(JSON.stringify(esBody.query.bool.must) + "SCOTTSCOTTSCOTT")
-
 client.search({
     index,
     type,
@@ -154,8 +152,6 @@ client.search({
   }).then((body) => {
     return body.aggregations.histogram.buckets;
   }).then((data) => res.send(data))
-
-
 
 })
 
