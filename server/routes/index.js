@@ -10,7 +10,10 @@ const index = 'twitter';
 const type = 'tweet';
 
 
-app.get('/api/KeywordAcrossGender', (req, res) => {
+app.post('/api/KeywordAcrossGender', (req, res) => {
+
+const keyword = req.body.keyword || '*';
+
 client.search({
     index,
     type,
@@ -21,9 +24,9 @@ client.search({
         "interactions" : {
           "adjacency_matrix" : {
             "filters" : {
-              "female" : { "terms" : { 'sender.gender' : ["female"] }},
-              "male" : { "terms" : { 'sender.gender' : ["male"] }},
-              "keyword" : { "match" : { 'full_text': 'sorry' }}
+              "femaleSender" : { "terms" : { 'sender.gender' : ["female"] }},
+              "maleSender" : { "terms" : { 'sender.gender' : ["male"] }},
+              "keyword" : { "wildcard" : { "full_text" : keyword } }
             }
           }
         }
