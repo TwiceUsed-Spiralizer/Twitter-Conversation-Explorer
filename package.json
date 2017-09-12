@@ -12,7 +12,7 @@
     "test": "grunt travis --verbose",
     "testreact": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "coverage": "react-scripts test --env=jsdom -- --coverage"
   },
   "repository": {
@@ -24,6 +24,7 @@
   "bugs": {
     "url": "https://github.com/TwiceUsed-Spiralizer/Twitter-Conversation-Explorer/issues"
   },
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "chart.js": "^2.6.0",
     "axios": "^0.16.2",
