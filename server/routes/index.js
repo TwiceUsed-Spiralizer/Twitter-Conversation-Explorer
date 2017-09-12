@@ -106,37 +106,52 @@ client.search({
 })
 
 
-app.post('/api/KeywordOverTime', (req, res) => {
+app.post('/api/SelectionsOverTime', (req, res) => {
 
-const keyword = req.body.keyword || '*'
+const keyword = req.body.keyword || '*';
+const senderGender = req.body.senderGender || false;
+const recipientsGender = req.body.recipientsGender || false;
+const esBody =
+{ "query": {
+  "bool": {
+    "must": [
+      { "wildcard" : { "full_text" : keyword } }
+    ]
+  }
+},
+  "aggs" : {
+    "histogram" : {
+      "date_histogram" : {
+          "field" : "created_at",
+          "interval" : "day"
+      }
+    }
+  }
+}
+
+// if senderGender exists we add senderGender to the musts
+if (senderGender) {
+  const toAdd = { match: { 'sender.gender': senderGender } }
+  esBody.query.bool.must.push(toAdd)
+}
+
+// if recipientsGender exists we add recipientsGender to the musts
+if (recipientsGender) {
+  const toAdd = { match: { 'recipients.gender': recipientsGender } }
+  esBody.query.bool.must.push(toAdd)
+}
 
 client.search({
     index,
     type,
     size: 0,
     from: 0,
-    body: {
-    "query": {
-      "bool": {
-        "must": [
-          { "wildcard" : { "full_text" : keyword } }
-        ]
-      }
-    },
-      "aggs" : {
-        "histogram" : {
-          "date_histogram" : {
-              "field" : "created_at",
-              "interval" : "day"
-          }
-        }
-      }
-    }
+    body: esBody
   }).then((body) => {
     return body.aggregations.histogram.buckets;
   }).then((data) => res.send(data))
-})
 
+})
 
 
 
