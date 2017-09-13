@@ -1,5 +1,5 @@
 import React from 'react';
-import { Preloader, Container } from 'react-materialize';
+import { Preloader, Container, Icon } from 'react-materialize';
 
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
@@ -13,13 +13,13 @@ export default (Wrapper) => {
     }
     switch (chartObject.type) {
       case 'doughnut':
-        return <Wrapper><TwitterDoughnut data={chartObject.data} /></Wrapper>;
+        return <Wrapper icon={chartObject.icon} title={<Icon left>{chartObject.icon}</Icon>}><TwitterDoughnut data={chartObject.data} /></Wrapper>;
       case 'line':
-        return <Wrapper><LineGraph data={chartObject.data} /></Wrapper>;
+        return <Wrapper icon={chartObject.icon} title={<Icon left>{chartObject.icon}</Icon>}><LineGraph data={chartObject.data} /></Wrapper>;
       case 'histogram':
-        return <Wrapper><Histogram data={chartObject.data} /></Wrapper>;
+        return <Wrapper icon={chartObject.icon} title={<Icon left>{chartObject.icon}</Icon>}><Histogram data={chartObject.data} /></Wrapper>;
       case 'chiSquared':
-        return <Wrapper><ChiSquared data={chartObject.data} /></Wrapper>;
+        return <Wrapper icon={chartObject.icon} title={<Icon left>{chartObject.icon}</Icon>}><ChiSquared data={chartObject.data} /></Wrapper>;
       default:
         return null;
     }

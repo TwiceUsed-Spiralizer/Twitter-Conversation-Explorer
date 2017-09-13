@@ -23,19 +23,19 @@ class App extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', data: res.data}, {type: 'chiSquared', data: res.data}]),
+          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: "pie_chart", data: res.data}, {type: 'chiSquared', icon: "format_list_numbered", data: res.data}]),
         }))
       );
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', data: res.data}]),
+          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: "show_chart", data: res.data}]),
         }))
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', data: res.data }]),
+          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: "insert_chart", data: res.data }]),
         }))
       );
   }
