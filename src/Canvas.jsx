@@ -1,8 +1,9 @@
 import React from 'react';
 import './Canvas.css';
-import { Col, Row, Collapsible, CollapsibleItem } from 'react-materialize';
+import { Col, Row, Collapsible } from 'react-materialize';
 import QueryResults from './QueryResults';
 import ChartComponent from './chartComponents';
+import CollapsibleChart from './ChartWrappers/CollapsibleChart'
 
 const TCECanvas = (props) => {
   return (
@@ -11,7 +12,7 @@ const TCECanvas = (props) => {
       <Col m={4}>
         <h3>Saved</h3>
         <Collapsible popout accordion>
-          {props.board.map(ChartComponent(CollapsibleItem))}
+          {props.board.map(ChartComponent(CollapsibleChart(console.log)))}
         </Collapsible>
       </Col>
       <Col m={4}>

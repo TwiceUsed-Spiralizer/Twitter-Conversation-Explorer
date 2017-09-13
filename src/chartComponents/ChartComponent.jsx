@@ -1,12 +1,12 @@
 import React from 'react';
-import { Preloader, Container, Icon } from 'react-materialize';
+import { Preloader, Container, Icon, Card } from 'react-materialize';
 
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
 import LineGraph from './lineGraph';
 import Histogram from './histogram';
 
-export default (Wrapper, clickHandler = () => {}) => {
+export default (Wrapper) => {
 
   return (chartObject, index) => {
     if (!chartObject.data) {
@@ -32,8 +32,7 @@ export default (Wrapper, clickHandler = () => {}) => {
     }
     return (<Wrapper
       icon={chartObject.icon}
-      title={<Icon left>{chartObject.icon}</Icon>}
-      onClick={() => clickHandler(index)}
+      index={index}
     >
       <Chart data={chartObject.data} />
     </Wrapper>);

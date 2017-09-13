@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Carousel, Container } from 'react-materialize';
 import './QueryResults.css';
 import ChartComponent from './chartComponents';
+import CarouselChart from './ChartWrappers/CarouselChart';
 
 export default class QueryResults extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export default class QueryResults extends React.Component {
     this.state = {
       carousel: [],
     }
+    this.chartWrapper = CarouselChart(this.props.moveToBoard);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,7 +23,7 @@ export default class QueryResults extends React.Component {
       carousel: (
         <Carousel>
           {
-            nextProps.results.map(ChartComponent(Card, this.props.moveToBoard))
+            nextProps.results.map(ChartComponent(this.chartWrapper))
           }
         </Carousel>
       )
