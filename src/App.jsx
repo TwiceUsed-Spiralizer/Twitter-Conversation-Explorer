@@ -19,24 +19,24 @@ class App extends Component {
   
   query(keyword, senderGender) {
     this.setState({
-      queryResults: new Array(4).fill(false),
+      queryResults: [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}],
     })
-    axios.get('/api/KeywordAcrossGender', { keyword })
+    axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [res.data, res.data]),
+          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', data: res.data}, {type: 'chiSquared', data: res.data}]),
         }))
       );
-    axios.get('/api/SelectionsOverTime', { keyword, senderGender })
+    axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [, res.data]),
+          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', data: res.data}]),
         }))
       );
-    axios.get('/api/BucketedBarCharts', { keyword })
+    axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,, res.data]),
+          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', data: res.data }]),
         }))
       );
   }
