@@ -7,7 +7,7 @@ class QueryBuilder extends Component {
     super(props);
     this.state = {
       keyword: '',
-      gender: 'female',
+      gender: 1,
     };
   }
 
@@ -15,9 +15,9 @@ class QueryBuilder extends Component {
     return (
       <Row>
         <p>WHO</p>
-        <Input s={6} type="select" label="Gender" defaultValue="female" onChange={event => this.setState({ gender: event.target.value })} >
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+        <Input s={6} type="select" label="Gender" defaultValue={1} onChange={event => this.setState({ gender: event.target.value })} >
+          <option value={0}>Male</option>
+          <option value={1}>Female</option>
         </Input>
         {/* <Input s={6} label="Location" /> */}
         {/* <Input label="Follower Count" s={12} /> */}
