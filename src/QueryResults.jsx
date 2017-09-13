@@ -10,7 +10,6 @@ export default class QueryResults extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('change', nextProps);
     this.setState({
       carousel: null,
     })
