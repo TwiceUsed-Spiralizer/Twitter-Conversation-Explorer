@@ -4,6 +4,7 @@ import './App.css';
 import { Col, Row, Container, Button, Card } from 'react-materialize';
 
 const TCECanvas = (props) => {
+<<<<<<< 6f2c97471952b9165e3cabd8d7fc6b67afd234c9
   if (props.data.hasOwnProperty('menLength')) {
     return (
       <Row>
@@ -18,6 +19,18 @@ const TCECanvas = (props) => {
     );
   }
   return (<Row />);
+=======
+  console.log(props);
+  return (
+    <Row>
+      <Container>
+        <Col m={6}>
+
+        </Col>
+      </Container>
+    </Row>
+  );
+>>>>>>> Add example use of TwitterDoughnut in QueryResults
 };
 
 export default TCECanvas;
