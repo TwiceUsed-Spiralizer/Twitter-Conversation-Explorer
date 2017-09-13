@@ -1,16 +1,25 @@
 import React from 'react';
-import './App.css';
-import { Col, Row, Container } from 'react-materialize';
+import './Canvas.css';
+import { Col, Container, Collapsible, CollapsibleItem } from 'react-materialize';
+import QueryResults from './QueryResults';
 
 const TCECanvas = (props) => {
   return (
-    <Row>
-      <Container>
-        <Col m={6}>
-
-        </Col>
-      </Container>
-    </Row>
+    <Container>
+      <QueryResults results={props.results} />
+      <Col m={4}>
+        <h3>Saved</h3>
+        <Collapsible>
+          {[1,2,3].map(item => <CollapsibleItem header={item}>{item}</CollapsibleItem>)}
+        </Collapsible>
+      </Col>
+      <Col m={4}>
+        <h3>Maybe</h3>
+      </Col>
+      <Col m={4}>
+        <h3>Final</h3>
+      </Col>
+    </Container>
   );
 };
 
