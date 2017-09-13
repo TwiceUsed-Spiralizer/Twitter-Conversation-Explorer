@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
-import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
+import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
 import QueryResults from './QueryResults';
@@ -61,13 +60,12 @@ class App extends Component {
             </Dropdown>
           </Navbar>
         </nav>
-        <div className="row">
+        <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><QueryResults results={this.state.queryResults} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} /></Col>
+          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} /></Col>
 
-        </div>
+        </Row>
       </div>
     );
   }

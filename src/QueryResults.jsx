@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Carousel, Container } from 'react-materialize';
-import ChartComponent from './chartComponents'
+import './QueryResults.css';
+import ChartComponent from './chartComponents';
 
 export default class QueryResults extends React.Component {
   constructor(props) {
@@ -11,11 +12,12 @@ export default class QueryResults extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.results.newQuery) {
-      this.setState({
-        carousel: null,
-      });
-    }
+    console.log(nextProps)
+    // if (nextProps.results.newQuery) {
+    //   this.setState({
+    //     carousel: null,
+    //   });
+    // }
     setTimeout(() => this.setState({
       carousel: (
         <Carousel>
@@ -29,12 +31,14 @@ export default class QueryResults extends React.Component {
 
   render() {
     return (
-      <Container>
-        {
-          this.state.carousel
+      <div id="results-carousel">
+        <Container>
+          {
+            this.state.carousel
 
-        }
-      </Container>
+          }
+        </Container>
+      </div>
     )
   }
 }
