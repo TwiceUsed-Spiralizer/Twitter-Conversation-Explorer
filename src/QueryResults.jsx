@@ -22,7 +22,7 @@ export default class QueryResults extends React.Component {
       carousel: (
         <Carousel>
           {
-            nextProps.results.map(ChartComponent(Card))
+            nextProps.results.map(ChartComponent(Card, console.log))
           }
         </Carousel>
       )
