@@ -1,11 +1,3 @@
-import TwitterDoughnut from './twitterDoughnut';
-import ChiSquared from './chiSquared';
-import LineGraph from './lineGraph';
-import Histogram from './histogram';
+import ChartComponent from './ChartComponent';
 
-export {
-  TwitterDoughnut,
-  ChiSquared,
-  LineGraph,
-  Histogram,
-};
+export default ChartComponent;

@@ -1,8 +1,7 @@
-import Chart from 'chart.js';
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge, Carousel, Card } from 'react-materialize';
+import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
 import QueryResults from './QueryResults';
@@ -10,24 +9,45 @@ import QueryResults from './QueryResults';
 class App extends Component {
   constructor() {
     super();
+    this.blankResults = [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}];
     this.state = {
       data: {},
-      queryResults: new Array(4).fill(false),
+      queryResults: this.blankResults,
     };
     this.query = this.query.bind(this);
   }
   
-  query(keyword) {
-    this.setState(prevState => ({
-      queryResults: [true, ...prevState.queryResults.slice(1)],
-    }));
+  query(keyword, senderGender) {
+    const blankResults = this.blankResults.slice();
+    blankResults.newQuery = true;
+    this.setState({
+      queryResults: blankResults,
+    })
+    axios.post('/api/KeywordAcrossGender', { keyword })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: "pie_chart", data: res.data}, {type: 'chiSquared', icon: "format_list_numbered", data: res.data}]),
+        }))
+      );
+    axios.post('/api/SelectionsOverTime', { keyword, senderGender })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: "show_chart", data: res.data}]),
+        }))
+      );
+    axios.post('/api/BucketedBarChart', { keyword })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: "insert_chart", data: res.data }]),
+        }))
+      );
   }
 
   render() {
     return (
       <div className="App">
         <nav>
-          <Navbar brand="Twitter Conversation Explorer" css="margin:5px" right>
+          <Navbar brand="Twitter Conversation Explorer" right>
             <Button waves="light">Log In<Icon right>face</Icon></Button>
             <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
             <Dropdown trigger={
@@ -43,7 +63,7 @@ class App extends Component {
         </nav>
         <div className="row">
 
-          <Col l={3}><QueryBuilder getData={this.query} /></Col>
+          <Col l={3}><QueryBuilder query={this.query} /></Col>
           <Col l={9}><QueryResults results={this.state.queryResults} /></Col>
           <Col l={9}><TCECanvas data={this.state.data} /></Col>
 
