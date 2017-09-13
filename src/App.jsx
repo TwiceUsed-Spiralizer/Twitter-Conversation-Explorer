@@ -8,10 +8,10 @@ import QueryResults from './QueryResults';
 class App extends Component {
   constructor() {
     super();
-    this.blankResults = [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}];
+    this.blankResults = [{data: false}];
     this.state = {
       data: {},
-      queryResults: this.blankResults,
+      queryResults: [],
       boards: {
         saved: [],
         maybe: [],
@@ -42,27 +42,36 @@ class App extends Component {
   }
 
   query(keyword, senderGender) {
-    const blankResults = this.blankResults.slice();
-    blankResults.newQuery = true;
     this.setState({
-      queryResults: blankResults,
+      queryResults: this.blankResults,
     })
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: 'pie_chart', data: res.data}, {type: 'chiSquared', icon: 'format_list_numbered', data: res.data}]),
+          queryResults: prevState.queryResults.concat([
+            { type: 'doughnut', icon: 'pie_chart', data: res.data },
+            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data }
+          ]).filter(item => item.type),
         }))
       );
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: 'show_chart', data: res.data}]),
+          queryResults: prevState.queryResults.concat({
+            type: 'line',
+            icon: 'show_chart',
+            data: res.data
+          }).filter(item => item.type),
         }))
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: 'insert_chart', data: res.data }]),
+          queryResults: prevState.queryResults.concat({
+            type: 'histogram',
+            icon: 'insert_chart',
+            data: res.data
+          }).filter(item => item.type),
         }))
       );
   }
