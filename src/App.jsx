@@ -17,11 +17,22 @@ class App extends Component {
     this.query = this.query.bind(this);
   }
   
-  query(keyword, gender) {
-    console.log(arguments)
-    this.setState(prevState => ({
-      queryResults: [true, ...prevState.queryResults.slice(1)],
-    }));
+  query(keyword, senderGender) {
+    this.setState({
+      queryResults: new Array(4).fill(false),
+    })
+    axios.get('/api/SelectionsOverTime', { keyword, senderGender })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [, res.data]),
+        }))
+      );
+    axios.get('/api/KeywordAcrossGender', { keyword })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [, res.data]),
+        }))
+      );
   }
 
   render() {
