@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
-import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
+import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
 import QueryResults from './QueryResults';
@@ -9,36 +8,70 @@ import QueryResults from './QueryResults';
 class App extends Component {
   constructor() {
     super();
-    this.blankResults = [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}];
+    this.blankResults = [{data: false}];
     this.state = {
       data: {},
-      queryResults: this.blankResults,
+      queryResults: [],
+      boards: {
+        saved: [],
+        maybe: [],
+        final: [],
+      },
     };
     this.query = this.query.bind(this);
+    this.moveToBoard = this.moveToBoard.bind(this);
   }
-  
+
+  moveToBoard(index, fromBoard, toBoard) {
+    if (fromBoard && toBoard) {
+      this.setState((prevState) => {
+        console.log(fromBoard, toBoard)
+        const boards = prevState.boards;
+        boards[toBoard] = boards[toBoard].concat(boards[fromBoard].splice(index, 1));
+        return { boards };
+      });
+    } else {
+      this.setState(prevState => ({
+        boards: {
+          ...prevState.boards,
+          saved: prevState.boards.saved.concat(prevState.queryResults.splice(index, 1)),
+        },
+        queryResults: prevState.queryResults,
+      }));
+    }
+  }
+
   query(keyword, senderGender) {
-    const blankResults = this.blankResults.slice();
-    blankResults.newQuery = true;
     this.setState({
-      queryResults: blankResults,
+      queryResults: this.blankResults,
     })
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: "pie_chart", data: res.data}, {type: 'chiSquared', icon: "format_list_numbered", data: res.data}]),
+          queryResults: prevState.queryResults.concat([
+            { type: 'doughnut', icon: 'pie_chart', data: res.data },
+            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data }
+          ]).filter(item => item.type),
         }))
       );
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: "show_chart", data: res.data}]),
+          queryResults: prevState.queryResults.concat({
+            type: 'line',
+            icon: 'show_chart',
+            data: res.data
+          }).filter(item => item.type),
         }))
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: "insert_chart", data: res.data }]),
+          queryResults: prevState.queryResults.concat({
+            type: 'histogram',
+            icon: 'insert_chart',
+            data: res.data
+          }).filter(item => item.type),
         }))
       );
   }
@@ -61,13 +94,17 @@ class App extends Component {
             </Dropdown>
           </Navbar>
         </nav>
-        <div className="row">
+        <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><QueryResults results={this.state.queryResults} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} /></Col>
+          <Col l={9}><TCECanvas
+            data={this.state.data}
+            results={this.state.queryResults}
+            moveToBoard={this.moveToBoard}
+            boards={this.state.boards}
+          /></Col>
 
-        </div>
+        </Row>
       </div>
     );
   }
