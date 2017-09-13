@@ -1,3 +1,6 @@
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
+
 const TwitterDoughnut = (props) => {
   const data = props.data;
   console.log(props.data);
@@ -6,8 +9,7 @@ const TwitterDoughnut = (props) => {
   const total = womenPercent + menPercent;
   const womenLength = (womenPercent / total) * 600;
   const menLength = (menPercent / total) * 600;
-  return null;
-  // <Doughnut data={{ datasets: [{ data: [props.data.womenLength, props.data.menLength], backgroundColor: ['blue', 'hotpink'] }], labels: ['Women', 'Men'] }} />;
+  return <Doughnut data={{ datasets: [{ data: [womenLength, menLength], backgroundColor: ['blue', 'hotpink'] }], labels: ['Women', 'Men'] }} />;
 };
 
 export default TwitterDoughnut;
