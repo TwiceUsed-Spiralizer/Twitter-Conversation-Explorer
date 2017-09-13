@@ -21,16 +21,22 @@ class App extends Component {
     this.setState({
       queryResults: new Array(4).fill(false),
     })
+    axios.get('/api/KeywordAcrossGender', { keyword })
+      .then(res =>
+        this.setState(prevState => ({
+          queryResults: Object.assign(prevState.queryResults, [res.data, res.data]),
+        }))
+      );
     axios.get('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
           queryResults: Object.assign(prevState.queryResults, [, res.data]),
         }))
       );
-    axios.get('/api/KeywordAcrossGender', { keyword })
+    axios.get('/api/BucketedBarCharts', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [, res.data]),
+          queryResults: Object.assign(prevState.queryResults, [,, res.data]),
         }))
       );
   }
