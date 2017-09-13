@@ -17,6 +17,7 @@ class App extends Component {
   }
   
 
+<<<<<<< 4d78601e23ffc7ca47ecf50b658deac92b74cc30
 <<<<<<< 6f2c97471952b9165e3cabd8d7fc6b67afd234c9
   getData() {
     axios.get('/api/example')
@@ -30,6 +31,9 @@ class App extends Component {
       });
 =======
   query(keyword) {
+=======
+  query(keyword, gender) {
+>>>>>>> Tidy up modules
     this.setState(prevState => ({
       queryResults: [true, ...prevState.queryResults.slice(1)],
     }));

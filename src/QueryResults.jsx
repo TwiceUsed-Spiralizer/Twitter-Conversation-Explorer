@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Carousel, Container } from 'react-materialize';
-import { TwitterDoughnut } from './chartComponents'
+import { TwitterDoughnut, LineGraph, ChiSquared, Histogram } from './chartComponents'
 
 export default class QueryResults extends React.Component {
   constructor(props) {
@@ -20,6 +20,7 @@ export default class QueryResults extends React.Component {
         <Carousel>
           <Card>
             <TwitterDoughnut data={nextProps.results[0]} />
+            <ChiSquared data={nextProps.results[0]} />
           </Card>
         </Carousel>
       )
