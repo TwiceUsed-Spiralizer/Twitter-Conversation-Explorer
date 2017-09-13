@@ -1,7 +1,6 @@
-import { Doughnut } from 'react-chartjs-2';
 import React from 'react';
 import './App.css';
-import { Col, Row, Container, Button, Card } from 'react-materialize';
+import { Col, Row, Container } from 'react-materialize';
 
 const TCECanvas = (props) => {
   return (

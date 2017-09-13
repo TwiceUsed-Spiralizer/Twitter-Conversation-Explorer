@@ -1,8 +1,7 @@
-import Chart from 'chart.js';
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge, Carousel, Card } from 'react-materialize';
+import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
 import QueryResults from './QueryResults';
@@ -45,7 +44,7 @@ class App extends Component {
     return (
       <div className="App">
         <nav>
-          <Navbar brand="Twitter Conversation Explorer" css="margin:5px" right>
+          <Navbar brand="Twitter Conversation Explorer" right>
             <Button waves="light">Log In<Icon right>face</Icon></Button>
             <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
             <Dropdown trigger={
