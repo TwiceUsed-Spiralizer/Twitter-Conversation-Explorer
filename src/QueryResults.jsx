@@ -12,17 +12,16 @@ export default class QueryResults extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    // if (nextProps.results.newQuery) {
-    //   this.setState({
-    //     carousel: null,
-    //   });
-    // }
+    if (nextProps.results.newQuery) {
+      this.setState({
+        carousel: null,
+      });
+    }
     setTimeout(() => this.setState({
       carousel: (
         <Carousel>
           {
-            nextProps.results.map(ChartComponent(Card, console.log))
+            nextProps.results.map(ChartComponent(Card, this.props.moveToBoard))
           }
         </Carousel>
       )

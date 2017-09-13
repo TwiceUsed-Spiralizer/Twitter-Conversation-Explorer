@@ -7,7 +7,7 @@ import ChartComponent from './chartComponents';
 const TCECanvas = (props) => {
   return (
     <Row>
-      <QueryResults results={props.results} />
+      <QueryResults results={props.results} moveToBoard={props.moveToBoard} />
       <Col m={4}>
         <h3>Saved</h3>
         <Collapsible popout accordion>

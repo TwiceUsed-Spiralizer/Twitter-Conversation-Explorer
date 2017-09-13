@@ -12,11 +12,19 @@ class App extends Component {
     this.state = {
       data: {},
       queryResults: this.blankResults,
-      board: [1, 2, 3],
+      board: [],
     };
     this.query = this.query.bind(this);
+    this.moveToBoard = this.moveToBoard.bind(this);
   }
-  
+
+  moveToBoard(index) {
+    this.setState(prevState => ({
+      queryResults: prevState.queryResults.slice(0, index).concat(prevState.queryResults.slice(index + 1)),
+      board: prevState.board.concat(prevState.queryResults[index]),
+    }));
+  }
+
   query(keyword, senderGender) {
     const blankResults = this.blankResults.slice();
     blankResults.newQuery = true;
@@ -64,7 +72,7 @@ class App extends Component {
         <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} board={this.state.queryResults} /></Col>
+          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} moveToBoard={this.moveToBoard} board={this.state.board} /></Col>
 
         </Row>
       </div>
