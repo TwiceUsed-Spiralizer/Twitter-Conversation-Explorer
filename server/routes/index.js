@@ -107,7 +107,7 @@ app.post('/api/BucketedBarChart', (req, res) => {
         ],
       },
       aggs: {
-        gender: { terms: { field: 'sender.gender' },
+        gender: { terms: { field: 'sender.gender', order: { _term: 'asc' } },
           aggs: {
             docCountByGender: { value_count: { field: '_index' } },
           },
