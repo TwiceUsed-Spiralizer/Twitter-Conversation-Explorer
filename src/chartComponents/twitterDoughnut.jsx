@@ -1,7 +1,8 @@
 import React from 'react';
 
-const TwitterDoughnut = (props) => {
-    
-}
-
-export default TwitterDoughnut;
+export default props =>
+  (
+    <div className="hoverable">
+      {JSON.stringify(props.data)}
+    </div>
+  );
