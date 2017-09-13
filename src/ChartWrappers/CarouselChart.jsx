@@ -1,7 +1,10 @@
 import React from 'react';
-import { Card, Icon } from 'react-materialize';
+import { Button, Card, Icon } from 'react-materialize';
 
 export default clickHandler =>
   props => (
-    <Card {...props} onClick={() => clickHandler(props.index)} title={<Icon left>{props.icon}</Icon>} />
+    <Card {...props} title={<Icon left>{props.icon}</Icon>}>
+      {props.children}
+      {props.chartObject && <Button onClick={() => clickHandler(props.index)}><Icon left>save</Icon>Save</Button>}
+    </Card>
   );
