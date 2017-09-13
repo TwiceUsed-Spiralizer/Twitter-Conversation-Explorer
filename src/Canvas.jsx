@@ -12,11 +12,14 @@ const TCECanvas = (props) => {
       <Col m={4}>
         <h3>Saved</h3>
         <Collapsible popout accordion>
-          {props.board.map(ChartComponent(CollapsibleChart(console.log)))}
+          {props.boards.saved.map(ChartComponent(CollapsibleChart(props.moveToBoard, 'saved')))}
         </Collapsible>
       </Col>
       <Col m={4}>
         <h3>Maybe</h3>
+        <Collapsible popout accordion>
+          {props.boards.maybe.map(ChartComponent(CollapsibleChart(console.log)))}
+        </Collapsible>
       </Col>
       <Col m={4}>
         <h3>Final</h3>
