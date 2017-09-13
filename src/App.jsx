@@ -5,27 +5,28 @@ import './App.css';
 import { Navbar, NavItem, Col, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
+import TwitterDoughnut from './chartComponents';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       data: {},
+      queryComponents: [<div>balls</div>, <div>farts</div>],
     };
-    this.getData = this.getData.bind(this);
+    this.query = this.query.bind(this);
   }
 
-  getData() {
-    axios.get('/api/example')
-      .then((res) => {
-        const womenPercent = (res.data.femaleSorry / res.data.female) * 100;
-        const menPercent = (res.data.maleSorry / res.data.male) * 100;
-        const total = womenPercent + menPercent;
-        const womenLength = (womenPercent / total) * 600;
-        const menLength = (menPercent / total) * 600;
-        this.setState({ data: { menLength, womenLength }  });
-      });
+  query(keyword) {
+    let queryComponents = this.state.queryComponents.concat('poop');
+    console.log(queryComponents);
+    this.state.queryComponents.pop();
+    this.setState({
+      data: 'balls',
+      queryComponents,
+    });
   }
+
 
   render() {
     return (
@@ -47,9 +48,9 @@ class App extends Component {
         </nav>
         <div className="row">
 
-          <Col l={3}><QueryBuilder getData={this.getData} /></Col>
+          <Col l={3}><QueryBuilder getData={this.query} /></Col>
 
-          <Col l={9}><TCECanvas data={this.state.data} /></Col>
+          <Col l={9}><TCECanvas data={this.state.data} queryComponents={this.state.queryComponents} /></Col>
 
         </div>
       </div>
