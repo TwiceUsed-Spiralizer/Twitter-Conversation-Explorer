@@ -20,7 +20,9 @@ export default class QueryResults extends React.Component {
         <Carousel>
           <Card>
             <TwitterDoughnut data={nextProps.results[0]} />
-            <ChiSquared data={nextProps.results[0]} />
+            {/* <ChiSquared data={nextProps.results[1]} /> */}
+            {/* <LineGraph data={nextProps.results[2]} /> */}
+            {/* <Histogram data={nextProps.results[3]} /> */}
           </Card>
         </Carousel>
       )

@@ -14,30 +14,13 @@ class App extends Component {
       data: {},
       queryResults: new Array(4).fill(false),
     };
+    this.query = this.query.bind(this);
   }
   
-
-<<<<<<< 4d78601e23ffc7ca47ecf50b658deac92b74cc30
-<<<<<<< 6f2c97471952b9165e3cabd8d7fc6b67afd234c9
-  getData() {
-    axios.get('/api/example')
-      .then((res) => {
-        const womenPercent = (res.data.femaleSorry / res.data.female) * 100;
-        const menPercent = (res.data.maleSorry / res.data.male) * 100;
-        const total = womenPercent + menPercent;
-        const womenLength = (womenPercent / total) * 600;
-        const menLength = (menPercent / total) * 600;
-        this.setState({ data: { menLength, womenLength }  });
-      });
-=======
   query(keyword) {
-=======
-  query(keyword, gender) {
->>>>>>> Tidy up modules
     this.setState(prevState => ({
       queryResults: [true, ...prevState.queryResults.slice(1)],
     }));
->>>>>>> Add example use of TwitterDoughnut in QueryResults
   }
 
   render() {
@@ -60,13 +43,8 @@ class App extends Component {
         </nav>
         <div className="row">
 
-<<<<<<< 6f2c97471952b9165e3cabd8d7fc6b67afd234c9
-          <Col l={3}><QueryBuilder getData={this.getData} /></Col>
-
-=======
           <Col l={3}><QueryBuilder getData={this.query} /></Col>
           <Col l={9}><QueryResults results={this.state.queryResults} /></Col>
->>>>>>> Add example use of TwitterDoughnut in QueryResults
           <Col l={9}><TCECanvas data={this.state.data} /></Col>
 
         </div>
