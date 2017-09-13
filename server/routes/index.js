@@ -19,8 +19,8 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
       "interactions" : {
         "adjacency_matrix" : {
           "filters" : {
-            "femaleSender" : { "terms" : { 'sender.gender' : ["female"] }},
-            "maleSender" : { "terms" : { 'sender.gender' : ["male"] }},
+            "femaleSender" : { "terms" : { 'sender.gender' : [1] }},
+            "maleSender" : { "terms" : { 'sender.gender' : [0] }},
             "keyword" : { "wildcard" : { "full_text" : keyword } }
           }
         }
@@ -87,6 +87,53 @@ app.post('/api/SelectionsOverTime', (req, res) => {
 
 })
 
+
+app.post('/api/BucketedBarChart', (req, res) => {
+
+  const keyword = req.body.keyword || '*';
+  const esBody =
+  { "query": {
+    "bool": {
+      "must": [
+        { "wildcard" : { "full_text" : keyword } }
+      ]
+    }
+  },
+    "aggs" : {
+      "followerCount_ranges" : {
+        "range" : {
+          "field" : "sender.followers_count",
+          "ranges" : [
+              { "from" : 0, "to" : 100 },
+              { "from" : 101, "to" : 1000 },
+              { "from" : 1001, "to" : 10000 },
+              { "from" : 10001, "to" : 100000 },
+              { "from" : 100001, "to" : 1000000 },
+              { "from" : 1000001 }
+          ]
+        },
+        "aggs" : {
+          "gender": { "terms": {"field": "sender.gender"},
+            "aggs": {
+              "docCountByGender": {"value_count": {"field": "_index"} }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody
+  }).then((body) => {
+    return body.aggregations.followerCount_ranges;
+  }).then((data) => res.send(data))
+
+})
 
 
 
