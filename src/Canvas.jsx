@@ -10,7 +10,7 @@ const TCECanvas = (props) => {
       <Col m={4}>
         <h3>Saved</h3>
         <Collapsible>
-          {[1,2,3].map(item => <CollapsibleItem header={item}>{item}</CollapsibleItem>)}
+          {props.board.map(item => <CollapsibleItem header={item}>{item}</CollapsibleItem>)}
         </Collapsible>
       </Col>
       <Col m={4}>

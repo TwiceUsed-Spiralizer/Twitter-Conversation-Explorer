@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       data: {},
       queryResults: this.blankResults,
+      board: [1, 2, 3],
     };
     this.query = this.query.bind(this);
   }
@@ -63,7 +64,7 @@ class App extends Component {
         <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} /></Col>
+          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} board={this.state.board} /></Col>
 
         </Row>
       </div>
