@@ -1,15 +1,29 @@
 import React from 'react';
-import './App.css';
-import { Col, Row, Container } from 'react-materialize';
+import './Canvas.css';
+import { Col, Row, Collapsible } from 'react-materialize';
+import QueryResults from './QueryResults';
+import ChartComponent from './chartComponents';
+import CollapsibleChart from './ChartWrappers/CollapsibleChart'
 
 const TCECanvas = (props) => {
   return (
     <Row>
-      <Container>
-        <Col m={6}>
-
-        </Col>
-      </Container>
+      <QueryResults results={props.results} moveToBoard={props.moveToBoard} />
+      <Col m={4}>
+        <h3>Saved</h3>
+        <Collapsible popout accordion>
+          {props.boards.saved.map(ChartComponent(CollapsibleChart(props.moveToBoard, 'saved')))}
+        </Collapsible>
+      </Col>
+      <Col m={4}>
+        <h3>Maybe</h3>
+        <Collapsible popout accordion>
+          {props.boards.maybe.map(ChartComponent(CollapsibleChart(console.log)))}
+        </Collapsible>
+      </Col>
+      <Col m={4}>
+        <h3>Final</h3>
+      </Col>
     </Row>
   );
 };
