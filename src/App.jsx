@@ -64,7 +64,7 @@ class App extends Component {
         <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} board={this.state.board} /></Col>
+          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} board={this.state.queryResults} /></Col>
 
         </Row>
       </div>
