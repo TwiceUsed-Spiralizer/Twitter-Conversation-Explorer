@@ -12,17 +12,33 @@ class App extends Component {
     this.state = {
       data: {},
       queryResults: this.blankResults,
-      board: [],
+      boards: {
+        saved: [],
+        maybe: [],
+        final: [],
+      },
     };
     this.query = this.query.bind(this);
     this.moveToBoard = this.moveToBoard.bind(this);
   }
 
-  moveToBoard(index) {
-    this.setState(prevState => ({
-      queryResults: prevState.queryResults.slice(0, index).concat(prevState.queryResults.slice(index + 1)),
-      board: prevState.board.concat(prevState.queryResults[index]),
-    }));
+  moveToBoard(index, fromBoard, toBoard) {
+    if (fromBoard && toBoard) {
+      this.setState((prevState) => {
+        console.log(fromBoard, toBoard)
+        const boards = prevState.boards;
+        boards[toBoard] = boards[toBoard].concat(boards[fromBoard].splice(index, 1));
+        return { boards };
+      });
+    } else {
+      this.setState(prevState => ({
+        boards: {
+          ...prevState.boards,
+          saved: prevState.boards.saved.concat(prevState.queryResults.splice(index, 1)),
+        },
+        queryResults: prevState.queryResults,
+      }));
+    }
   }
 
   query(keyword, senderGender) {
@@ -34,19 +50,19 @@ class App extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: "pie_chart", data: res.data}, {type: 'chiSquared', icon: "format_list_numbered", data: res.data}]),
+          queryResults: Object.assign(prevState.queryResults, [{type: 'doughnut', icon: 'pie_chart', data: res.data}, {type: 'chiSquared', icon: 'format_list_numbered', data: res.data}]),
         }))
       );
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: "show_chart", data: res.data}]),
+          queryResults: Object.assign(prevState.queryResults, [,, {type: 'line', icon: 'show_chart', data: res.data}]),
         }))
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
         this.setState(prevState => ({
-          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: "insert_chart", data: res.data }]),
+          queryResults: Object.assign(prevState.queryResults, [,,, {type: 'histogram', icon: 'insert_chart', data: res.data }]),
         }))
       );
   }
@@ -72,7 +88,12 @@ class App extends Component {
         <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><TCECanvas data={this.state.data} results={this.state.queryResults} moveToBoard={this.moveToBoard} board={this.state.board} /></Col>
+          <Col l={9}><TCECanvas
+            data={this.state.data}
+            results={this.state.queryResults}
+            moveToBoard={this.moveToBoard}
+            boards={this.state.boards}
+          /></Col>
 
         </Row>
       </div>

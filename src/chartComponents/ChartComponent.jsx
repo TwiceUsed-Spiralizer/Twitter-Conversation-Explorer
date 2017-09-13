@@ -27,14 +27,14 @@ export default (Wrapper) => {
         Chart = ChiSquared;
         break;
       default:
-        Chart = LineGraph;
-        break;
+        return null;
     }
     return (<Wrapper
       icon={chartObject.icon}
       index={index}
+      chartObject={chartObject}
     >
       <Chart data={chartObject.data} />
     </Wrapper>);
-  }
-}
+  };
+};
