@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
+import './App.css';
 
 class QueryBuilder extends Component {
   constructor(props) {
