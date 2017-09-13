@@ -17,7 +17,8 @@ class App extends Component {
     this.query = this.query.bind(this);
   }
   
-  query(keyword) {
+  query(keyword, gender) {
+    console.log(arguments)
     this.setState(prevState => ({
       queryResults: [true, ...prevState.queryResults.slice(1)],
     }));
@@ -43,7 +44,7 @@ class App extends Component {
         </nav>
         <div className="row">
 
-          <Col l={3}><QueryBuilder getData={this.query} /></Col>
+          <Col l={3}><QueryBuilder query={this.query} /></Col>
           <Col l={9}><QueryResults results={this.state.queryResults} /></Col>
           <Col l={9}><TCECanvas data={this.state.data} /></Col>
 
