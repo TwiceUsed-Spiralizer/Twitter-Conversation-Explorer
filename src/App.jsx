@@ -9,16 +9,19 @@ import QueryResults from './QueryResults';
 class App extends Component {
   constructor() {
     super();
+    this.blankResults = [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}];
     this.state = {
       data: {},
-      queryResults: new Array(4).fill(false),
+      queryResults: this.blankResults,
     };
     this.query = this.query.bind(this);
   }
   
   query(keyword, senderGender) {
+    const blankResults = this.blankResults.slice();
+    blankResults.newQuery = true;
     this.setState({
-      queryResults: [{type: 'doughnut', data: false}, {type: 'chiSquared', data: false}, {type: 'line', data: false}, {type: 'histogram', data: false}],
+      queryResults: blankResults,
     })
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>

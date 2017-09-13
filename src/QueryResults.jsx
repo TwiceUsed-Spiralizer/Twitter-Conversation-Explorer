@@ -11,10 +11,10 @@ export default class QueryResults extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.results.length >= this.state.carousel.length) {
+    if (nextProps.results.newQuery) {
       this.setState({
         carousel: null,
-      })
+      });
     }
     setTimeout(() => this.setState({
       carousel: (
