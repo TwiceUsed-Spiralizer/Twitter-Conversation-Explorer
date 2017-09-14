@@ -3,7 +3,7 @@ import { Preloader, Container } from 'react-materialize';
 
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
-import LineGraph from './lineGraph';
+import TCELineGraph from './lineGraph';
 import TCEHistogram from './histogram';
 
 export default (Wrapper) => {
@@ -18,7 +18,7 @@ export default (Wrapper) => {
         Chart = TwitterDoughnut;
         break;
       case 'line':
-        Chart = LineGraph;
+        Chart = TCELineGraph;
         break;
       case 'histogram':
         Chart = TCEHistogram;
