@@ -1,3 +1,20 @@
 #results-carousel {
   height: 550px;
 }
+
+#results-placeholder {
+  height: 550px;
+  text-align: center;
+}
+
+#carousel-prev {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+}
+
+#carousel-next {
+  position: absolute;
+  top: 50%;
+  left: 95%;
+}
