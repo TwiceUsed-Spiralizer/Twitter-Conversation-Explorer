@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const { chai, expect } = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../../routes/index.js');
+// const server = require('../../routes/index.js');
 
 xdescribe('Do Math', () => {
   it('Adds 2 + 2', () => {
