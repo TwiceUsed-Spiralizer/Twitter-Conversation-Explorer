@@ -41,12 +41,12 @@ const ChiSquared = (props) => {
   {
     Header: 'Female',
     id: 'female',
-    accessor: f => f.female,
+    accessor: f => f.female.toLocaleString(),
   },
   {
     Header: 'Male',
     id: 'male',
-    accessor: m => m.male,
+    accessor: m => m.male.toLocaleString(),
   },];
 
   console.log(props.data);

@@ -28,4 +28,4 @@ export default function chiSquaredCalc(observed) {
     return '*';
   }
   return '-';
-};
+}
