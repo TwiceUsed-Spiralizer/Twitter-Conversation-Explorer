@@ -8,7 +8,7 @@ import CollapsibleChart from './ChartWrappers/CollapsibleChart'
 const TCECanvas = (props) => {
   return (
     <Row>
-      <QueryResults results={props.results} moveToBoard={props.moveToBoard} />
+      {/* <QueryResults results={props.results} moveToBoard={props.moveToBoard} /> */}
       <Col m={4}>
         <h3>Saved</h3>
         <Collapsible popout accordion>

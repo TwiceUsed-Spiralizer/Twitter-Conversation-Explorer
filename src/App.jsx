@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
+import QueryResults from './QueryResults';
 import TCECanvas from './Canvas';
 
 class App extends Component {
@@ -96,12 +97,13 @@ class App extends Component {
         <Row>
 
           <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}><TCECanvas
-            data={this.state.data}
-            results={this.state.queryResults}
-            moveToBoard={this.moveToBoard}
-            boards={this.state.boards}
-          /></Col>
+          <Col l={9}>
+            <QueryResults results={this.state.queryResults} moveToBoard={this.moveToBoard} />
+            <TCECanvas
+              moveToBoard={this.moveToBoard}
+              boards={this.state.boards}
+            />
+          </Col>
 
         </Row>
       </div>
