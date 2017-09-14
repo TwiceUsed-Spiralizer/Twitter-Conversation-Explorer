@@ -1,6 +1,17 @@
+import React from 'react';
+import { Container } from 'react-materialize';
+import { Doughnut } from 'react-chartjs-2';
+
 const TwitterDoughnut = (props) => {
-  return null;
-  // <Doughnut data={{ datasets: [{ data: [props.data.womenLength, props.data.menLength], backgroundColor: ['blue', 'hotpink'] }], labels: ['Women', 'Men'] }} />;
+  // console.log(props.data);
+  const totalFemaleSenderTweets = props.data[0];
+  const totalFemaleSenderTweetsWithKeyword = props.data[1];
+  const totalMaleSenderTweetsWithKeyword = props.data[3];
+  const totalMaleSenderTweets = props.data[4];
+
+  const womenPercent = (totalFemaleSenderTweetsWithKeyword.doc_count / totalFemaleSenderTweets.doc_count) * 100;
+  const menPercent = (totalMaleSenderTweetsWithKeyword.doc_count / totalMaleSenderTweets.doc_count) * 100;
+  return <Container><Doughnut data={{ datasets: [{ data: [womenPercent, menPercent], backgroundColor: ['blue', 'hotpink'] }], labels: ['Women', 'Men'] }} /></Container>;
 };
 
 export default TwitterDoughnut;

@@ -4,7 +4,7 @@ import { Preloader, Container } from 'react-materialize';
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
 import LineGraph from './lineGraph';
-import Histogram from './histogram';
+import TCEHistogram from './histogram';
 
 export default (Wrapper) => {
 
@@ -21,7 +21,7 @@ export default (Wrapper) => {
         Chart = LineGraph;
         break;
       case 'histogram':
-        Chart = Histogram;
+        Chart = TCEHistogram;
         break;
       case 'chiSquared':
         Chart = ChiSquared;
