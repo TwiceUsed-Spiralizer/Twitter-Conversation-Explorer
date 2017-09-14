@@ -50,8 +50,8 @@ class App extends Component {
       .then(res =>
         this.setState(prevState => ({
           queryResults: prevState.queryResults.concat([
-            { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender` },
-            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender` },
+            { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
+            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
           ]).filter(item => item.type),
         })),
       );
@@ -63,6 +63,7 @@ class App extends Component {
             icon: 'show_chart',
             data: res.data,
             title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
+            keyword,
           }).filter(item => item.type),
         })),
       );
@@ -74,6 +75,7 @@ class App extends Component {
             icon: 'insert_chart',
             data: res.data,
             title: `Breakdown of use of ${keyword} by gender and follower count`,
+            keyword,
           }).filter(item => item.type),
         })),
       );
