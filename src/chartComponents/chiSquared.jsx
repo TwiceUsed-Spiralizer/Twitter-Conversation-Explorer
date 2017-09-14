@@ -4,9 +4,13 @@ import ReactTable from 'react-table';
 
 const ChiSquared = (props) => {
   const data = [{
-    name: 'Tanner Linsley',
-    age: 26,
+    male: props.data[3].doc_count,
+    female: props.data[1].doc_count,
     chi_squared: 'keyword',
+  },
+  {
+    male: props.data[4].doc_count - props.data[3].doc_count,
+    female: props.data[0].doc_count - props.data[1].doc_count,
     chi_squared: 'not keyword',
   }];
 
@@ -16,17 +20,19 @@ const ChiSquared = (props) => {
     accessor: a => a.chi_squared,
   },
   {
-    Header: 'Male',
-    accessor: 'male',
-  }, {
     Header: 'Female',
-    accessor: 'female',
-  }];
+    id: 'female',
+    accessor: f => f.female,
+  },
+  {
+    Header: 'Male',
+    id: 'male',
+    accessor: m => m.male,
+  },];
 
   console.log(props.data);
   return (<ReactTable
     data={data}
-    noDataText="Oh Noes!"
     showPagination={false}
     resizable={false}
     defaultPageSize={2}
