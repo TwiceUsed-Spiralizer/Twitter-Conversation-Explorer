@@ -6,12 +6,12 @@ export default (clickHandler, fromBoard) => {
   return props => (
     <CollapsibleItem icon={props.icon}>
       <Row>
-        {props.children}
+        <div style={{height:'350px'}}>{props.children}</div>
       </Row>
       <Row>
         <Col m={4}>
           <Modal trigger={<Button>Modal</Button>} header="Sexy Chart">
-            {BareChartComponent(props.chartObject)}
+            <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
           </Modal>
         </Col>
         <Col m={6} className="offset-m2">

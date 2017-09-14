@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-materialize';
 import { Bar } from 'react-chartjs-2';
 
 const TCEHistogram = (props) => {
@@ -29,9 +28,7 @@ const TCEHistogram = (props) => {
       },
     ],
   };
-  return (<Container >
-    <h4>Tweet Count by Follower for Each Gender </h4>
-    <Bar data={dataForGraph} /></Container>);
+  return (<Bar data={dataForGraph} options={{ maintainAspectRatio: false }} />);
 };
 
 export default TCEHistogram;
