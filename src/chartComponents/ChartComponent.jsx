@@ -1,5 +1,5 @@
 import React from 'react';
-import { Preloader, Container, Icon, Card } from 'react-materialize';
+import { Preloader, Container } from 'react-materialize';
 
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
