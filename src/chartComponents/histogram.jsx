@@ -1,12 +1,12 @@
 import React from 'react';
+import { Container } from 'react-materialize';
 import { Bar } from 'react-chartjs-2';
 
 const TCEHistogram = (props) => {
-  // for(var i = 0; i < props.data.length; i++){
-  //   props.data.buckets[i].gender.buckets;
-  // }
+  const arrayOfDataForFemales = props.data.buckets.map(el => (el.gender.buckets[2] ? el.gender.buckets[2].doc_count : 0));
+  const arrayOfDataForMales = props.data.buckets.map(el => (el.gender.buckets[1] ? el.gender.buckets[1].doc_count : 0));
 
-  const data = {
+  const dataForGraph = {
     labels: ['0-100', '101-1000', '1001-10,000', '10,001-100,000', '100,001-1,000,000', '1,000,000+'],
     datasets: [
       {
@@ -16,7 +16,7 @@ const TCEHistogram = (props) => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(104, 142, 234,0.4)',
         hoverBorderColor: 'rgba(104, 142, 234,1)',
-        data: [props.data.buckets[0].gender.buckets[2].doc_count, 100, 100, 100, 100, 100, 100],
+        data: arrayOfDataForFemales,
       },
       {
         label: 'Men',
@@ -25,13 +25,13 @@ const TCEHistogram = (props) => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(255,99,132,0.4)',
         hoverBorderColor: 'rgba(255,99,132,1)',
-        data: [65, 59, 80, 81, 56, 55, 40],
-      }
+        data: arrayOfDataForMales,
+      },
     ],
   };
-  console.log(props.data);
-  return <Bar data={data} width="40" height="60" />;
-  //return <div>JSON.stringify(props.data)</div>
+  return (<Container >
+    <h4>Tweet Count by Follower for Each Gender </h4>
+    <Bar data={dataForGraph} /></Container>);
 };
 
 export default TCEHistogram;
