@@ -32,6 +32,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "chart.js": "^2.6.0",
+    "chi-squared-test": "^1.1.0",
     "dotenv": "^4.0.0",
     "elasticsearch": "^13.3.1",
     "lodash": "^4.17.4",
