@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import { Button, Container } from 'react-materialize';
+import { Button } from 'react-materialize';
 import './QueryResults.css';
 import ChartComponent from './chartComponents';
 import CarouselChart from './ChartWrappers/CarouselChart';
