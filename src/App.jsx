@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import QueryBuilder from './querybuilder';
 import TCECanvas from './Canvas';
-import QueryResults from './QueryResults';
 
 class App extends Component {
   constructor() {
