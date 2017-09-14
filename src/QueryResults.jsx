@@ -5,6 +5,7 @@ import ChartComponent from './chartComponents';
 import CarouselChart from './ChartWrappers/CarouselChart';
 
 export default (props) => {
+  console.log(props);
   const chartWrapper = CarouselChart(props.moveToBoard);
   return (
     <div id="results-carousel">
