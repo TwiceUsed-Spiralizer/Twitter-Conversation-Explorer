@@ -4,12 +4,17 @@ import ReactTable from 'react-table';
 import chiSquaredCalc from '../utils/chiSquared';
 
 const ChiSquared = (props) => {
+  console.log(props.data);
   const dataFromProps = props.data;
+  const maleKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
+  const femaleKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
+  const maleTotal = dataFromProps[4] ? dataFromProps[4].doc_count : dataFromProps[1].doc_count;
+  const femaleTotal = dataFromProps[0].doc_count;
   const chiSquaredData = {
-    maleKeyword: dataFromProps[3].doc_count,
-    maleNotKeyword: dataFromProps[4].doc_count - dataFromProps[3].doc_count,
-    femaleKeyword: dataFromProps[1].doc_count,
-    femaleNotKeyword: dataFromProps[0].doc_count - dataFromProps[1].doc_count,
+    maleKeyword,
+    maleNotKeyword: maleTotal - maleKeyword,
+    femaleKeyword,
+    femaleNotKeyword: femaleTotal - femaleKeyword,
   };
   const p = chiSquaredCalc({
     a1: chiSquaredData.maleKeyword,
@@ -47,9 +52,8 @@ const ChiSquared = (props) => {
     Header: 'Male',
     id: 'male',
     accessor: m => m.male.toLocaleString(),
-  },];
+  }];
 
-  console.log(props.data);
   return (<ReactTable
     data={data}
     showPagination={false}
