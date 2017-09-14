@@ -3,8 +3,8 @@ import { Preloader, Container } from 'react-materialize';
 
 import TwitterDoughnut from './twitterDoughnut';
 import ChiSquared from './chiSquared';
-import LineGraph from './lineGraph';
-import Histogram from './histogram';
+import TCELineGraph from './lineGraph';
+import TCEHistogram from './histogram';
 
 export default  (chartObject) => {
   if (!chartObject.data) {
@@ -16,10 +16,10 @@ export default  (chartObject) => {
       Chart = TwitterDoughnut;
       break;
     case 'line':
-      Chart = LineGraph;
+      Chart = TCELineGraph;
       break;
     case 'histogram':
-      Chart = Histogram;
+      Chart = TCEHistogram;
       break;
     case 'chiSquared':
       Chart = ChiSquared;

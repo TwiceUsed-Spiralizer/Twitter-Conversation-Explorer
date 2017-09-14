@@ -31,10 +31,11 @@ export default (Wrapper) => {
     }
     return (<Wrapper
       icon={chartObject.icon}
+      title={chartObject.title}
       index={index}
       chartObject={chartObject}
     >
-      <Chart data={chartObject.data} />
+      <Chart data={chartObject.data} keyword={chartObject.keyword} />
     </Wrapper>);
   };
 };

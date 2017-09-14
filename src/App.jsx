@@ -8,7 +8,7 @@ import TCECanvas from './Canvas';
 class App extends Component {
   constructor() {
     super();
-    this.blankResults = [{data: false}];
+    this.blankResults = [{ data: false }];
     this.state = {
       data: {},
       queryResults: [],
@@ -25,7 +25,7 @@ class App extends Component {
   moveToBoard(index, fromBoard, toBoard) {
     if (fromBoard && toBoard) {
       this.setState((prevState) => {
-        console.log(fromBoard, toBoard)
+        console.log(fromBoard, toBoard);
         const boards = prevState.boards;
         boards[toBoard] = boards[toBoard].concat(boards[fromBoard].splice(index, 1));
         return { boards };
@@ -44,15 +44,15 @@ class App extends Component {
   query(keyword, senderGender) {
     this.setState({
       queryResults: this.blankResults,
-    })
+    });
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.setState(prevState => ({
           queryResults: prevState.queryResults.concat([
-            { type: 'doughnut', icon: 'pie_chart', data: res.data },
-            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data }
+            { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender` },
+            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender` },
           ]).filter(item => item.type),
-        }))
+        })),
       );
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
@@ -60,9 +60,10 @@ class App extends Component {
           queryResults: prevState.queryResults.concat({
             type: 'line',
             icon: 'show_chart',
-            data: res.data
+            data: res.data,
+            title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
           }).filter(item => item.type),
-        }))
+        })),
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
@@ -70,9 +71,10 @@ class App extends Component {
           queryResults: prevState.queryResults.concat({
             type: 'histogram',
             icon: 'insert_chart',
-            data: res.data
+            data: res.data,
+            title: `Breakdown of use of ${keyword} by gender and follower count`,
           }).filter(item => item.type),
-        }))
+        })),
       );
   }
 
