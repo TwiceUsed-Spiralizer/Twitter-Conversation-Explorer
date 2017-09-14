@@ -18,19 +18,18 @@ const NextButton = (props) => {
 };
 
 export default (props) => {
-  console.log(props);
-  if (!props.results.length) return <div id="results-placeholder" className="teal lighten-4"><h1>Welcome to TweetInsight</h1></div>;
+  if (!props.results.length) {
+    return (<div id="results-placeholder">
+      <h1>Welcome to TweetInsight</h1>
+  </div>);
+  }
   const chartWrapper = CarouselChart(props.moveToBoard);
   return (
     <div id="results-carousel">
       <Slider adaptiveHeight={false} dots={true} prevArrow={<PrevButton />} nextArrow={<NextButton />} >
-
- 
-          {
-            props.results.map(ChartComponent(chartWrapper))
-          }
-    
- 
+        {
+          props.results.map(ChartComponent(chartWrapper))
+        }
       </Slider>
     </div>
   );

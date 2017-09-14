@@ -4,6 +4,7 @@ import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-
 import QueryBuilder from './querybuilder';
 import QueryResults from './QueryResults';
 import TCECanvas from './Canvas';
+import './App.css';
 
 class App extends Component {
   constructor() {
@@ -96,17 +97,16 @@ class App extends Component {
             </Dropdown>
           </Navbar>
         </nav>
-        <Row>
 
-          <Col l={3}><QueryBuilder query={this.query} /></Col>
-          <Col l={9}>
+        <Row>
+          <Col s={3} ><QueryBuilder query={this.query} /></Col>
+          <Col s={9}>
             <QueryResults results={this.state.queryResults} moveToBoard={this.moveToBoard} />
             <TCECanvas
               moveToBoard={this.moveToBoard}
               boards={this.state.boards}
             />
           </Col>
-
         </Row>
       </div>
     );
