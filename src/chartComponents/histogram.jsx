@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-materialize';
 import { Bar } from 'react-chartjs-2';
 
 const TCEHistogram = (props) => {

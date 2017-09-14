@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Icon, Container } from 'react-materialize';
+import { Button, Card, Icon } from 'react-materialize';
 
 export default clickHandler =>
   props => (

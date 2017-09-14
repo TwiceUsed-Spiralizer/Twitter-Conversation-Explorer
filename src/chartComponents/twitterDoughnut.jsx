@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-materialize';
 import { Doughnut } from 'react-chartjs-2';
 
 const TwitterDoughnut = (props) => {
