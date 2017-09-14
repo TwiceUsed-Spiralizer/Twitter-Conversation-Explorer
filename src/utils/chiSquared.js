@@ -10,10 +10,8 @@ export default function chiSquaredCalc(observed) {
     two: observed.a2 + observed.b2,
   }
   const total = Object.keys(observed).reduce((acc, key) => acc +observed[key], 0);
-  const percentA = totalChar.a / (totalChar.a + totalChar.b);
-  const percentB = totalChar.b / (totalChar.a + totalChar.b);
-  const percent1 = totalNum.one / (totalNum.one + totalNum.two);
-  const percent2 = totalNum.two / (totalNum.one + totalNum.two);
+  const percent1 = totalNum.one / total;
+  const percent2 = totalNum.two / total;
   const expected = [
     Math.round(totalChar.a * percent1),
     Math.round(totalChar.a * percent2),

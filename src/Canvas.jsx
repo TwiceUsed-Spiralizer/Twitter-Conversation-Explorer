@@ -1,7 +1,6 @@
 import React from 'react';
-import './Canvas.css';
 import { Col, Row, Collapsible } from 'react-materialize';
-import QueryResults from './QueryResults';
+import './Canvas.css';
 import ChartComponent from './chartComponents';
 import CollapsibleChart from './ChartWrappers/CollapsibleChart'
 
