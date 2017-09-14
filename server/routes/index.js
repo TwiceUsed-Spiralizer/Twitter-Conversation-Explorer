@@ -4,7 +4,7 @@ const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'trace',
+  log: 'info',
 });
 const index = 'twitter';
 const type = 'tweet';
@@ -126,3 +126,5 @@ app.post('/api/BucketedBarChart', (req, res) => {
   }).then(body => body.aggregations.followerCount_ranges)
     .then(data => res.send(data));
 });
+
+module.exports = app;
