@@ -11,7 +11,7 @@ const type = 'tweet';
 
 
 app.post('/api/KeywordAcrossGender', (req, res) => {
-  const keyword = req.body.keyword || '*';
+  const keyword = req.body.keyword.replace(' ', '*') || '*';
   const esBody =
   {
     aggs: {
@@ -39,7 +39,7 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
 
 
 app.post('/api/SelectionsOverTime', (req, res) => {
-  const keyword = req.body.keyword || '*';
+  const keyword = req.body.keyword.replace(' ', '*') || '*';
   const senderGender = req.body.senderGender || false;
   const recipientsGender = req.body.recipientsGender || false;
   const esBody =
@@ -84,7 +84,7 @@ app.post('/api/SelectionsOverTime', (req, res) => {
 
 
 app.post('/api/BucketedBarChart', (req, res) => {
-  const keyword = req.body.keyword || '*';
+  const keyword = req.body.keyword.replace(' ', '*') || '*';
   const esBody =
   { query: {
     bool: {
