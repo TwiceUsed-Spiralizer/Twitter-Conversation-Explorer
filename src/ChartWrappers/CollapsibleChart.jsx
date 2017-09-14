@@ -4,7 +4,7 @@ import BareChartComponent from '../chartComponents/BareChartComponent';
 
 export default (clickHandler, fromBoard) => {
   return props => (
-    <CollapsibleItem icon={props.icon}>
+    <CollapsibleItem icon={props.icon} header={props.chartObject.keyword}>
       <Row>
         <div style={{height:'350px'}}>{props.children}</div>
       </Row>
