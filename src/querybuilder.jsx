@@ -19,8 +19,6 @@ class QueryBuilder extends Component {
           <option value={0}>Male</option>
           <option value={1}>Female</option>
         </Input>
-        {/* <Input s={6} label="Location" /> */}
-        {/* <Input label="Follower Count" s={12} /> */}
         <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
         <Row>
           <p> WHEN </p>

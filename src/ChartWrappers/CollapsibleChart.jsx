@@ -10,7 +10,7 @@ export default (clickHandler, fromBoard) => {
       </Row>
       <Row>
         <Col m={4}>
-          <Modal trigger={<Button>Modal</Button>} header="Sexy Chart">
+          <Modal trigger={<Button>Modal</Button>} header={props.chartObject.title}>
             <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
           </Modal>
         </Col>
