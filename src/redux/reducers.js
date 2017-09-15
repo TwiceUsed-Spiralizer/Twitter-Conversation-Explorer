@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 const results = (state, action) => {
-  console.log(state);
   if (state === undefined) {
     return [];
   }
