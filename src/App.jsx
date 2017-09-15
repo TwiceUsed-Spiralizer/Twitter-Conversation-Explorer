@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
+import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import { Route, Switch } from 'react-router-dom';
 import { Query, Favourites, Board } from './containers';
 import './App.css';
