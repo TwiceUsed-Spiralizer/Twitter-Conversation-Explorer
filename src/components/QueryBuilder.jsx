@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
-import './App.css';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class QueryBuilder extends Component {
           <p> WHEN </p>
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
-        <Button onClick={() => this.props.query(this.state.keyword, this.state.gender)} >Submit</Button>
+        <Button onClick={() => console.log(this.state.keyword, this.state.gender)} >Submit</Button>
       </Row>
     );
   }
