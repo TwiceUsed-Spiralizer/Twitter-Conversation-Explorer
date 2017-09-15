@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-// const server = require('../../routes/index.js');
 const app = require('../../../server.js');
 
 const { expect } = chai;
