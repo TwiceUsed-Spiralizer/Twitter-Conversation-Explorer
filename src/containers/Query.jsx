@@ -1,15 +1,14 @@
 import React from 'react';
-import { Col } from 'react-materialize';
+import { Col, Row } from 'react-materialize';
 import { QueryBuilder, QueryResults } from '../components';
 
 export default props => (
-  <div>
+  <Row>
     <Col m={3}>
-      bum
-      {/* <QueryBuilder /> */}
+      <QueryBuilder />
     </Col>
     <Col m={9}>
       <QueryResults />
     </Col>
-  </div>
+  </Row>
 );
