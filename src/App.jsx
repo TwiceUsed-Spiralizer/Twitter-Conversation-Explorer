@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
+import { Route, Switch } from 'react-router-dom';
 import QueryBuilder from './querybuilder';
 import QueryResults from './QueryResults';
 import TCECanvas from './Canvas';
@@ -99,17 +100,11 @@ class App extends Component {
             </Dropdown>
           </Navbar>
         </nav>
-
-        <Row>
-          <Col s={3} ><QueryBuilder query={this.query} /></Col>
-          <Col s={9}>
-            <QueryResults results={this.state.queryResults} moveToBoard={this.moveToBoard} />
-            <TCECanvas
-              moveToBoard={this.moveToBoard}
-              boards={this.state.boards}
-            />
-          </Col>
-        </Row>
+        <Switch>
+          <Route exact path="/" component={Query} />
+          <Route exact path="/favourites" component={Favourites} />
+          <Route exact path="/board/:boardName" component={Board} />
+        </Switch>
       </div>
     );
   }
