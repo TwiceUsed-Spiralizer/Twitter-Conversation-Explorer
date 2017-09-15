@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
+import { connect } from 'react-redux';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -23,10 +24,14 @@ class QueryBuilder extends Component {
           <p> WHEN </p>
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
-        <Button onClick={() => console.log(this.state.keyword, this.state.gender)} >Submit</Button>
+        <Button onClick={this.props.resetResults} >Submit</Button>
       </Row>
     );
   }
 }
 
-export default QueryBuilder;
+const mapDispatchToProps = dispatch => ({
+  resetResults: () => dispatch({ type: 'RESULTS_RESET' }),
+});
+
+export default connect(null, mapDispatchToProps)(QueryBuilder);

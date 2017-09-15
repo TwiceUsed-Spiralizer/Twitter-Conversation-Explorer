@@ -1,9 +1,10 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { Button } from 'react-materialize';
+import { connect } from 'react-redux';
 import './QueryResults.css';
-// import ChartComponent from '../chartComponents';
-// import CarouselChart from '../chartWrappers/CarouselChart';
+import ChartComponent from '../chartComponents';
+import CarouselChart from '../chartWrappers/CarouselChart';
 
 const PrevButton = (props) => {
   return (
@@ -17,14 +18,20 @@ const NextButton = (props) => {
   );
 };
 
-export default (props) => {
+const QueryResults = (props) => {
   return (
     <div id="results-carousel">
       <Slider adaptiveHeight={false} dots={true} prevArrow={<PrevButton />} nextArrow={<NextButton />} >
         {
-          ['text', 'for', 'now'].map(item => <div>{item}</div>)
+          props.results.map(ChartComponent(CarouselChart()))
         }
       </Slider>
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  results: state.results,
+});
+
+export default connect(mapStateToProps)(QueryResults);
