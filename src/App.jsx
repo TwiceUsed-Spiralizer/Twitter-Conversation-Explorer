@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Navbar, NavItem, Col, Row, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import { Route, Switch } from 'react-router-dom';
-import QueryBuilder from './querybuilder';
-import QueryResults from './QueryResults';
-import TCECanvas from './Canvas';
+import { Query, Favourites, Board } from './containers';
 import './App.css';
 
 class App extends Component {
