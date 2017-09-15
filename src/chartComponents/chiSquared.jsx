@@ -25,12 +25,12 @@ if (props.data.length === 2) { return (<div>Sorry, there are no tweets with the 
   const data = [{
     male: chiSquaredData.maleKeyword,
     female: chiSquaredData.femaleKeyword,
-    chi_squared: 'keyword',
+    chi_squared: `Uses '${props.keyword}'`,
   },
   {
     male: chiSquaredData.maleNotKeyword,
     female: chiSquaredData.femaleNotKeyword,
-    chi_squared: 'not keyword',
+    chi_squared: `Does not use '${props.keyword}'`,
   },
   {
     chi_squared: `p: ${p}`,

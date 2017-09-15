@@ -4,13 +4,13 @@ import BareChartComponent from '../chartComponents/BareChartComponent';
 
 export default (clickHandler, fromBoard) => {
   return props => (
-    <CollapsibleItem icon={props.icon}>
+    <CollapsibleItem icon={props.icon} header={props.chartObject.keyword}>
       <Row>
         <div style={{height:'350px'}}>{props.children}</div>
       </Row>
       <Row>
         <Col m={4}>
-          <Modal trigger={<Button>Modal</Button>} header={props.chartObject.title}>
+          <Modal trigger={<Button>Zoom</Button>} header={props.chartObject.title}>
             <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
           </Modal>
         </Col>
