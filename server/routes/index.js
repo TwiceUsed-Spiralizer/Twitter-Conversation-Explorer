@@ -126,5 +126,3 @@ app.post('/api/BucketedBarChart', (req, res) => {
   }).then(body => body.aggregations.followerCount_ranges)
     .then(data => res.send(data));
 });
-
-module.exports = app;
