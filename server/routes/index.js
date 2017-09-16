@@ -43,8 +43,8 @@ app.post('/api/SelectionsOverTime', (req, res) => {
   const senderGender = req.body.senderGender || false;
   const recipientsGender = req.body.recipientsGender || false;
   const sentiment = req.body.sentiment || false;
-  // const senderFollowerMin = req.body.senderFollowerMin
-  // const senderFollowerMax = req.body.senderFollowerMax
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
 
   const esBody =
   { query: {
@@ -64,13 +64,11 @@ app.post('/api/SelectionsOverTime', (req, res) => {
   },
   };
 
-  // if senderGender exists we add senderGender to the musts
   if (senderGender) {
     const toAdd = { match: { 'sender.gender': senderGender } };
     esBody.query.bool.must.push(toAdd);
   }
 
-  // if recipientsGender exists we add recipientsGender to the musts
   if (recipientsGender) {
     const toAdd = { match: { 'recipients.gender': recipientsGender } };
     esBody.query.bool.must.push(toAdd);
@@ -82,6 +80,14 @@ app.post('/api/SelectionsOverTime', (req, res) => {
     } else {
       esBody.query.bool.must.push({ range: { 'sentiment.score': { lt: 0 } } });
     }
+  }
+
+  if (senderFollowerMin) {
+    esBody.query.bool.must.push({ range: { 'sender.following_count': { gte: senderFollowerMin } } });
+  }
+
+  if (senderFollowerMax) {
+    esBody.query.bool.must.push({ range: { 'sender.following_count': { lte: senderFollowerMax } } });
   }
 
   client.search({
