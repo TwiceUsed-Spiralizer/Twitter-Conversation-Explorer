@@ -1,18 +1,18 @@
 import React from 'react';
-import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
+import { Navbar, NavItem, Dropdown, Button, Icon } from 'react-materialize';
 import { Route, Switch, Link } from 'react-router-dom';
-import { Query, Favourites, Board } from './containers';
+import { Query, Favourites, Board } from './index';
 import './App.css';
 
 const App = () => {
   return (
     <div className="App">
       <nav>
-        <Navbar brand={<Link to="/">Twitter Conversation Explorer</Link>} right>
-          <Button waves="light">Log In<Icon right>face</Icon></Button>
-          <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
+        <Navbar brand={<Link to="/">Tweet Insight</Link>} right>
+          <Button waves="light">Log In</Button>
+          <Button waves="light" >Sign Up</Button>
           <Dropdown trigger={
-            <Button waves="light"><Icon right>menu</Icon><Badge newIcon>4</Badge></Button>
+            <Button waves="light"><Icon center>menu</Icon></Button>
           }
           >
             <NavItem>Profile</NavItem>
