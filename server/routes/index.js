@@ -9,67 +9,14 @@ const client = new elasticsearch.Client({
 const index = 'twitter';
 const type = 'tweet';
 
-
-app.post('/api/KeywordAcrossGender', (req, res) => {
-  const keyword = req.body.keyword.replace(' ', '*') || '*';
-  const esBody =
-  {
-    aggs: {
-      interactions: {
-        adjacency_matrix: {
-          filters: {
-            femaleSender: { terms: { 'sender.gender': [1] } },
-            maleSender: { terms: { 'sender.gender': [0] } },
-            keyword: { wildcard: { full_text: keyword } },
-          },
-        },
-      },
-    },
-  };
-
-  client.search({
-    index,
-    type,
-    size: 0,
-    from: 0,
-    body: esBody,
-  }).then(body => body.aggregations.interactions.buckets)
-    .then(data => res.send(data));
-});
-
-
-app.post('/api/SelectionsOverTime', (req, res) => {
-  const keyword = req.body.keyword.replace(' ', '*') || '*';
-  const senderGender = req.body.senderGender || false;
-  const recipientsGender = req.body.recipientsGender || false;
-  const sentiment = req.body.sentiment || false;
-  const senderFollowerMin = req.body.senderFollowerMin || false;
-  const senderFollowerMax = req.body.senderFollowerMax || false;
-
-  const esBody =
-  { query: {
-    bool: {
-      must: [
-        { wildcard: { full_text: keyword } },
-      ],
-    },
-  },
-  aggs: {
-    histogram: {
-      date_histogram: {
-        field: 'created_at',
-        interval: 'day',
-      },
-    },
-  },
-  };
-
-  if (senderGender) {
+const applyFilters = (esBody, senderGender, recipientsGender,
+  sentiment, senderFollowerMin, senderFollowerMax) => {
+  if (senderGender !== false) {
     const toAdd = { match: { 'sender.gender': senderGender } };
     esBody.query.bool.must.push(toAdd);
   }
 
-  if (recipientsGender) {
+  if (recipientsGender !== false) {
     const toAdd = { match: { 'recipients.gender': recipientsGender } };
     esBody.query.bool.must.push(toAdd);
   }
@@ -89,6 +36,115 @@ app.post('/api/SelectionsOverTime', (req, res) => {
   if (senderFollowerMax) {
     esBody.query.bool.must.push({ range: { 'sender.following_count': { lte: senderFollowerMax } } });
   }
+
+  return esBody;
+};
+
+app.post('/api/KeywordAcrossGender', (req, res) => {
+  const keyword = req.body.keyword.replace(' ', '*') || '*';
+  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody =
+  { query: {
+    bool: {
+      must: [
+      ],
+    },
+  },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          femaleSender: { terms: { 'sender.gender': [1] } },
+          maleSender: { terms: { 'sender.gender': [0] } },
+          keyword: { wildcard: { full_text: keyword } },
+        },
+      },
+    },
+  },
+  };
+
+  esBody = applyFilters(esBody, false, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => body.aggregations.interactions.buckets)
+    .then(data => res.send(data));
+});
+
+app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
+  const keyword = req.body.keyword || '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  let esBody =
+  { query: {
+    bool: {
+      must: [
+      ],
+    },
+  },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          over500followers: { range: { 'sender.following_count': { gte: 500 } } },
+          under500followers: { range: { 'sender.following_count': { lt: 500 } } },
+          keyword: { wildcard: { full_text: keyword } },
+        },
+      },
+    },
+  },
+  };
+
+  esBody = applyFilters(esBody, senderGender, recipientsGender,
+    sentiment);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => body.aggregations.interactions.buckets)
+    .then(data => res.send(data));
+});
+
+
+app.post('/api/SelectionsOverTime', (req, res) => {
+  const keyword = req.body.keyword.replace(' ', '*') || '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody =
+  { query: {
+    bool: {
+      must: [
+        { wildcard: { full_text: keyword } },
+      ],
+    },
+  },
+  aggs: {
+    histogram: {
+      date_histogram: {
+        field: 'created_at',
+        interval: 'day',
+      },
+    },
+  },
+  };
+
+  esBody = applyFilters(esBody, senderGender, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
 
   client.search({
     index,
