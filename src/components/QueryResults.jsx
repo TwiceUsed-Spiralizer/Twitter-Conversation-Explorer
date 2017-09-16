@@ -4,7 +4,7 @@ import { Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import './QueryResults.css';
 import ChartComponent from '../chartComponents';
-import CarouselChart from '../chartWrappersOLD/CarouselChart';
+import CarouselChart from '../chartWrappers/CarouselChart';
 
 let counter = 0;
 
