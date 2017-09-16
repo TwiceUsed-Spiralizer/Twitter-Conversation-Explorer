@@ -4,7 +4,7 @@ const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'info',
+  log: 'trace',
 });
 const index = 'twitter';
 const type = 'tweet';
@@ -42,6 +42,10 @@ app.post('/api/SelectionsOverTime', (req, res) => {
   const keyword = req.body.keyword.replace(' ', '*') || '*';
   const senderGender = req.body.senderGender || false;
   const recipientsGender = req.body.recipientsGender || false;
+  const sentiment = req.body.sentiment || false;
+  // const senderFollowerMin = req.body.senderFollowerMin
+  // const senderFollowerMax = req.body.senderFollowerMax
+
   const esBody =
   { query: {
     bool: {
@@ -70,6 +74,14 @@ app.post('/api/SelectionsOverTime', (req, res) => {
   if (recipientsGender) {
     const toAdd = { match: { 'recipients.gender': recipientsGender } };
     esBody.query.bool.must.push(toAdd);
+  }
+
+  if (sentiment) {
+    if (sentiment >= 0) {
+      esBody.query.bool.must.push({ range: { 'sentiment.score': { gt: 0 } } });
+    } else {
+      esBody.query.bool.must.push({ range: { 'sentiment.score': { lt: 0 } } });
+    }
   }
 
   client.search({
