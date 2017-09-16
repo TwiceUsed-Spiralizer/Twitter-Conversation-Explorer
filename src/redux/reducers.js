@@ -61,7 +61,7 @@ const boards = (state, action) => {
   switch (action.type) {
     case 'BOARD_CREATE':
       newState[action.boardName] = {
-        columnNames: ['Column 1', 'Column 2', 'Column 3'],
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
         charts: [],
       }
       break;
@@ -79,10 +79,10 @@ const boards = (state, action) => {
       newState[action.boardName] = { ...newBoardState, columnNames: newColumns };
       break;
     case 'BOARD_CHART_ADD':
-      newState[action.boardName] = newBoardState.charts.concat({ id: action.id, colIndex: 0 });
+      newState[action.boardName].charts = newBoardState.charts.concat({ id: action.id, colIndex: 0 });
       break;
     case 'BOARD_CHART_DELETE':
-      newState[action.boardName] = newBoardState.charts.filter(item => item.id !== action.id);
+      newState[action.boardName].charts = newBoardState.charts.filter(item => item.id !== action.id);
       break;
     default:
       return state;

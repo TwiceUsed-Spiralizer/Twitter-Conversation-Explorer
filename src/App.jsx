@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import { Query, Favourites, Board } from './containers';
 import './App.css';
 
@@ -84,7 +84,7 @@ class App extends Component {
     return (
       <div className="App">
         <nav>
-          <Navbar brand="Twitter Conversation Explorer" right>
+          <Navbar brand={<Link to="/">Twitter Conversation Explorer</Link>} right>
             <Button waves="light">Log In<Icon right>face</Icon></Button>
             <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
             <Dropdown trigger={

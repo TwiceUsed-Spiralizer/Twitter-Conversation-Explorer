@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class QueryBuilder extends Component {
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
         <Button onClick={this.query} >Submit</Button>
+        <Link to="/favourites">Click this shit</Link>
       </Row>
     );
   }

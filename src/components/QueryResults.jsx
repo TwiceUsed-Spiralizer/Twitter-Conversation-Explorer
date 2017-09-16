@@ -6,6 +6,8 @@ import './QueryResults.css';
 import ChartComponent from '../chartComponents';
 import CarouselChart from '../chartWrappers/CarouselChart';
 
+let counter = 0;
+
 const PrevButton = (props) => {
   return (
     <Button floating large icon="arrow_back" id="carousel-prev" className="red" style={props.style} onClick={props.onClick} />
@@ -23,7 +25,7 @@ const QueryResults = (props) => {
     <div id="results-carousel">
       <Slider adaptiveHeight={false} dots={true} prevArrow={<PrevButton />} nextArrow={<NextButton />} >
         {
-          props.results.map(ChartComponent(CarouselChart()))
+          props.results.map(ChartComponent(CarouselChart(props.favouriteItem)))
         }
       </Slider>
     </div>
@@ -34,4 +36,18 @@ const mapStateToProps = state => ({
   results: state.results,
 });
 
-export default connect(mapStateToProps)(QueryResults);
+const mapDispatchToProps = dispatch => ({
+  favouriteItem: (chartToSave) => {
+    const chartObject = { ...chartToSave, id: counter++ };
+    dispatch({
+      type: 'CHARTS_ADD',
+      chartObject,
+    });
+    dispatch({
+      type: 'FAVOURITES_ADD',
+      id: chartObject.id,
+    })
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(QueryResults);
