@@ -8,10 +8,8 @@ import App from './containers/App';
 import reducer from './reducers';
 import './index.css';
 
-const store = createStore(reducer);
-
 render(
-  <Provider store={store} >
+  <Provider store={createStore(reducer)} >
     <BrowserRouter>
       <App />
     </BrowserRouter>
