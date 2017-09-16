@@ -12,12 +12,13 @@ class QueryBuilder extends Component {
       gender: 1,
     };
     this.query = this.query.bind(this);
+    this.props.clearResults();
   }
 
   query() {
     const keyword = this.state.keyword;
     const senderGender = this.state.gender;
-    this.props.resetResults();
+    this.props.loadingResults();
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.props.addToResults([
@@ -69,7 +70,8 @@ class QueryBuilder extends Component {
 
 const mapDispatchToProps = dispatch => ({
   addToResults: results => dispatch({ type: 'RESULTS_RECEIVED', results }),
-  resetResults: () => dispatch({ type: 'RESULTS_RESET' }),
+  loadingResults: () => dispatch({ type: 'RESULTS_RESET' }),
+  clearResults: () => dispatch({ type: 'RESULTS_CLEAR' }),
 });
 
 export default connect(null, mapDispatchToProps)(QueryBuilder);
