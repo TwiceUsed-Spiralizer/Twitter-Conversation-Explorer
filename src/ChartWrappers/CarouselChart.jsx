@@ -6,6 +6,6 @@ export default clickHandler =>
     <div {...props} title={<Icon left>{props.icon}</Icon>}>
       <h5 style={{ textAlign: 'center' }}>{props.title}</h5>
         <div style={{ height: '450px', width: '75%', margin: 'auto' }}>{props.children}</div>
-      {props.chartObject && <Button onClick={() => clickHandler(props.index)}><Icon left>save</Icon>Save</Button>}
+      {props.chartObject && <Button onClick={() => clickHandler(props.chartObject)}><Icon left>save</Icon>Save</Button>}
     </div>
   );
