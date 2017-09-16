@@ -1,9 +1,13 @@
 /* eslint-env mocha */
-const { chai, expect } = require('chai');
+const chai = require('chai');
 const chaiHttp = require('chai-http');
-// const server = require('../../routes/index.js');
+const app = require('../../../server.js');
 
-xdescribe('Do Math', () => {
+const { expect } = chai;
+
+chai.use(chaiHttp);
+
+describe('Math', () => {
   it('Adds 2 + 2', () => {
     expect(2 + 2).to.equal(4);
   });
@@ -13,14 +17,36 @@ xdescribe('Do Math', () => {
 });
 
 
-xdescribe('/KeywordAcrossGender', () => {
-  it('it should return doc counts across gender', (done) => {
-    chai.request(server)
-      .post('/KeywordAcrossGender')
+describe('API Endpoints', () => {
+  it('/api/KeywordAcrossGender should return data', (done) => {
+    chai.request(app)
+      .post('/api/KeywordAcrossGender')
       .end((err, res) => {
-        res.should.have.status(200);
-        // res.body.should.be.a('array');
-        // res.body.length.should.be.eql(0);
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('array');
+        expect(res.body.length).to.be.above(1);
+        done();
+      });
+  });
+
+  it('/api/SelectionsOverTime should return data', (done) => {
+    chai.request(app)
+      .post('/api/SelectionsOverTime')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('array');
+        expect(res.body.length).to.be.above(1);
+        done();
+      });
+  });
+
+  it('/api/BucketedBarChart should return data', (done) => {
+    chai.request(app)
+      .post('/api/BucketedBarChart')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.buckets).to.be.a('array');
+        expect(res.body.buckets.length).to.be.above(1);
         done();
       });
   });

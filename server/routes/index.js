@@ -4,7 +4,7 @@ const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'trace',
+  log: 'info',
 });
 const index = 'twitter';
 const type = 'tweet';
