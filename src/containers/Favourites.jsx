@@ -10,17 +10,23 @@ const Favourites = props => (
   </div>
 =======
   <Row>
-    {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite)))}
+    {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite, props.pinToBoard)))}
   </Row>
 >>>>>>> Add style and defavourite handler to Favourites
 );
 
 const mapStateToProps = state => ({
   favourites: Array.from(state.favourites).map(key => state.charts[key]),
+  boardNames: Object.keys(state.boards),
+  boardContents: state.boards,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, props) => ({
   unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
-})
+  pinToBoard: (id, boardName) =>
+    props.boardNames.includes(boardName)
+    && !props.boardContents[boardName].includes(id)
+    && dispatch({ type: 'BOARD_ADD_CHART', id }),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

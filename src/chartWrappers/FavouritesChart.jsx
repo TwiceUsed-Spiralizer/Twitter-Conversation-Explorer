@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Col, Row, Icon, Card, Chip } from 'react-materialize';
+import { Col, Row, Icon, Card, Chip } from 'react-materialize';
 import './FavouritesChart.css';
 
-export default unfavourite =>
+export default (unfavourite, pinToBoard) =>
   props => (
     <Col m={4}>
       <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
