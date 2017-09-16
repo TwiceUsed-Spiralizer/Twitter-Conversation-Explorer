@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import { Route, Switch, Link } from 'react-router-dom';
 import { Query, Favourites, Board } from './containers';
