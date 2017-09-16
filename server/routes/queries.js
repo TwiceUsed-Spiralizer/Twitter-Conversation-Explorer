@@ -55,9 +55,50 @@ aggs: {
 },
 };
 
-// const KeywordAcrossFollowerCountBody =
-// const KeywordAcrossSentimentBody =
+const KeywordAcrossFollowerCountBody =
+{ query: {
+  bool: {
+    must: [
+    ],
+  },
+},
+aggs: {
+  interactions: {
+    adjacency_matrix: {
+      filters: {
+        over500followers: { range: { 'sender.following_count': { gte: 500 } } },
+        under500followers: { range: { 'sender.following_count': { lt: 500 } } },
+      },
+    },
+  },
+},
+};
+
+const KeywordAcrossSentimentBody =
+{ query: {
+  bool: {
+    must: [
+    ],
+  },
+},
+aggs: {
+  interactions: {
+    adjacency_matrix: {
+      filters: {
+        positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
+        negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+      },
+    },
+  },
+},
+};
 // const SelectionsOverTimeBody =
 // const BucketedBarChartBody =
 
-module.exports = { applyFilters, addKeywordtoAdjacencyMatrix, KeywordAcrossGenderBody };
+module.exports = {
+  applyFilters,
+  addKeywordtoAdjacencyMatrix,
+  KeywordAcrossGenderBody,
+  KeywordAcrossFollowerCountBody,
+  KeywordAcrossSentimentBody,
+};
