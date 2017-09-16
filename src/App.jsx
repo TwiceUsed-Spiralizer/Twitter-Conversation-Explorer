@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import { Route, Switch, Link } from 'react-router-dom';
 import { Query, Favourites, Board } from './containers';
@@ -8,76 +7,6 @@ import './App.css';
 class App extends Component {
   constructor() {
     super();
-    this.blankResults = [{ data: false }];
-    this.state = {
-      data: {},
-      queryResults: [],
-      boards: {
-        saved: [],
-        maybe: [],
-        final: [],
-      },
-    };
-    this.query = this.query.bind(this);
-    this.moveToBoard = this.moveToBoard.bind(this);
-  }
-
-  moveToBoard(index, fromBoard, toBoard) {
-    if (fromBoard && toBoard) {
-      this.setState((prevState) => {
-        console.log(fromBoard, toBoard);
-        const boards = prevState.boards;
-        boards[toBoard] = boards[toBoard].concat(boards[fromBoard].splice(index, 1));
-        return { boards };
-      });
-    } else {
-      this.setState(prevState => ({
-        boards: {
-          ...prevState.boards,
-          saved: prevState.boards.saved.concat(prevState.queryResults.splice(index, 1)),
-        },
-        queryResults: prevState.queryResults,
-      }));
-    }
-  }
-
-  query(keyword, senderGender) {
-    this.setState({
-      queryResults: this.blankResults,
-    });
-    axios.post('/api/KeywordAcrossGender', { keyword })
-      .then(res =>
-        this.setState(prevState => ({
-          queryResults: prevState.queryResults.concat([
-            { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
-            { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
-          ]).filter(item => item.type),
-        })),
-      );
-    axios.post('/api/SelectionsOverTime', { keyword, senderGender })
-      .then(res =>
-        this.setState(prevState => ({
-          queryResults: prevState.queryResults.concat({
-            type: 'line',
-            icon: 'show_chart',
-            data: res.data,
-            title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
-            keyword,
-          }).filter(item => item.type),
-        })),
-      );
-    axios.post('/api/BucketedBarChart', { keyword })
-      .then(res =>
-        this.setState(prevState => ({
-          queryResults: prevState.queryResults.concat({
-            type: 'histogram',
-            icon: 'insert_chart',
-            data: res.data,
-            title: `Breakdown of use of ${keyword} by gender and follower count`,
-            keyword,
-          }).filter(item => item.type),
-        })),
-      );
   }
 
   render() {
