@@ -1,9 +1,10 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { Button } from 'react-materialize';
+import { connect } from 'react-redux';
 import './QueryResults.css';
-import ChartComponent from './chartComponents';
-import CarouselChart from './ChartWrappers/CarouselChart';
+import ChartComponent from '../chartComponents';
+import CarouselChart from '../chartWrappers/CarouselChart';
 
 const PrevButton = (props) => {
   return (
@@ -17,22 +18,20 @@ const NextButton = (props) => {
   );
 };
 
-export default (props) => {
-  if (!props.results.length) {
-    return (<div id="results-placeholder">
-      <h1>Welcome to TweetInsight</h1>
-  </div>);
-  }
-  const chartWrapper = CarouselChart(props.moveToBoard);
+const QueryResults = (props) => {
   return (
     <div id="results-carousel">
       <Slider adaptiveHeight={false} dots={true} prevArrow={<PrevButton />} nextArrow={<NextButton />} >
         {
-          props.results.map(ChartComponent(chartWrapper))
+          props.results.map(ChartComponent(CarouselChart()))
         }
       </Slider>
     </div>
   );
 };
 
-//       <div style={{ height: '450px', width: '80%' }}>
+const mapStateToProps = state => ({
+  results: state.results,
+});
+
+export default connect(mapStateToProps)(QueryResults);
