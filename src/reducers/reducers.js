@@ -1,8 +1,6 @@
 /* eslint no-case-declarations: 0 */
 
-import { combineReducers } from 'redux';
-
-const results = (state, action) => {
+export const results = (state, action) => {
   if (state === undefined) {
     return [];
   }
@@ -16,7 +14,7 @@ const results = (state, action) => {
   }
 };
 
-const charts = (state, action) => {
+export const charts = (state, action) => {
   if (state === undefined) {
     return {};
   }
@@ -34,7 +32,7 @@ const charts = (state, action) => {
   return newState;
 };
 
-const favourites = (state, action) => {
+export const favourites = (state, action) => {
   if (state === undefined) {
     return new Set();
   }
@@ -52,7 +50,7 @@ const favourites = (state, action) => {
   return newState;
 };
 
-const boards = (state, action) => {
+export const boards = (state, action) => {
   if (state === undefined) {
     return {};
   }
@@ -89,10 +87,3 @@ const boards = (state, action) => {
   }
   return newState;
 };
-
-export default combineReducers({
-  results,
-  charts,
-  favourites,
-  boards,
-});

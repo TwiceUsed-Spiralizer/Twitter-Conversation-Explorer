@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, NavItem, Dropdown, Button, Icon, Badge } from 'react-materialize';
 import { Route, Switch, Link } from 'react-router-dom';
-import { Query, Favourites, Board } from './containers';
+import { Query, Favourites, Board } from './index';
 import './App.css';
 
 const App = () => {
