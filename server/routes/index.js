@@ -117,6 +117,44 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
     .then(data => res.send(data));
 });
 
+app.post('/api/KeywordAcrossSentiment', (req, res) => {
+  const keyword = req.body.keyword || '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody =
+  { query: {
+    bool: {
+      must: [
+      ],
+    },
+  },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
+          negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+          keyword: { wildcard: { full_text: keyword } },
+        },
+      },
+    },
+  },
+  };
+
+  esBody = applyFilters(esBody, senderGender, recipientsGender,
+    false, senderFollowerMin, senderFollowerMax);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => body.aggregations.interactions.buckets)
+    .then(data => res.send(data));
+});
 
 app.post('/api/SelectionsOverTime', (req, res) => {
   const keyword = req.body.keyword.replace(' ', '*') || '*';
