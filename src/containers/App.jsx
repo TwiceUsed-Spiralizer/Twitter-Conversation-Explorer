@@ -9,10 +9,10 @@ const App = () => {
     <div className="App">
       <nav>
         <Navbar brand={<Link to="/">Tweet Insight</Link>} right>
-          <Button waves="light">Log In<Icon right>face</Icon></Button>
-          <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
+          <Button waves="light">Log In</Button>
+          <Button waves="light" >Sign Up</Button>
           <Dropdown trigger={
-            <Button waves="light"><Icon right>menu</Icon><Badge newIcon>4</Badge></Button>
+            <Button waves="light"><Icon center>menu</Icon></Button>
           }
           >
             <NavItem>Profile</NavItem>

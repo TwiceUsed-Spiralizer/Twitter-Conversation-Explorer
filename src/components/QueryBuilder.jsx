@@ -53,6 +53,7 @@ class QueryBuilder extends Component {
         <Input s={12} type="select" label="Gender" defaultValue={1} onChange={event => this.setState({ gender: event.target.value })} >
           <option value={0}>Male</option>
           <option value={1}>Female</option>
+          <option value={2}>None</option>
         </Input>
         <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
         <Row>
