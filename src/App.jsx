@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div className="App">
       <nav>
-        <Navbar brand={<Link to="/">Twitter Conversation Explorer</Link>} right>
+        <Navbar brand={<Link to="/">Tweet Insight</Link>} right>
           <Button waves="light">Log In<Icon right>face</Icon></Button>
           <Button waves="light" >Sign Up<Icon right>face</Icon></Button>
           <Dropdown trigger={
