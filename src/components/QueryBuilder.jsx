@@ -60,7 +60,7 @@ class QueryBuilder extends Component {
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
         <Button onClick={this.query} >Submit</Button>
-        <Link to="/favourites">Click this shit</Link>
+        <Link to="/favourites">Favourites</Link>
       </Row>
     );
   }
