@@ -1,16 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card } from 'react-materialize';
+import { Row } from 'react-materialize';
 import ChartComponent from '../chartComponents';
+import FavouritesChart from '../chartWrappers/FavouritesChart'
 
 const Favourites = props => (
-  <div>
-    {props.favourites.map(ChartComponent(Card))}
-  </div>
+  <Row>
+    {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite, props.pinToBoard)))}
+  </Row>
 );
 
 const mapStateToProps = state => ({
   favourites: Array.from(state.favourites).map(key => state.charts[key]),
+  boardNames: Object.keys(state.boards),
+  boardContents: state.boards,
 });
 
-export default connect(mapStateToProps)(Favourites);
+const mapDispatchToProps = (dispatch, props) => ({
+  unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
+  pinToBoard: (id, boardName) =>
+    props.boardNames.includes(boardName)
+    && !props.boardContents[boardName].includes(id)
+    && dispatch({ type: 'BOARD_ADD_CHART', id }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

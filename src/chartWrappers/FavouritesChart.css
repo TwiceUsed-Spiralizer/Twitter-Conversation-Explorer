@@ -1,0 +1,35 @@
+#favourite-button-group {
+  width: 85%;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.favourite-button {
+  color: grey;
+}
+
+.favourite-button:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.starred {
+  color: goldenrod;
+}
+
+.test p:before {
+  content: "poo";
+}
+
+.test:hover p:before {
+  content: "test";
+}
+
+.starred:before {
+  content: "star";
+}
+
+.starred:hover:before {
+  content: "star_border";
+}
