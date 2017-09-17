@@ -14,7 +14,7 @@ export default (unfavourite, BoardPinDropdown) =>
           </Col>
           <Col m={3}>
             <Chip>
-              {BoardPinDropdown(<div><Icon small className="favourite-button">play_for_work</Icon></div>, props.id, props.chartObject)}
+              <BoardPinDropdown trigger={<div><Icon small className="favourite-button">play_for_work</Icon></div>} chartObject={props.chartObject} />
             </Chip>
           </Col>
           <Col m={3}>
