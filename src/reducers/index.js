@@ -21,7 +21,7 @@ export const charts = (state, action) => {
   if (state === undefined) {
     return {};
   }
-  const newState = { ...state };
+  const newState = { ...state }; 
   switch (action.type) {
     case 'CHARTS_ADD':
       newState[action.chartObject.id] = action.chartObject;
@@ -78,9 +78,11 @@ export const boards = (state, action) => {
   const newBoardState = { ...state[action.boardName] };
   switch (action.type) {
     case 'BOARD_CREATE':
-      newState[action.boardName] = {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: [],
+      if (!newState[action.boardName]) {
+        newState[action.boardName] = {
+          columnNames: ['Yes', 'Maybe', 'Interesting'],
+          charts: [],
+        };
       }
       break;
     case 'BOARD_DELETE':
@@ -89,11 +91,11 @@ export const boards = (state, action) => {
     case 'BOARD_MOVE_COLUMN':
       newState[action.boardName] = {
         ...newBoardState,
-        charts: newBoardState.charts.map(item => item.id === action.id ? { ...item, colIndex: action.toColumn } : item),
+        charts: newBoardState.charts.map(item => (item.id === action.id ? { ...item, colIndex: action.toColumn } : item)),
       };
       break;
     case 'BOARD_NAME_COLUMN':
-      const newColumns = newBoardState.columnNames.map((column, index) => index === action.index ? action.newName : column);
+      const newColumns = newBoardState.columnNames.map((column, index) => (index === action.index ? action.newName : column));
       newState[action.boardName] = { ...newBoardState, columnNames: newColumns };
       break;
     case 'BOARD_CHART_ADD':
