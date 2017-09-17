@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Icon, Card, Chip, Modal, Dropdown, NavItem } from 'react-materialize';
+import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './FavouritesChart.css';
 
