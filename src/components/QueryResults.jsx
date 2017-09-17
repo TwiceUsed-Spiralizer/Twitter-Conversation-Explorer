@@ -35,12 +35,11 @@ const QueryResults = (props) => {
 };
 
 const mapStateToProps = state => ({
-  results: state.results,
+  results: state.results.map(item => state.favourites.has(item.id) ? { ...item, favourited: true } : item),
 });
 
 const mapDispatchToProps = dispatch => ({
-  favouriteItem: (chartToSave) => {
-    const chartObject = { ...chartToSave };
+  favouriteItem: (chartObject) => {
     dispatch({
       type: 'CHARTS_ADD',
       chartObject,
@@ -48,8 +47,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: 'FAVOURITES_ADD',
       id: chartObject.id,
-    })
-  }
+    });
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryResults);

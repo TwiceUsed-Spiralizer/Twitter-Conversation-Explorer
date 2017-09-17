@@ -5,7 +5,11 @@ export default clickHandler =>
   props => (
     <Card {...props} title={<Icon left>{props.icon}</Icon>}>
       <h5 style={{ textAlign: 'center' }}>{props.title}</h5>
-        <div style={{ height: '750px', width: '75%', margin: 'auto' }}>{props.children}</div>
-      {props.chartObject && <Button onClick={() => clickHandler(props.chartObject)}><Icon left>save</Icon>{props.chartObject.favourited ? 'Saved' : 'Save'}</Button>}
+      <div style={{ height: '750px', width: '75%', margin: 'auto' }}>{props.children}</div>
+      {props.chartObject &&
+        props.chartObject.favourited
+        ? <Button><Icon left style={{ color: 'gold' }}>star</Icon>Favourited</Button>
+        : <Button onClick={() => clickHandler(props.chartObject)}><Icon left>star_border</Icon> Favourite</Button>
+      }
     </Card>
   );
