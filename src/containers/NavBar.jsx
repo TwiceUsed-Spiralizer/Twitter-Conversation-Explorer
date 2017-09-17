@@ -24,7 +24,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Navbar brand={<Link to="/">Tweet Insight</Link>} right>
+      <Navbar brand={<Link to="/">Tweet Insight</Link>} right style={{ 'margin-bottom': '20px', 'padding-left': '20px' }}>
         <Row>
           <Modal
             header="Add New Board"
