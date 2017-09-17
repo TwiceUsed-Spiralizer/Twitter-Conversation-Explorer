@@ -36,6 +36,12 @@ const addKeywordtoAdjacencyMatrix = (esBody, keyword) => {
   return body;
 };
 
+const addKeywordToMusts = (esBody, keyword) => {
+  const body = esBody;
+  body.query.bool.must.push({ wildcard: { full_text: keyword } });
+  return body;
+};
+
 const KeywordAcrossGenderBody = () =>
   ({ query: {
     bool: {
@@ -93,8 +99,53 @@ const KeywordAcrossSentimentBody = () =>
   },
   });
 
-// const SelectionsOverTimeBody =
-// const BucketedBarChartBody =
+const SelectionsOverTimeBody = () =>
+  ({ query: {
+    bool: {
+      must: [
+      ],
+    },
+  },
+  aggs: {
+    histogram: {
+      date_histogram: {
+        field: 'created_at',
+        interval: 'day',
+      },
+    },
+  },
+  });
+
+const BucketedBarChartBody = () =>
+  ({ query: {
+    bool: {
+      must: [
+      ],
+    },
+  },
+  aggs: {
+    followerCount_ranges: {
+      range: {
+        field: 'sender.followers_count',
+        ranges: [
+          { from: 0, to: 100 },
+          { from: 101, to: 1000 },
+          { from: 1001, to: 10000 },
+          { from: 10001, to: 100000 },
+          { from: 100001, to: 1000000 },
+          { from: 1000001 },
+        ],
+      },
+      aggs: {
+        gender: { terms: { field: 'sender.gender', order: { _term: 'asc' } },
+          aggs: {
+            docCountByGender: { value_count: { field: '_index' } },
+          },
+        },
+      },
+    },
+  },
+  });
 
 module.exports = {
   applyFilters,
@@ -102,4 +153,7 @@ module.exports = {
   KeywordAcrossGenderBody,
   KeywordAcrossFollowerCountBody,
   KeywordAcrossSentimentBody,
+  SelectionsOverTimeBody,
+  addKeywordToMusts,
+  BucketedBarChartBody,
 };
