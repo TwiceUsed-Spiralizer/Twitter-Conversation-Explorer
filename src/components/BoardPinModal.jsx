@@ -6,7 +6,9 @@ import BareChartComponent from '../chartComponents/BareChartComponent';
 const BoardPinModal = props => (
   <Modal
     bottomSheet
-    trigger={props.trigger}>
+    trigger={props.trigger}
+    actions={false}
+  >
     <Row>
       <Col m={4}>
         <Card title={<div><Icon left>{props.chartObject.icon}</Icon> {`Pinning ${props.chartObject.title}`}</div>}>
