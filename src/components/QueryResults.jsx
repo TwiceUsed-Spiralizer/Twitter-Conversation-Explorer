@@ -1,12 +1,10 @@
 import React from 'react';
 import Slider from 'react-slick';
-import { Button } from 'react-materialize';
+import { Button, CardPanel } from 'react-materialize';
 import { connect } from 'react-redux';
 import './QueryResults.css';
 import ChartComponent from '../chartComponents';
 import CarouselChart from '../chartWrappers/CarouselChart';
-
-let counter = 0;
 
 const PrevButton = (props) => {
   return (
@@ -21,15 +19,19 @@ const NextButton = (props) => {
 };
 
 const QueryResults = (props) => {
-  return (
-    <div id="results-carousel">
-      <Slider adaptiveHeight={false} dots={true} prevArrow={<PrevButton />} nextArrow={<NextButton />} >
-        {
-          props.results.map(ChartComponent(CarouselChart(props.favouriteItem)))
-        }
-      </Slider>
-    </div>
-  );
+  return props.results.length
+    ? (
+      <div id="results-carousel">
+        <Slider adaptiveHeight={false} dots prevArrow={<PrevButton />} nextArrow={<NextButton />} >
+          {
+            props.results.map(ChartComponent(CarouselChart(props.favouriteItem)))
+          }
+        </Slider>
+      </div>
+    )
+    : (
+      <CardPanel><h2 className="center-align">Welcome to TweetInsight</h2></CardPanel>
+    );
 };
 
 const mapStateToProps = state => ({
@@ -38,7 +40,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   favouriteItem: (chartToSave) => {
-    const chartObject = { ...chartToSave, id: counter++ };
+    const chartObject = { ...chartToSave };
     dispatch({
       type: 'CHARTS_ADD',
       chartObject,
