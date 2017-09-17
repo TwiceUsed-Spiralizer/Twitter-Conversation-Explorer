@@ -36,62 +36,63 @@ const addKeywordtoAdjacencyMatrix = (esBody, keyword) => {
   return body;
 };
 
-const KeywordAcrossGenderBody =
-{ query: {
-  bool: {
-    must: [
-    ],
+const KeywordAcrossGenderBody = () =>
+  ({ query: {
+    bool: {
+      must: [
+      ],
+    },
   },
-},
-aggs: {
-  interactions: {
-    adjacency_matrix: {
-      filters: {
-        femaleSender: { terms: { 'sender.gender': [1] } },
-        maleSender: { terms: { 'sender.gender': [0] } },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          femaleSender: { terms: { 'sender.gender': [1] } },
+          maleSender: { terms: { 'sender.gender': [0] } },
+        },
       },
     },
   },
-},
-};
+  });
 
-const KeywordAcrossFollowerCountBody =
-{ query: {
-  bool: {
-    must: [
-    ],
+const KeywordAcrossFollowerCountBody = () =>
+  ({ query: {
+    bool: {
+      must: [
+      ],
+    },
   },
-},
-aggs: {
-  interactions: {
-    adjacency_matrix: {
-      filters: {
-        over500followers: { range: { 'sender.following_count': { gte: 500 } } },
-        under500followers: { range: { 'sender.following_count': { lt: 500 } } },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          over500followers: { range: { 'sender.following_count': { gte: 500 } } },
+          under500followers: { range: { 'sender.following_count': { lt: 500 } } },
+        },
       },
     },
   },
-},
-};
+  });
 
-const KeywordAcrossSentimentBody =
-{ query: {
-  bool: {
-    must: [
-    ],
+const KeywordAcrossSentimentBody = () =>
+  ({ query: {
+    bool: {
+      must: [
+      ],
+    },
   },
-},
-aggs: {
-  interactions: {
-    adjacency_matrix: {
-      filters: {
-        positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
-        negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+  aggs: {
+    interactions: {
+      adjacency_matrix: {
+        filters: {
+          positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
+          negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+        },
       },
     },
   },
-},
-};
+  });
+
 // const SelectionsOverTimeBody =
 // const BucketedBarChartBody =
 

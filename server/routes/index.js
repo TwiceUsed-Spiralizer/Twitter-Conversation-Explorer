@@ -16,7 +16,7 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
   const sentiment = req.body.sentiment || false;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
-  let esBody = queries.KeywordAcrossGenderBody;
+  let esBody = queries.KeywordAcrossGenderBody();
 
   esBody = queries.applyFilters(esBody, false, recipientsGender,
     sentiment, senderFollowerMin, senderFollowerMax);
@@ -38,7 +38,7 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
   const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
   const sentiment = req.body.sentiment || false;
-  let esBody = queries.KeywordAcrossFollowerCountBody;
+  let esBody = queries.KeywordAcrossFollowerCountBody();
 
   esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
     sentiment);
@@ -61,28 +61,30 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
   const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
-  let esBody =
-  { query: {
-    bool: {
-      must: [
-      ],
-    },
-  },
-  aggs: {
-    interactions: {
-      adjacency_matrix: {
-        filters: {
-          positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
-          negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
-          keyword: { wildcard: { full_text: keyword } },
-        },
-      },
-    },
-  },
-  };
+  let esBody = queries.KeywordAcrossSentimentBody();
+  // { query: {
+  //   bool: {
+  //     must: [
+  //     ],
+  //   },
+  // },
+  // aggs: {
+  //   interactions: {
+  //     adjacency_matrix: {
+  //       filters: {
+  //         positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
+  //         negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+  //         keyword: { wildcard: { full_text: keyword } },
+  //       },
+  //     },
+  //   },
+  // },
+  // };
 
   esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
     false, senderFollowerMin, senderFollowerMax);
+
+  esBody = queries.addKeywordtoAdjacencyMatrix(esBody, keyword);
 
   client.search({
     index,
