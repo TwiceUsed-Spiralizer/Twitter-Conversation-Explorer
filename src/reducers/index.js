@@ -21,7 +21,7 @@ export const charts = (state, action) => {
   if (state === undefined) {
     return {};
   }
-  const newState = { ...state };
+  const newState = { ...state }; 
   switch (action.type) {
     case 'CHARTS_ADD':
       newState[action.chartObject.id] = action.chartObject;

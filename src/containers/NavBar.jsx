@@ -33,13 +33,13 @@ class NavBar extends Component {
             <Input label="Enter a Boardname" s={12} onChange={event => this.setState({ boardName: event.target.value })} />
             <Button onClick={this.createBoard}>Create New Board</Button>
           </Modal>
-          {this.props.boards.length &&
-          <Dropdown trigger={
-            <NavItem>My Boards</NavItem>
-          }
-          >
-            {this.props.boards.map(item => <NavItem><Link to={`/boards/${item}`}>{item}</Link></NavItem>)}
-          </Dropdown>}
+          {this.props.boards.length ?
+            <Dropdown trigger={
+              <NavItem>My Boards</NavItem>
+            }
+            >
+              {this.props.boards.map(item => <NavItem><Link to={`/board/${item}`}>{item}</Link></NavItem>)}
+            </Dropdown> : null}
           <NavItem>Log In</NavItem>
           <NavItem>Sign Up</NavItem>
         </Row>

@@ -5,12 +5,15 @@ import ChartComponent from '../chartComponents';
 
 const Board = props => (
   <div>
-    {props.boards.map(ChartComponent(Card))}
+    HELLO
+    {console.log(props)}
+    {/* {props.boards.map(ChartComponent(Card))} */}
   </div>
 );
 
-const mapStateToProps = state => ({
-  boards: state.boards.map(key => state.charts[key]),
+const mapStateToProps = (state, props) => ({
+  booby: console.log(state.boards),
+  // board: state.boards[props.match.params.boardName].map(key => state.charts[key]),
 });
 
 export default connect(mapStateToProps)(Board);
