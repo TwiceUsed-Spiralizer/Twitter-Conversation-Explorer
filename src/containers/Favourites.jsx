@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row } from 'react-materialize';
 import ChartComponent from '../chartComponents';
-import FavouritesChart from '../chartWrappers/FavouritesChart'
+import FavouritesChart from '../chartWrappers/FavouritesChart';
+import BoardPinModal from '../components/BoardPinModal';
+
 
 const Favourites = props => (
   <Row>
-    {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite, props.pinToBoard)))}
+    {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite, BoardPinModal)))}
   </Row>
 );
 
