@@ -55,7 +55,24 @@ export const favourites = (state, action) => {
 
 export const boards = (state, action) => {
   if (state === undefined) {
-    return {};
+    return {
+      heads: {
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
+        charts: [],
+      },
+      shoulders: {
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
+        charts: [],
+      },
+      knees: {
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
+        charts: [],
+      },
+      toes: {
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
+        charts: [],
+      },
+    };
   }
   const newState = { ...state };
   const newBoardState = { ...state[action.boardName] };
