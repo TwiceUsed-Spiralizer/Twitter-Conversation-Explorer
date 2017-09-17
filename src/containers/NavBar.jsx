@@ -40,6 +40,7 @@ class NavBar extends Component {
             >
               {this.props.boards.map(item => <NavItem><Link to={`/board/${item}`}>{item}</Link></NavItem>)}
             </Dropdown> : null}
+          <NavItem><Link to="/favourites"><Icon left>star</Icon>Favourites</Link></NavItem>
           <NavItem>Log In</NavItem>
           <NavItem>Sign Up</NavItem>
         </Row>
