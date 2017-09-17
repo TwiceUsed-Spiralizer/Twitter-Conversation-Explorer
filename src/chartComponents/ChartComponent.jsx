@@ -33,6 +33,7 @@ export default (Wrapper) => {
       icon={chartObject.icon}
       title={chartObject.title}
       index={index}
+      id={chartObject.id}
       chartObject={chartObject}
     >
       <Chart data={chartObject.data} keyword={chartObject.keyword} />
