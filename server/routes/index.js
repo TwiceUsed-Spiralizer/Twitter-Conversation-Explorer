@@ -1,31 +1,28 @@
 require('dotenv').config();
 const app = require('../../server.js');
 const elasticsearch = require('elasticsearch');
+const queries = require('./queries.js');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'info',
+  log: 'trace',
 });
 const index = 'twitter';
 const type = 'tweet';
 
-
 app.post('/api/KeywordAcrossGender', (req, res) => {
-  const keyword = req.body.keyword.replace(' ', '*') || '*';
-  const esBody =
-  {
-    aggs: {
-      interactions: {
-        adjacency_matrix: {
-          filters: {
-            femaleSender: { terms: { 'sender.gender': [1] } },
-            maleSender: { terms: { 'sender.gender': [0] } },
-            keyword: { wildcard: { full_text: keyword } },
-          },
-        },
-      },
-    },
-  };
+  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody = queries.KeywordAcrossGenderBody();
+
+  esBody = queries.applyFilters(esBody, false, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
+
+  esBody = queries.addKeywordtoAdjacencyMatrix(esBody, keyword);
 
   client.search({
     index,
@@ -37,40 +34,67 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
     .then(data => res.send(data));
 });
 
+app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
+  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  let esBody = queries.KeywordAcrossFollowerCountBody();
+
+  esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
+    sentiment);
+
+  esBody = queries.addKeywordtoAdjacencyMatrix(esBody, keyword);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => body.aggregations.interactions.buckets)
+    .then(data => res.send(data));
+});
+
+app.post('/api/KeywordAcrossSentiment', (req, res) => {
+  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody = queries.KeywordAcrossSentimentBody();
+
+  esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
+    false, senderFollowerMin, senderFollowerMax);
+
+  esBody = queries.addKeywordtoAdjacencyMatrix(esBody, keyword);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => body.aggregations.interactions.buckets)
+    .then(data => res.send(data));
+});
 
 app.post('/api/SelectionsOverTime', (req, res) => {
-  const keyword = req.body.keyword.replace(' ', '*') || '*';
-  const senderGender = req.body.senderGender || false;
-  const recipientsGender = req.body.recipientsGender || false;
-  const esBody =
-  { query: {
-    bool: {
-      must: [
-        { wildcard: { full_text: keyword } },
-      ],
-    },
-  },
-  aggs: {
-    histogram: {
-      date_histogram: {
-        field: 'created_at',
-        interval: 'day',
-      },
-    },
-  },
-  };
+  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
+  const sentiment = req.body.sentiment || false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
+  let esBody = queries.SelectionsOverTimeBody();
 
-  // if senderGender exists we add senderGender to the musts
-  if (senderGender) {
-    const toAdd = { match: { 'sender.gender': senderGender } };
-    esBody.query.bool.must.push(toAdd);
-  }
+  esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
 
-  // if recipientsGender exists we add recipientsGender to the musts
-  if (recipientsGender) {
-    const toAdd = { match: { 'recipients.gender': recipientsGender } };
-    esBody.query.bool.must.push(toAdd);
-  }
+  esBody = queries.addKeywordToMusts(esBody, keyword);
 
   client.search({
     index,
@@ -82,40 +106,11 @@ app.post('/api/SelectionsOverTime', (req, res) => {
     .then(data => res.send(data));
 });
 
-
 app.post('/api/BucketedBarChart', (req, res) => {
-  const keyword = req.body.keyword.replace(' ', '*') || '*';
-  const esBody =
-  { query: {
-    bool: {
-      must: [
-        { wildcard: { full_text: keyword } },
-      ],
-    },
-  },
-  aggs: {
-    followerCount_ranges: {
-      range: {
-        field: 'sender.followers_count',
-        ranges: [
-          { from: 0, to: 100 },
-          { from: 101, to: 1000 },
-          { from: 1001, to: 10000 },
-          { from: 10001, to: 100000 },
-          { from: 100001, to: 1000000 },
-          { from: 1000001 },
-        ],
-      },
-      aggs: {
-        gender: { terms: { field: 'sender.gender', order: { _term: 'asc' } },
-          aggs: {
-            docCountByGender: { value_count: { field: '_index' } },
-          },
-        },
-      },
-    },
-  },
-  };
+  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  let esBody = queries.BucketedBarChartBody();
+
+  esBody = queries.addKeywordToMusts(esBody, keyword);
 
   client.search({
     index,
