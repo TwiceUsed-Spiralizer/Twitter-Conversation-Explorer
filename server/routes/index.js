@@ -12,7 +12,8 @@ const type = 'tweet';
 
 app.post('/api/KeywordAcrossGender', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
-  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
   const sentiment = req.body.sentiment || false;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
@@ -36,7 +37,8 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
 app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
-  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
   const sentiment = req.body.sentiment || false;
   let esBody = queries.KeywordAcrossFollowerCountBody();
 
@@ -58,7 +60,8 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
 app.post('/api/KeywordAcrossSentiment', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
-  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
   let esBody = queries.KeywordAcrossSentimentBody();
@@ -81,7 +84,8 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
 app.post('/api/SelectionsOverTime', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
-  const recipientsGender = req.body.recipientsGender === undefined ? false : req.body.recipientsGender;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : req.body.recipientsGender;
   const sentiment = req.body.sentiment || false;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
