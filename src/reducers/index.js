@@ -7,7 +7,7 @@ export const results = (state, action) => {
   }
   switch (action.type) {
     case 'RESULTS_RESET':
-      return [{ data: false }];
+      return [];
     case 'RESULTS_RECEIVED':
       return state.filter(item => item.data).concat(action.results);
     case 'RESULTS_CLEAR':
