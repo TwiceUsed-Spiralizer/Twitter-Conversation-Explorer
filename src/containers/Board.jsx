@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card } from 'react-materialize';
-import ChartComponent from '../chartComponents';
+// import { Card } from 'react-materialize';
+// import ChartComponent from '../chartComponents';
 
 const Board = props => (
   <div>
@@ -12,7 +12,7 @@ const Board = props => (
 );
 
 const mapStateToProps = (state, props) => ({
-  booby: console.log(state.boards),
+  print: console.log(state.boards),
   // board: state.boards[props.match.params.boardName].map(key => state.charts[key]),
 });
 

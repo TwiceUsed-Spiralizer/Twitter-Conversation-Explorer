@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row, Toast } from 'react-materialize';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class NavBar extends Component {
   constructor(props) {
