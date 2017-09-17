@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row } from 'react-materialize';
-import { Link } from 'react-router-dom';
+import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row, Toast } from 'react-materialize';
+import { Link, Redirect } from 'react-router-dom';
 
 class NavBar extends Component {
   constructor(props) {
@@ -14,6 +14,12 @@ class NavBar extends Component {
 
   createBoard() {
     this.props.createBoard(this.state.boardName);
+    this.setState({
+      boardName: '',
+    });
+    return (<Toast toast="here you go!">
+    Toast
+    </Toast>);
   }
 
   render() {
@@ -27,9 +33,13 @@ class NavBar extends Component {
             <Input label="Enter a Boardname" s={12} onChange={event => this.setState({ boardName: event.target.value })} />
             <Button onClick={this.createBoard}>Create New Board</Button>
           </Modal>
-          <Input s={3} type="select" label="BoardName">
-          {this.props.boards.map(item => <option>{item}</option>)}
-          </Input>
+          {this.props.boards.length &&
+          <Dropdown trigger={
+            <NavItem>My Boards</NavItem>
+          }
+          >
+            {this.props.boards.map(item => <NavItem><Link to={`/boards/${item}`}>{item}</Link></NavItem>)}
+          </Dropdown>}
           <NavItem>Log In</NavItem>
           <NavItem>Sign Up</NavItem>
         </Row>
@@ -45,4 +55,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createBoard: boardName => dispatch({ type: 'BOARD_CREATE', boardName }),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
