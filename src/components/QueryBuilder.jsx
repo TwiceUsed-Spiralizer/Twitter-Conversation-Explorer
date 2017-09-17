@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Input, Button } from 'react-materialize';
+import { Row, Col, Input, Button, Preloader } from 'react-materialize';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -19,13 +18,15 @@ class QueryBuilder extends Component {
   query() {
     const keyword = this.state.keyword;
     const senderGender = this.state.gender;
-    this.props.loadingResults();
+    this.setState({ loading: true });
+    const endLoading = () => this.setState({ loading: false });
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.props.addToResults([
           { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, id: this.getId() },
           { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, id: this.getId() },
-        ]));
+        ]))
+      .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
         this.props.addToResults({
@@ -64,7 +65,14 @@ class QueryBuilder extends Component {
           <p> WHEN </p>
           <Input name="on" type="date" label="Click to pick your date!" />
         </Row>
-        <Button onClick={this.query} >Submit</Button>
+        <Row>
+          <Col m={6}>
+            <Button onClick={this.query} >Submit</Button>
+          </Col>
+          <Col m={6}>
+            {this.state.loading ? <Preloader big flashing /> : null}
+          </Col>
+        </Row>
       </Row>
     );
   }
