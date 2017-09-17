@@ -5,7 +5,7 @@ import './FavouritesChart.css';
 
 export default (unfavourite, BoardPinDropdown) =>
   props => (
-    <Col m={4}>
+    <Col xl={4} l={4} m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
