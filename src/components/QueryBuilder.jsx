@@ -13,6 +13,7 @@ class QueryBuilder extends Component {
     };
     this.query = this.query.bind(this);
     this.props.clearResults();
+    this.getId = () => Math.floor(Math.random() * 100000);;
   }
 
   query() {
@@ -22,8 +23,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.props.addToResults([
-          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
+          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, id: this.getId() },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, id: this.getId() },
         ]));
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
       .then(res =>
@@ -33,6 +34,7 @@ class QueryBuilder extends Component {
           data: res.data,
           title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
           keyword,
+          id: this.getId(),
         })
       );
     axios.post('/api/BucketedBarChart', { keyword })
@@ -43,6 +45,7 @@ class QueryBuilder extends Component {
           data: res.data,
           title: `Breakdown of use of ${keyword} by gender and follower count`,
           keyword,
+          id: this.getId(),
         })
       );
   }
@@ -68,10 +71,16 @@ class QueryBuilder extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  charts: state.charts,
+  favourites: state.favourites,
+  boards: state.boards,
+})
+
 const mapDispatchToProps = dispatch => ({
   addToResults: results => dispatch({ type: 'RESULTS_RECEIVED', results }),
   loadingResults: () => dispatch({ type: 'RESULTS_RESET' }),
   clearResults: () => dispatch({ type: 'RESULTS_CLEAR' }),
 });
 
-export default connect(null, mapDispatchToProps)(QueryBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(QueryBuilder);
