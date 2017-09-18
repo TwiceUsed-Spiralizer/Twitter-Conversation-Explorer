@@ -147,6 +147,37 @@ const BucketedBarChartBody = () =>
   },
   });
 
+// const BucketedBarChartSentimentBody = () =>
+//   ({ query: {
+//     bool: {
+//       must: [
+//       ],
+//     },
+//   },
+//   aggs: {
+//     followerCount_ranges: {
+//       range: {
+//         field: 'sender.followers_count',
+//         ranges: [
+//           { from: 0, to: 100 },
+//           { from: 101, to: 1000 },
+//           { from: 1001, to: 10000 },
+//           { from: 10001, to: 100000 },
+//           { from: 100001, to: 1000000 },
+//           { from: 1000001 },
+//         ],
+//       },
+//       aggs: {
+//         sentimentScore: { terms: { field: 'sentiment.score', order: { _term: 'asc' } },
+//           aggs: {
+//             docCountBySentiment: { value_count: { field: '_index' } },
+//           },
+//         },
+//       },
+//     },
+//   },
+//   });
+
 const BucketedBarChartSentimentBody = () =>
   ({ query: {
     bool: {
@@ -168,9 +199,12 @@ const BucketedBarChartSentimentBody = () =>
         ],
       },
       aggs: {
-        sentimentScore: { terms: { field: 'sentiment.score', order: { _term: 'asc' } },
-          aggs: {
-            docCountBySentiment: { value_count: { field: '_index' } },
+        interactions: {
+          adjacency_matrix: {
+            filters: {
+              positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
+              negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+            },
           },
         },
       },
