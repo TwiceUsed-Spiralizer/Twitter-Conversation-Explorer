@@ -10,17 +10,10 @@ const cleanBucketedBarChartSentiment = (results) => {
   const obj = {};
   results.buckets.forEach((bucket) => {
     if (!obj[bucket.key]) {
-      obj[bucket.key] = [0, 0];
+      obj[bucket.key] = { positiveSentiment: 0, negativeSentiment: 0 };
     }
-
-    bucket.sentimentScore.buckets.forEach((subBucket) => {
-      if (subBucket.key < 0) {
-        obj[bucket.key][0] += subBucket.doc_count;
-      }
-      if (subBucket.key > 0) {
-        obj[bucket.key][1] += subBucket.doc_count;
-      }
-    });
+    obj[bucket.key].positiveSentiment += bucket.interactions.buckets[1].doc_count;
+    obj[bucket.key].negativeSentiment += bucket.interactions.buckets[0].doc_count;
   });
   return obj;
 };
