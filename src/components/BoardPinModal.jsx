@@ -22,7 +22,7 @@ const BoardPinModal = props => (
             tabIndex="0"
             onClick={(event) => {
               event.preventDefault();
-              props.pinToBoard(event.target.getAttribute('data-name'), props.chartObject.id);
+              props.pinToBoard(event.target.getAttribute('data-name'), props.chartObject);
             }}
           >
             {props.boards.map(board => <CollectionItem href="#" data-name={board.name} key={board.name}><Icon left>save</Icon>{board.name}</CollectionItem>)}
@@ -40,7 +40,10 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  pinToBoard: (boardName, id) => dispatch({ type: 'BOARD_CHART_ADD', boardName, id })
-})
+  pinToBoard: (boardName, chartObject) => {
+    dispatch({ type: 'CHARTS_ADD', chartObject });
+    dispatch({ type: 'BOARD_CHART_ADD', boardName, id: chartObject.id });
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardPinModal);
