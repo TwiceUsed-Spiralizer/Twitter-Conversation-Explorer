@@ -123,3 +123,19 @@ app.post('/api/BucketedBarChart', (req, res) => {
   }).then(body => body.aggregations.followerCount_ranges)
     .then(data => res.send(data));
 });
+
+app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
+  let esBody = queries.BucketedBarChartSentimentBody();
+
+  esBody = queries.addKeywordToMusts(esBody, keyword);
+
+  client.search({
+    index,
+    type,
+    size: 0,
+    from: 0,
+    body: esBody,
+  }).then(body => clean.cleanBucketedBarChartSentiment(body.aggregations.followerCount_ranges))
+    .then(data => res.send(data));
+});
