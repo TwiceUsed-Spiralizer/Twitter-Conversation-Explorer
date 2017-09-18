@@ -13,7 +13,7 @@ const index = 'twitter';
 const type = 'tweet';
 
 app.post('/api/KeywordAcrossGender', (req, res) => {
-  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   const recipientsGender = req.body.recipientsGender === undefined ?
     false : req.body.recipientsGender;
   const sentiment = req.body.sentiment || false;
@@ -60,7 +60,7 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
 });
 
 app.post('/api/KeywordAcrossSentiment', (req, res) => {
-  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
   const recipientsGender = req.body.recipientsGender === undefined ?
     false : req.body.recipientsGender;
@@ -84,7 +84,7 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
 });
 
 app.post('/api/SelectionsOverTime', (req, res) => {
-  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
   const recipientsGender = req.body.recipientsGender === undefined ?
     false : req.body.recipientsGender;
@@ -109,7 +109,7 @@ app.post('/api/SelectionsOverTime', (req, res) => {
 });
 
 app.post('/api/BucketedBarChart', (req, res) => {
-  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   let esBody = queries.BucketedBarChartBody();
 
   esBody = queries.addKeywordToMusts(esBody, keyword);
