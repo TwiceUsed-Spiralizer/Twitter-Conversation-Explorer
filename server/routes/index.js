@@ -2,6 +2,8 @@ require('dotenv').config();
 const app = require('../../server.js');
 const elasticsearch = require('elasticsearch');
 const queries = require('./queries.js');
+const clean = require('./cleanES.js');
+
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
@@ -35,7 +37,7 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
 });
 
 app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
-  const keyword = req.body.keyword ? req.body.keyword.replace(' ', '*') : '*';
+  const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
   const recipientsGender = req.body.recipientsGender === undefined ?
     false : req.body.recipientsGender;
@@ -53,7 +55,7 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => body.aggregations.interactions.buckets)
+  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
     .then(data => res.send(data));
 });
 
@@ -77,7 +79,7 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => body.aggregations.interactions.buckets)
+  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
     .then(data => res.send(data));
 });
 
