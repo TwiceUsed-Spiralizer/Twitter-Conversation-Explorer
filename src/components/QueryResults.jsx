@@ -8,13 +8,13 @@ import CarouselChart from '../chartWrappers/CarouselChart';
 
 const PrevButton = (props) => {
   return (
-    <Button floating large icon="arrow_back" id="carousel-prev" className="red" style={props.style} onClick={props.onClick} />
+    <Button floating large icon="arrow_back" id="carousel-prev" className="red" onClick={props.onClick} />
   );
 };
 
 const NextButton = (props) => {
   return (
-    <Button floating large icon="arrow_forward" id="carousel-next" className="red" style={props.style} onClick={props.onClick} />
+    <Button floating large icon="arrow_forward" id="carousel-next" className="red" onClick={props.onClick} />
   );
 };
 
