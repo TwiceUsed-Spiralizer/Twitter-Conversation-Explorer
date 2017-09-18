@@ -4,7 +4,9 @@ import ReactTable from 'react-table';
 import chiSquaredCalc from '../utils/chiSquared';
 
 const ChiSquared = (props) => {
-if (props.data.length === 2) { return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>); }
+  if (props.data.length === 2) {
+    (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>);
+  }
   const dataFromProps = props.data;
   const maleKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
   const femaleKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
