@@ -91,7 +91,7 @@ const KeywordAcrossSentimentBody = () =>
     interactions: {
       adjacency_matrix: {
         filters: {
-          positiveSentiment: { range: { 'sentiment.score': { gte: 0 } } },
+          positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
           negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
         },
       },
