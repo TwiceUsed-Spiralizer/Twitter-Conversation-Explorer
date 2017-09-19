@@ -3,7 +3,7 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './BoardChart.css';
 
-export default (boardName, favourite, unfavourite, deleteChart, BoardPinDropdown) =>
+export default (boardName, favourite, unfavourite, deleteChart, moveColumn, BoardPinDropdown) =>
   props => (
     <Col m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
@@ -37,7 +37,7 @@ export default (boardName, favourite, unfavourite, deleteChart, BoardPinDropdown
           </Col>
 
           <Col s={4}>
-            <Chip><Icon small className="favourite-button">compare_arrows</Icon></Chip>
+            <Chip><div onClick={() => moveColumn(props.chartObject.id, boardName)}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
           </Col>
 
         </Row>
