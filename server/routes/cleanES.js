@@ -18,7 +18,19 @@ const cleanBucketedBarChartSentiment = (results) => {
   return obj;
 };
 
+const cleanGender = (input) => {
+  if (input === 1 || input === 0) {
+    return input;
+  } else if (input === 'male') {
+    return 0;
+  } else if (input === 'female') {
+    return 1;
+  }
+  return false;
+};
+
 module.exports = {
   cleanAdjacencyMatrix,
   cleanBucketedBarChartSentiment,
+  cleanGender,
 };
