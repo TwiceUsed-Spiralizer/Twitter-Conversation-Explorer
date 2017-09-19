@@ -9,7 +9,7 @@ const Board = props => (
   <Row>
     {props.columns.map(column =>
       (<Col m={4}>
-        <Card horizontal title={column.name}>
+        <Card horizontal title={<div style={{ textAlign: "center" }}>{column.name}</div>}>
           <Row>
           {column.charts.map(ChartComponent(BoardChart(props.unfavourite, BoardPinModal)))}
           </Row>
