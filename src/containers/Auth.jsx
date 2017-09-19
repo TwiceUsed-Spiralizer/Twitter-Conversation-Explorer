@@ -1,7 +1,6 @@
 import React from 'react';
 import firebaseui from 'firebaseui';
 import firebase from 'firebase';
-import { connect } from 'react-redux';
 
 class Auth extends React.Component {
 
@@ -18,10 +17,6 @@ class Auth extends React.Component {
     };
 
     new firebaseui.auth.AuthUI(firebase.auth()).start('#firebaseui-auth-container', uiConfig);
-
-    firebase.auth().onAuthStateChanged((user) => {
-      this.props.login(user);
-    });
   }
 
   render() {
@@ -29,9 +24,4 @@ class Auth extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  login: user => dispatch({ type: 'LOGIN', user }),
-  logout: () => dispatch({ type: 'LOGOUT' }),
-});
-
-export default connect(mapDispatchToProps)(Auth);
+export default Auth;

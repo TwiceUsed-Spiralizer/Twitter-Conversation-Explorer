@@ -5,15 +5,14 @@ import ChartComponent from '../chartComponents';
 import FavouritesChart from '../chartWrappers/FavouritesChart';
 import BoardPinModal from '../components/BoardPinModal';
 
-
 const Favourites = props => (
-  <Row>
+  <Row>{console.log(props.favourites)}
     {props.favourites.map(ChartComponent(FavouritesChart(props.unfavourite, BoardPinModal)))}
   </Row>
 );
 
 const mapStateToProps = state => ({
-  favourites: Array.from(state.favourites).map(key => state.charts[key]),
+  favourites: Array.from(state.favourites),
   boardNames: Object.keys(state.boards),
   boardContents: state.boards,
 });
