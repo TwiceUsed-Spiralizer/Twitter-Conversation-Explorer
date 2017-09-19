@@ -12,7 +12,7 @@ class QueryBuilder extends Component {
     };
     this.query = this.query.bind(this);
     this.props.clearResults();
-    this.getId = () => Math.floor(Math.random() * 100000);;
+    this.getId = () => Math.floor(Math.random() * 100000);
   }
 
   query() {
@@ -82,7 +82,7 @@ const mapStateToProps = state => ({
   charts: state.charts,
   favourites: state.favourites,
   boards: state.boards,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   addToResults: results => dispatch({ type: 'RESULTS_RECEIVED', results }),

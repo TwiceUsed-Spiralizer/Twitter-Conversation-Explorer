@@ -95,7 +95,7 @@ export const boards = (state, action) => {
       };
       break;
     case 'BOARD_NAME_COLUMN':
-      const newColumns = newBoardState.columnNames.map((column, index) => (index === action.index ? action.newName : column));
+      const newColumns = newBoardState.columnNames.map(column => (column === action.oldName ? action.newName : column));
       newState[action.boardName] = { ...newBoardState, columnNames: newColumns };
       break;
     case 'BOARD_CHART_ADD':

@@ -1,0 +1,27 @@
+#favourite-button-group {
+  position: absolute;
+  bottom: 0px;
+  right: 15px;
+  left: 15px;
+}
+
+.favourite-button {
+  color: teal;
+}
+
+.favourite-button:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.starred {
+  color: goldenrod;
+}
+
+.starred:before {
+  content: "star";
+}
+
+.starred:hover:before {
+  content: "star_border";
+}
