@@ -8,7 +8,7 @@ import BoardPinModal from '../components/BoardPinModal';
 
 const Favourites = props => (
   <Row>
-    {props.favourites.map(ChartComponent(FavouritesChart(id => firebase.database().ref(`/favourites/${props.user.uid}/${id}`).remove(), BoardPinModal)))}
+    {props.favourites.map(ChartComponent(FavouritesChart((id, val) => firebase.database().ref(`/charts/${props.user.uid}/${id}/favourited`).set(val), BoardPinModal)))}
   </Row>
 );
 

@@ -3,14 +3,14 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './FavouritesChart.css';
 
-export default (unfavourite, BoardPinDropdown) =>
+export default (favourite, BoardPinDropdown) =>
   props => (
     <Col xl={4} l={4} m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
           <Col m={3}>{console.log('chart', props.chartObject)}
-            <Chip><div onClick={() => unfavourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
+            <Chip><div onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}><Icon small className="favourite-button starred" /></div></Chip>
           </Col>
           <Col m={3}>
             <Chip>

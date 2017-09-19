@@ -21,7 +21,7 @@ const Board = props =>
           >
             <Row>
               <Input label="Enter a ColumnName" s={12} onChange={event => props.nameColumn(props.boardName, index, event.target.value)} />
-              {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, props.unfavourite, props.deleteChart, props.moveColumn, BoardPinModal)))}
+              {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, props.favourite, props.deleteChart, props.moveColumn, BoardPinModal)))}
             </Row>
           </Card>
         </Col>),
@@ -40,7 +40,7 @@ const mapStateToProps = (state, props) => {
         charts: Object.keys(boardState.charts || {})
           .map(key => ({ ...boardState.charts[key], parentKey: key }))
           .filter(chart => chart.colIndex === index)
-          .map(chart => ({ ...state.charts[chart.id], parentKey: chart.parentKey, colIndex: chart.colIndex })),
+          .map(chart => ({ ...state.charts[chart.id], parentKey: chart.parentKey, colIndex: chart.colIndex, id: chart.id })),
       }),
     ),
     user: state.user,
@@ -50,8 +50,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, props) => {
   const uid = firebase.auth().currentUser.uid;
   return {
-    favourite: id => dispatch({ type: 'FAVOURITES_ADD', id }),
-    unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
+    favourite: (id, val) => firebase.database().ref(`/charts/${uid}/${id}/favourited`).set(val),
     deleteChart: (parentKey, boardName) => firebase.database().ref(`/boards/${uid}/${boardName}/charts/${parentKey}`).remove(),
     moveColumn: (parentKey, boardName, toColumn) => firebase.database().ref(`/boards/${uid}/${boardName}/charts/${parentKey}/colIndex`).set(toColumn),
     nameColumn: debounce(
