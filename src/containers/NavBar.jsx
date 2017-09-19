@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row } from 'react-materialize';
 import { Link } from 'react-router-dom';
+import firebase from '../firebase';
 
 class NavBar extends Component {
   constructor(props) {
@@ -17,6 +18,12 @@ class NavBar extends Component {
     this.props.createBoard(this.state.boardName);
     this.setState({
       boardName: '',
+    });
+    firebase.database().ref(`/boards/${this.props.user.uid}/`).set({
+      [this.state.boardName]: {
+        columnNames: ['Yes', 'Maybe', 'Interesting'],
+        charts: {},
+      },
     });
   }
 
@@ -49,7 +56,8 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-  boards: Object.keys(state.boards),
+  boards: state.boards ? Object.keys(state.boards) : [],
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({
