@@ -94,7 +94,7 @@ export const boards = (state, action) => {
       newState[action.boardName].charts = newBoardState.charts.concat({ id: action.id, colIndex: 0 });
       break;
     case 'BOARD_CHART_DELETE':
-      newState[action.boardName].charts = newBoardState.charts.filter(item => item.id !== action.id);
+      newState[action.boardName].charts = Object.keys(newBoardState.charts).filter(key => newBoardState[key].id !== action.id);
       break;
     default:
       return state;
