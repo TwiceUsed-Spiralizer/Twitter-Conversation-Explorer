@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import firebase from '../firebase';
+import './AuthNav.css';
 
 class NavBar extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class NavBar extends Component {
           <Modal
             counter={this.props.boards}
             header="Add New Board"
-            trigger={<NavItem><Icon>add_box</Icon></NavItem>}
+            trigger={<NavItem id="create-board"><Icon>add_box</Icon></NavItem>}
             actions={[<Button waves="light" modal="close" onClick={this.createBoard} flat>Create New Board</Button>]}
           >
             <Input label="Enter a Boardname" s={12} value={this.state.boardName} onChange={event => this.setState({ boardName: event.target.value })} />
