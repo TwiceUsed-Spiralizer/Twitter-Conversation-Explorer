@@ -25,7 +25,7 @@ const QueryResults = (props) => {
       <div id="results-carousel">
         <Slider adaptiveHeight={false} dots prevArrow={<PrevButton />} nextArrow={<NextButton />} >
           {
-            props.results.map(ChartComponent(CarouselChart(props.favouriteItem)))
+            props.results.map(ChartComponent(CarouselChart(props.favouriteItem, props.user)))
           }
         </Slider>
       </div>
@@ -37,6 +37,7 @@ const QueryResults = (props) => {
 
 const mapStateToProps = state => ({
   results: state.results,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => {
