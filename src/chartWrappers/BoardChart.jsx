@@ -3,23 +3,23 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './BoardChart.css';
 
-export default (unfavourite, BoardPinDropdown) =>
+export default (boardName, favourite, unfavourite, deleteChart, BoardPinDropdown) =>
   props => (
-    <Col m={12} s={12}>   
+    <Col m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
-          
+
           <Col s={4}>
-            <Chip><div onClick={() => unfavourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
+            <Chip><div onClick={() => favourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
           </Col>
-          
+
           <Col s={4}>
             <Chip>
               <BoardPinDropdown trigger={<div><Icon small className="favourite-button">play_for_work</Icon></div>} chartObject={props.chartObject} />
             </Chip>
           </Col>
-          
+
           <Col s={4}>
             <Chip><Icon small className="favourite-button">share</Icon></Chip>
           </Col>
@@ -30,6 +30,14 @@ export default (unfavourite, BoardPinDropdown) =>
                 <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
               </Modal>
             </Chip>
+          </Col>
+
+          <Col s={4}>
+            <Chip><div onClick={() => deleteChart(props.chartObject.id, boardName )} /><Icon small className="favourite-button">delete</Icon></Chip>
+          </Col>
+
+          <Col s={4}>
+            <Chip><Icon small className="favourite-button">compare_arrows</Icon></Chip>
           </Col>
 
         </Row>

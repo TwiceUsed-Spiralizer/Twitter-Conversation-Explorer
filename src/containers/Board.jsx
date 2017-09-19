@@ -9,9 +9,9 @@ const Board = props => (
   <Row>
     {props.columns.map(column =>
       (<Col m={4}>
-        <Card horizontal title={<div style={{ textAlign: "center" }}>{column.name}</div>}>
+        <Card horizontal title={<div style={{ textAlign: 'center' }}>{column.name}</div>}>
           <Row>
-          {column.charts.map(ChartComponent(BoardChart(props.unfavourite, BoardPinModal)))}
+            {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, props.unfavourite, props.deleteChart, BoardPinModal)))}
           </Row>
         </Card>
       </Col>),
@@ -22,6 +22,7 @@ const Board = props => (
 const mapStateToProps = (state, props) => {
   const boardName = props.match.params.boardName;
   return {
+    boardName,    
     columns: state.boards[boardName].columnNames.map((name, index) =>
       ({
         name,
@@ -32,11 +33,13 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
+  favourite: id => dispatch({ type: 'FAVOURITES_ADD', id }),
   unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
+  deleteChart: (id, boardName) => dispatch({ type: 'BOARD_CHART_DELETE', id, boardName }),
   pinToBoard: (id, boardName) =>
     props.boardNames.includes(boardName)
     && !props.boardContents[boardName].includes(id)
-    && dispatch({ type: 'BOARD_ADD_CHART', id }),
+    && dispatch({ type: 'BOARD_CHART_ADD', id }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
