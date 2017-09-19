@@ -35,9 +35,9 @@ const mapStateToProps = (state, props) => {
       ({
         name,
         charts: Object.keys(boardState.charts)
-          .map(chartId => boardState.charts[chartId])
+          .map(key => ({ ...boardState.charts[key], fbKey: key }))
           .filter(chart => chart.colIndex === index)
-          .map(chart => state.charts[chart.id]),
+          .map(chart => ({ ...state.charts[chart.id], fbKey: chart.fbKey })),
       }),
     ),
   };
