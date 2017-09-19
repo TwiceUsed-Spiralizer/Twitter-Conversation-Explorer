@@ -1,0 +1,4 @@
+#create-board:hover {
+  cursor: pointer;
+  background-color: salmon;
+}
