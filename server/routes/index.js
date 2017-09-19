@@ -15,7 +15,7 @@ const type = 'tweet';
 app.post('/api/KeywordAcrossGender', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
   const recipientsGender = req.body.recipientsGender === undefined ?
-    false : req.body.recipientsGender;
+    false : clean.cleanGender(req.body.recipientsGender);
   const sentiment = req.body.sentiment || false;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
@@ -38,9 +38,10 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
 
 app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
-  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const senderGender = req.body.senderGender === undefined ?
+    false : clean.cleanGender(req.body.senderGender);
   const recipientsGender = req.body.recipientsGender === undefined ?
-    false : req.body.recipientsGender;
+    false : clean.cleanGender(req.body.recipientsGender);
   const sentiment = req.body.sentiment || false;
   let esBody = queries.KeywordAcrossFollowerCountBody();
 
@@ -61,9 +62,10 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
 
 app.post('/api/KeywordAcrossSentiment', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
-  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const senderGender = req.body.senderGender === undefined ?
+    false : clean.cleanGender(req.body.senderGender);
   const recipientsGender = req.body.recipientsGender === undefined ?
-    false : req.body.recipientsGender;
+    false : clean.cleanGender(req.body.recipientsGender);
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
   let esBody = queries.KeywordAcrossSentimentBody();
@@ -85,9 +87,10 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
 
 app.post('/api/SelectionsOverTime', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
-  const senderGender = req.body.senderGender === undefined ? false : req.body.senderGender;
+  const senderGender = req.body.senderGender === undefined ?
+    false : clean.cleanGender(req.body.senderGender);
   const recipientsGender = req.body.recipientsGender === undefined ?
-    false : req.body.recipientsGender;
+    false : clean.cleanGender(req.body.recipientsGender);
   const sentiment = req.body.sentiment || false;
   const senderFollowerMin = req.body.senderFollowerMin || false;
   const senderFollowerMax = req.body.senderFollowerMax || false;
@@ -137,6 +140,5 @@ app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
     from: 0,
     body: esBody,
   }).then(body => clean.cleanBucketedBarChartSentiment(body.aggregations.followerCount_ranges))
-  // }).then(body => body.aggregations.followerCount_ranges)
     .then(data => res.send(data));
 });
