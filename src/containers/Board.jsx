@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Input, Modal } from 'react-materialize';
+import { Card, Row, Col, Input } from 'react-materialize';
 import ChartComponent from '../chartComponents';
 import BoardChart from '../chartWrappers/BoardChart';
 import BoardPinModal from '../components/BoardPinModal';
