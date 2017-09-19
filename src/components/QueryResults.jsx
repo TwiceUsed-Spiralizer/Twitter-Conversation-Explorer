@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import { Button, CardPanel } from 'react-materialize';
 import { connect } from 'react-redux';
+import firebase from '../firebase';
 import './QueryResults.css';
 import ChartComponent from '../chartComponents';
 import CarouselChart from '../chartWrappers/CarouselChart';
@@ -40,14 +41,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   favouriteItem: (chartObject) => {
-    dispatch({
-      type: 'CHARTS_ADD',
-      chartObject,
-    });
-    dispatch({
-      type: 'FAVOURITES_ADD',
-      id: chartObject.id,
-    });
+    const user = firebase.auth().currentUser;
+    firebase.database().ref(`/favourites/${user.uid}`).push(chartObject);
   },
 });
 

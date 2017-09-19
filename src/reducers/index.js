@@ -42,7 +42,7 @@ export const favourites = (state, action) => {
   const newState = new Set(state);
   switch (action.type) {
     case 'FAVOURITES_ADD':
-      newState.add(action.id);
+      newState.add(action.chartObject);
       break;
     case 'FAVOURITES_DELETE':
       newState.delete(action.id);
@@ -116,7 +116,6 @@ const user = (state, action) => {
   }
   switch (action.type) {
     case ('LOGIN'):
-    console.log(action);
       return action.user;
     case ('LOGOUT'):
       return null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Query, Favourites, Board, NavBar, Auth } from './index';
 import './App.css';
@@ -7,7 +7,15 @@ import firebase from '../firebase';
 
 class App extends React.Component {
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(this.props.login);
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        this.props.login(user);
+        firebase.database().ref(`/favourites/${user.uid}`).on('child_added', sn => this.props.addFavourite(sn.val()));
+      } else {
+        this.props.logout();
+      }
+    });
   }
 
   render() {
@@ -28,6 +36,8 @@ class App extends React.Component {
 const mapDispatchToProps = dispatch => ({
   login: user => dispatch({ type: 'LOGIN', user }),
   logout: () => dispatch({ type: 'LOGOUT' }),
+  setFavourites: favourites => dispatch({ type: 'FAVOURITES_SET', favourites }),
+  addFavourite: chartObject => dispatch({ type: 'FAVOURITES_ADD', chartObject }),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default withRouter(connect(null, mapDispatchToProps)(App));
