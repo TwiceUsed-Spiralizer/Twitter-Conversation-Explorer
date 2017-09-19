@@ -9,7 +9,7 @@ export default (unfavourite, BoardPinDropdown) =>
       <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
-          <Col m={3}>
+          <Col m={3}>{console.log('chart', props.chartObject)}
             <Chip><div onClick={() => unfavourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
           </Col>
           <Col m={3}>
