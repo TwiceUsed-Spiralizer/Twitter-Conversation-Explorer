@@ -39,12 +39,36 @@ const mapStateToProps = state => ({
   results: state.results,
 });
 
-const mapDispatchToProps = dispatch => ({
-  favouriteItem: (chartObject) => {
-    const user = firebase.auth().currentUser;
-    const { resultsIndex, ...restOfObject } = chartObject;
-    firebase.database().ref(`/favourites/${user.uid}`).push(restOfObject);
-  },
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    favouriteItem: (chartObject) => {
+      if (chartObject.id) {
+        firebase.database().ref(`/charts/${firebase.auth().currentUser.uid}/${chartObject.id}/favourited`).set(true)
+          .then(() => {
+            dispatch({
+              type: 'RESULTS_CHANGE',
+              index: chartObject.resultsIndex,
+              chartObject: {
+                ...chartObject,
+                favourited: true,
+              },
+            });
+          });
+      } else {
+        const { resultsIndex, ...restOfObject } = { ...chartObject, favourited: true };
+        firebase.database().ref(`/charts/${firebase.auth().currentUser.uid}`).push(restOfObject)
+          .then(item => dispatch({
+            type: 'RESULTS_CHANGE',
+            index: chartObject.resultsIndex,
+            chartObject: {
+              ...chartObject,
+              id: item.key,
+              favourited: true,
+            },
+          }));
+      }
+    },
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueryResults);
