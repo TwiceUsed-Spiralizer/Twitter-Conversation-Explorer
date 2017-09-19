@@ -8,11 +8,9 @@ import firebase from '../firebase';
 class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         this.props.login(user);
         firebase.database().ref(`/charts/${user.uid}`).on('value', snapshot => this.props.setCharts(snapshot.val()));
-        firebase.database().ref(`/favourites/${user.uid}`).on('value', snapshot => this.props.setFavourites(snapshot.val()));
         firebase.database().ref(`/boards/${user.uid}`).on('value', snapshot => this.props.setBoards(snapshot.val() || {}));
       } else {
         this.props.logout();

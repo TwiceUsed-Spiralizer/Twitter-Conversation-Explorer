@@ -40,7 +40,7 @@ const mapStateToProps = (state, props) => ({
   boards:  props.chartObject.id
     ? Object.keys(state.boards)
       .map(name => ({ ...state.boards[name], name }))
-      .filter(board => !Object.keys(board.charts).map(key => board.charts[key].id).includes(props.chartObject.id))
+      .filter(board => !Object.keys(board.charts || {}).map(key => board.charts[key].id).includes(props.chartObject.id))
     : Object.keys(state.boards)
       .map(name => ({ ...state.boards[name], name })),
   user: state.user,
