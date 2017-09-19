@@ -25,3 +25,16 @@
 .starred:hover:before {
   content: "star_border";
 }
+
+.unstarred {
+  color: black;
+}
+
+.unstarred:before {
+  content: "star_border";
+}
+
+.unstarred:hover:before {
+  color: goldenrod;
+  content: "star";
+}
