@@ -38,7 +38,7 @@ const mapStateToProps = (state, props) => {
         charts: Object.keys(boardState.charts || {})
           .map(key => ({ ...boardState.charts[key], parentKey: key }))
           .filter(chart => chart.colIndex === index)
-          .map(chart => ({ ...state.charts[chart.id], parentKey: chart.parentKey })),
+          .map(chart => ({ ...state.charts[chart.id], parentKey: chart.parentKey, colIndex: chart.colIndex })),
       }),
     ),
     user: state.user,
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   favourite: id => dispatch({ type: 'FAVOURITES_ADD', id }),
   unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
   deleteChart: (parentKey, boardName) => firebase.database().ref(`/boards/${firebase.auth().currentUser.uid}/${boardName}/charts/${parentKey}`).remove(),
-  moveColumn: (id, boardName, toColumn) => dispatch({ type: 'BOARD_MOVE_COLUMN', id, boardName, toColumn }),
+  moveColumn: (parentKey, boardName, toColumn) => firebase.database().ref(`/boards/${firebase.auth().currentUser.uid}/${boardName}/charts/${parentKey}/colIndex`).set(toColumn),
   nameColumn: (boardName, oldName, newName) => dispatch({ type: 'BOARD_NAME_COLUMN', boardName, oldName, newName }),
   pinToBoard: (id, boardName) =>
     props.boardNames.includes(boardName)

@@ -5,7 +5,7 @@ import './BoardChart.css';
 
 export default (boardName, favourite, unfavourite, deleteChart, moveColumn, BoardPinDropdown) =>
   props => (
-    <Col m={12} s={12}>
+    <Col m={12} s={12}>{console.log(props)}
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
@@ -37,7 +37,7 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
 
           <Col s={4}>
             {/* {props.index} */}
-            <Chip><div onClick={() => moveColumn(props.chartObject.id, boardName, (props.index + 1))}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
+            <Chip><div onClick={() => moveColumn(props.chartObject.parentKey, boardName, (props.chartObject.colIndex + 1) % 3)}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
           </Col>
 
         </Row>
