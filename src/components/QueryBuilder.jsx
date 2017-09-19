@@ -11,6 +11,7 @@ class QueryBuilder extends Component {
       gender: 1,
     };
     this.query = this.query.bind(this);
+    this.resultsIndex = 0;
     this.props.clearResults();
   }
 
@@ -22,8 +23,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.props.addToResults([
-          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword },
+          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
@@ -34,6 +35,7 @@ class QueryBuilder extends Component {
           data: res.data,
           title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
           keyword,
+          resultsIndex: this.resultsIndex++,
         })
       );
     axios.post('/api/BucketedBarChart', { keyword })
@@ -44,6 +46,7 @@ class QueryBuilder extends Component {
           data: res.data,
           title: `Breakdown of use of ${keyword} by gender and follower count`,
           keyword,
+          resultsIndex: this.resultsIndex++,
         })
       );
   }

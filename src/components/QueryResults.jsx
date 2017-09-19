@@ -42,7 +42,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   favouriteItem: (chartObject) => {
     const user = firebase.auth().currentUser;
-    firebase.database().ref(`/favourites/${user.uid}`).push(chartObject);
+    const { resultsIndex, ...restOfObject } = chartObject;
+    firebase.database().ref(`/favourites/${user.uid}`).push(restOfObject);
   },
 });
 
