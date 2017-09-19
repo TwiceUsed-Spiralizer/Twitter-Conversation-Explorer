@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button, Preloader } from 'react-materialize';
+import { Row, Col, Input, Button, Preloader, Card } from 'react-materialize';
+import Slider from 'material-ui/Slider';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -36,7 +37,7 @@ class QueryBuilder extends Component {
           title: `Breakdown of Use of ${keyword} by Time for ${senderGender ? 'women' : 'men'}`,
           keyword,
           resultsIndex: this.resultsIndex++,
-        })
+        }),
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
@@ -47,24 +48,37 @@ class QueryBuilder extends Component {
           title: `Breakdown of Use of ${keyword} by Gender and Follower Count`,
           keyword,
           resultsIndex: this.resultsIndex++,
-        })
+        }),
       );
   }
 
   render() {
     return (
-      <Row>
-        <p>WHO</p>
-        <Input s={12} type="select" label="Gender" defaultValue={1} onChange={event => this.setState({ gender: event.target.value })} >
-          <option value={0}>Male</option>
-          <option value={1}>Female</option>
-          <option value={2}>None</option>
-        </Input>
-        <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
-        <Row>
-          <p> WHEN </p>
-          <Input name="on" type="date" label="Click to pick your date!" />
-        </Row>
+      <Card header={<h3 style={{ textAlign: 'center' }}>Build your Query</h3>}>
+        <Card s={12} title="WHO">
+          <Input s={6} type="select" label="Gender of Sender's Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
+            <option value={0}>Male</option>
+            <option value={1}>Female</option>
+            <option value={2}>None</option>
+          </Input>
+          <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
+            <option value={0}>Male</option>
+            <option value={1}>Female</option>
+            <option value={2}>None</option>
+          </Input>
+        </Card>
+        <Card>
+          <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
+        </Card>
+        <Card>
+          <Slider />
+        </Card>
+        <Card s={12}>
+          <Input s={12} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
+            <option value={0}>Male</option>
+            <option value={1}>Female</option>
+          </Input>
+        </Card>
         <Row>
           <Col m={6}>
             <Button onClick={this.query} >Submit</Button>
@@ -73,7 +87,7 @@ class QueryBuilder extends Component {
             {this.state.loading ? <Preloader big flashing /> : null}
           </Col>
         </Row>
-      </Row>
+      </Card>
     );
   }
 }
