@@ -9,7 +9,6 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         {props.title}
         <Row id="favourite-button-group">
-
           <Col s={4}>
             <Chip><div onClick={() => favourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
           </Col>
@@ -37,7 +36,8 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
           </Col>
 
           <Col s={4}>
-            <Chip><div onClick={() => moveColumn(props.chartObject.id, boardName)}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
+            {/* {props.index} */}
+            <Chip><div onClick={() => moveColumn(props.chartObject.id, boardName, (props.index + 1))}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
           </Col>
 
         </Row>

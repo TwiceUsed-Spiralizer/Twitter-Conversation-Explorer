@@ -7,6 +7,9 @@ import BoardPinModal from '../components/BoardPinModal';
 
 const Board = props => (
   <Row>
+    <Row>
+      <h1 style={{ textAlign: 'center' }}>{props.boardName}</h1>
+    </Row>
     {props.columns.map(column =>
       (<Col m={4}>
         <Card
