@@ -23,8 +23,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword })
       .then(res =>
         this.props.addToResults([
-          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, resultsIndex: this.resultsIndex++ },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of ${keyword} by Gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of ${keyword} by Gender`, keyword, resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender })
@@ -33,7 +33,7 @@ class QueryBuilder extends Component {
           type: 'line',
           icon: 'show_chart',
           data: res.data,
-          title: `Breakdown of use of ${keyword} by time for ${senderGender ? 'women' : 'men'}`,
+          title: `Breakdown of Use of ${keyword} by Time for ${senderGender ? 'women' : 'men'}`,
           keyword,
           resultsIndex: this.resultsIndex++,
         })
@@ -44,7 +44,7 @@ class QueryBuilder extends Component {
           type: 'histogram',
           icon: 'insert_chart',
           data: res.data,
-          title: `Breakdown of use of ${keyword} by gender and follower count`,
+          title: `Breakdown of Use of ${keyword} by Gender and Follower Count`,
           keyword,
           resultsIndex: this.resultsIndex++,
         })

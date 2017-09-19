@@ -2,7 +2,7 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 const TCEHistogram = (props) => {
-  //console.log(props.data);
+  console.log(props.data);
   const arrayOfDataForFemales = props.data.buckets.map(el => (el.gender.buckets[2] ? el.gender.buckets[2].doc_count : 0));
   const arrayOfDataForMales = props.data.buckets.map(el => (el.gender.buckets[1] ? el.gender.buckets[1].doc_count : 0));
   const allZeroes = (array) => {
