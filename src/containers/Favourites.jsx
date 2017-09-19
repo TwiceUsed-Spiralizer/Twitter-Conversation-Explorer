@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   pinToBoard: (id, boardName) =>
     props.boardNames.includes(boardName)
     && !props.boardContents[boardName].includes(id)
-    && dispatch({ type: 'BOARD_ADD_CHART', id }),
+    && dispatch({ type: 'BOARD_CHART_ADD', id }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites);
