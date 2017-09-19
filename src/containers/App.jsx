@@ -14,7 +14,6 @@ class App extends React.Component {
         firebase.database().ref(`/charts/${user.uid}`).on('value', snapshot => this.props.setCharts(snapshot.val()));
         firebase.database().ref(`/favourites/${user.uid}`).on('value', snapshot => this.props.setFavourites(snapshot.val()));
         firebase.database().ref(`/boards/${user.uid}`).on('value', snapshot => this.props.setBoards(snapshot.val() || {}));
-        firebase.database().ref(`/boards/${user.uid}/boob/charts`).orderByChild('id').equalTo('-KuNFzv9EGcBXol0FG9x').on('value', s => console.log(Object.keys(s.val())[0]));
       } else {
         this.props.logout();
       }
