@@ -37,16 +37,18 @@ export const charts = (state, action) => {
 
 export const favourites = (state, action) => {
   if (state === undefined) {
-    return new Set();
+    return {};
   }
-  const newState = new Set(state);
+  const newState = { ...state };
   switch (action.type) {
     case 'FAVOURITES_ADD':
-      newState.add(action.chartObject);
+      newState[action.id] = action.chartObject;
       break;
     case 'FAVOURITES_DELETE':
-      newState.delete(action.id);
+      delete newState[action.id];
       break;
+    case 'FAVOURITES_SET':
+      return action.favourites;
     default:
       return state;
   }

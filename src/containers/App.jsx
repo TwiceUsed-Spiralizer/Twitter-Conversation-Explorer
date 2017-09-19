@@ -11,7 +11,11 @@ class App extends React.Component {
       console.log(user);
       if (user) {
         this.props.login(user);
-        firebase.database().ref(`/favourites/${user.uid}`).on('child_added', sn => this.props.addFavourite(sn.val()));
+        firebase.database().ref(`/favourites/${user.uid}`).on('value',
+          (snapshot) => {
+            this.props.setFavourites(snapshot.val());
+          }
+        );
       } else {
         this.props.logout();
       }
