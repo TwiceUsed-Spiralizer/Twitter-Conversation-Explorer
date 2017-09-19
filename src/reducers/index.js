@@ -110,9 +110,25 @@ export const boards = (state, action) => {
   return newState;
 };
 
+const user = (state, action) => {
+  if (state === undefined) {
+    return null;
+  }
+  switch (action.type) {
+    case ('LOGIN'):
+    console.log(action);
+      return action.user;
+    case ('LOGOUT'):
+      return null;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   results,
   charts,
   favourites,
   boards,
+  user,
 });
