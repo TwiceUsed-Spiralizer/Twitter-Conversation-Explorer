@@ -26,6 +26,8 @@ export const charts = (state, action) => {
     case 'CHARTS_ADD':
       newState[action.chartObject.id] = action.chartObject;
       break;
+    case 'CHARTS_SET':
+      return action.charts;
     case 'CHARTS_DELETE':
       delete newState[action.chartObject.id];
       break;
@@ -57,24 +59,7 @@ export const favourites = (state, action) => {
 
 export const boards = (state, action) => {
   if (state === undefined) {
-    return {
-      heads: {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: [],
-      },
-      shoulders: {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: [],
-      },
-      knees: {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: [],
-      },
-      toes: {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: [],
-      },
-    };
+    return {};
   }
   const newState = { ...state };
   const newBoardState = { ...state[action.boardName] };
@@ -83,13 +68,15 @@ export const boards = (state, action) => {
       if (!newState[action.boardName]) {
         newState[action.boardName] = {
           columnNames: ['Yes', 'Maybe', 'Interesting'],
-          charts: [],
+          charts: {},
         };
       }
       break;
     case 'BOARD_DELETE':
       delete newState[action.boardName];
       break;
+    case 'BOARDS_SET':
+      return action.boards;
     case 'BOARD_MOVE_COLUMN':
       newState[action.boardName] = {
         ...newBoardState,

@@ -36,7 +36,7 @@ const QueryResults = (props) => {
 };
 
 const mapStateToProps = state => ({
-  results: state.results.map(item => state.favourites.has(item.id) ? { ...item, favourited: true } : item),
+  results: state.results,
 });
 
 const mapDispatchToProps = dispatch => ({

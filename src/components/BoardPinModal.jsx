@@ -1,7 +1,14 @@
 import React from 'react';
 import { Row, Col, Modal, Collection, CollectionItem, Icon, Card } from 'react-materialize';
 import { connect } from 'react-redux';
+import firebase from '../firebase';
 import BareChartComponent from '../chartComponents/BareChartComponent';
+
+const pinToBoard = (uid, boardName, chartObject) => {
+  console.log(boardName)
+  firebase.database().ref(`/charts/${uid}/`).push(chartObject)
+    .then(item => firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: item.key, colIndex: 0 }));
+};
 
 const BoardPinModal = props => (
   <Modal
@@ -22,7 +29,7 @@ const BoardPinModal = props => (
             tabIndex="0"
             onClick={(event) => {
               event.preventDefault();
-              props.pinToBoard(event.target.getAttribute('data-name'), props.chartObject);
+              pinToBoard(props.user.uid, event.target.getAttribute('data-name'), props.chartObject);
             }}
           >
             {props.boards.map(board => <CollectionItem href="#" data-name={board.name} key={board.name}><Icon left>save</Icon>{board.name}</CollectionItem>)}
@@ -34,9 +41,13 @@ const BoardPinModal = props => (
 );
 
 const mapStateToProps = (state, props) => ({
-  boards: Object.keys(state.boards)
-    .map(name => ({ ...state.boards[name], name }))
-    .filter(board => !board.charts.map(chart => chart.id).includes(props.chartObject.id)),
+  boards:  props.chartObject.id
+    ? Object.keys(state.boards)
+      .map(name => ({ ...state.boards[name], name }))
+      .filter(board => !board.charts.map(chart => chart.id).includes(props.chartObject.id))
+    : Object.keys(state.boards)
+      .map(name => ({ ...state.boards[name], name })),
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({

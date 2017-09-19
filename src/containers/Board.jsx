@@ -28,12 +28,16 @@ const Board = props => (
 
 const mapStateToProps = (state, props) => {
   const boardName = props.match.params.boardName;
+  const boardState = state.boards[boardName];
   return {
     boardName,
-    columns: state.boards[boardName].columnNames.map((name, index) =>
+    columns: boardState.columnNames.map((name, index) =>
       ({
         name,
-        charts: state.boards[boardName].charts.filter(chart => chart.colIndex === index).map(chart => state.charts[chart.id]),
+        charts: Object.keys(boardState.charts)
+          .map(chartId => boardState.charts[chartId])
+          .filter(chart => chart.colIndex === index)
+          .map(chart => state.charts[chart.id]),
       }),
     ),
   };
