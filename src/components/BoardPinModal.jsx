@@ -4,12 +4,6 @@ import { connect } from 'react-redux';
 import firebase from '../firebase';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 
-const pinToBoard = (uid, boardName, chartObject) => {
-  console.log(boardName)
-  firebase.database().ref(`/charts/${uid}/`).push(chartObject)
-    .then(item => firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: item.key, colIndex: 0 }));
-};
-
 const BoardPinModal = props => (
   <Modal
     bottomSheet
@@ -29,7 +23,9 @@ const BoardPinModal = props => (
             tabIndex="0"
             onClick={(event) => {
               event.preventDefault();
-              pinToBoard(props.user.uid, event.target.getAttribute('data-name'), props.chartObject);
+              props.results
+                ? props.pinResultToBoard(props.user.uid, event.target.getAttribute('data-name'), props.chartObject)
+                : props.pinToBoard(props.user.uid, event.target.getAttribute('data-name'), props.chartObject);
             }}
           >
             {props.boards.map(board => <CollectionItem href="#" data-name={board.name} key={board.name}><Icon left>save</Icon>{board.name}</CollectionItem>)}
@@ -44,16 +40,34 @@ const mapStateToProps = (state, props) => ({
   boards:  props.chartObject.id
     ? Object.keys(state.boards)
       .map(name => ({ ...state.boards[name], name }))
-      .filter(board => !board.charts.map(chart => chart.id).includes(props.chartObject.id))
+      .filter(board => !Object.keys(board.charts).map(key => board.charts[key].id).includes(props.chartObject.id))
     : Object.keys(state.boards)
       .map(name => ({ ...state.boards[name], name })),
   user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  pinToBoard: (boardName, chartObject) => {
-    dispatch({ type: 'CHARTS_ADD', chartObject });
-    dispatch({ type: 'BOARD_CHART_ADD', boardName, id: chartObject.id });
+  pinToBoard: (uid, boardName, chartObject) => {
+    firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+  },
+  pinResultToBoard: (uid, boardName, chartObject) => {
+    if (chartObject.id) {
+      firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+    } else {
+      const { resultsIndex, ...restOfObject } = chartObject;
+      firebase.database().ref(`/charts/${uid}`).push(restOfObject)
+        .then((item) => {
+          firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: item.key, colIndex: 0 });
+          dispatch({
+            type: 'RESULTS_CHANGE',
+            index: chartObject.resultsIndex,
+            chartObject: {
+              ...chartObject,
+              id: item.key,
+            },
+          });
+        });
+    }
   },
 });
 

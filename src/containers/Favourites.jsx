@@ -7,13 +7,13 @@ import FavouritesChart from '../chartWrappers/FavouritesChart';
 import BoardPinModal from '../components/BoardPinModal';
 
 const Favourites = props => (
-  <Row>{console.log(props.favourites)}
+  <Row>
     {props.favourites.map(ChartComponent(FavouritesChart(id => firebase.database().ref(`/favourites/${props.user.uid}/${id}`).remove(), BoardPinModal)))}
   </Row>
 );
 
 const mapStateToProps = state => ({
-  favourites: Object.keys(state.favourites).map(key => ({ ...state.favourites[key], id: key })),
+  favourites: Object.keys(state.charts).filter(key => state.charts[key].favourited).map(key => ({ ...state.charts[key], id: key })),
   boardNames: Object.keys(state.boards),
   user: state.user,
   boardContents: state.boards,

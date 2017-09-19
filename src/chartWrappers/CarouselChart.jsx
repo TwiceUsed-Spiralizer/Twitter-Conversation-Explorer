@@ -20,6 +20,7 @@ export default favourite =>
         </Col>
         <Col>
           <BoardPinModal
+            results
             trigger={<Button waves="purple"><Icon left>play_for_work</Icon> Pin</Button>}
             chartObject={props.chartObject}
           />

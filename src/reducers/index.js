@@ -10,6 +10,9 @@ export const results = (state, action) => {
       return [];
     case 'RESULTS_RECEIVED':
       return state.filter(item => item.data).concat(action.results);
+    case 'RESULTS_CHANGE':
+      return state.slice()
+        .map(chart => chart.resultsIndex === action.index ? action.chartObject : chart);
     case 'RESULTS_CLEAR':
       return [];
     default:
