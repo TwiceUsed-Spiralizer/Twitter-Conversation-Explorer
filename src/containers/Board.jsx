@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Card, Row, Col } from 'react-materialize';
 import ChartComponent from '../chartComponents';
-import FavouritesChart from '../chartWrappers/FavouritesChart';
+import BoardChart from '../chartWrappers/BoardChart';
 import BoardPinModal from '../components/BoardPinModal';
 
 const Board = props => (
   <Row>
     {props.columns.map(column =>
       (<Col m={4}>
-        <Card header={column.name}>
-          {column.charts.map(ChartComponent(FavouritesChart(null, BoardPinModal)))}
+        <Card horizontal title={column.name}>
+          <Row>
+          {column.charts.map(ChartComponent(BoardChart(props.unfavourite, BoardPinModal)))}
+          </Row>
         </Card>
       </Col>),
     )}
@@ -29,5 +31,13 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(Board);
+const mapDispatchToProps = (dispatch, props) => ({
+  unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
+  pinToBoard: (id, boardName) =>
+    props.boardNames.includes(boardName)
+    && !props.boardContents[boardName].includes(id)
+    && dispatch({ type: 'BOARD_ADD_CHART', id }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
 
