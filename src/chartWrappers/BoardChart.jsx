@@ -10,7 +10,7 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
         {props.title}
         <Row id="favourite-button-group">
           <Col s={4}>
-            <Chip><div onClick={() => favourite(props.chartObject.id)}><Icon small className="favourite-button starred" /></div></Chip>
+            <Chip><div onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}><Icon small className="favourite-button starred" /></div></Chip>
           </Col>
 
           <Col s={4}>
