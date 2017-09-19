@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon, Card, Row, Col } from 'react-materialize';
 import { BoardPinModal } from '../components';
+import embed from '../firebase/embed';
 
 export default favourite =>
   props => (
@@ -16,7 +17,7 @@ export default favourite =>
           }
         </Col>
         <Col>
-          <Button waves="purple"><Icon left>share</Icon> Share</Button>
+          <Button waves="purple" onClick={() => {embed(props.chartObject)}}><Icon left>share</Icon> Share</Button>
         </Col>
         <Col>
           <BoardPinModal
