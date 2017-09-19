@@ -7,27 +7,41 @@ import BoardChart from '../chartWrappers/BoardChart';
 import BoardPinModal from '../components/BoardPinModal';
 import firebase from '../firebase';
 
-const Board = props =>
-  (
-    <Row>
+class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      edit: [
+        false,
+        false,
+        false,
+      ],
+    };
+  }
+
+  render() {
+    return (
       <Row>
-        <h1 style={{ textAlign: 'center' }}>{props.boardName}</h1>
+        <Row>
+          <h1 style={{ textAlign: 'center' }}>{this.props.boardName}</h1>
+        </Row>
+        {this.props.columns.map((column, index) =>
+          (<Col m={4}>
+            <Card
+              horizontal
+              title={<div>{column.name} <div><Icon right>edit</Icon></div></div>}
+            >
+              <Row>
+                {this.state.edit[index] && <Input label="Enter a ColumnName" s={12} onChange={event => this.props.nameColumn(this.props.boardName, index, event.target.value)} />}
+                {column.charts.map(ChartComponent(BoardChart(this.props.boardName, this.props.favourite, this.props.unfavourite, this.props.deleteChart, this.props.moveColumn, BoardPinModal)))}
+              </Row>
+            </Card>
+          </Col>),
+        )}
       </Row>
-      {props.columns.map((column, index) =>
-        (<Col m={4}>
-          <Card
-            horizontal
-            title={<div>{column.name} <div><Icon right>edit</Icon></div></div>}
-          >
-            <Row>
-              <Input label="Enter a ColumnName" s={12} onChange={event => props.nameColumn(props.boardName, index, event.target.value)} />
-              {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, props.unfavourite, props.deleteChart, props.moveColumn, BoardPinModal)))}
-            </Row>
-          </Card>
-        </Col>),
-      )}
-    </Row>
-  );
+    );
+  }
+}
 
 const mapStateToProps = (state, props) => {
   const boardName = props.match.params.boardName;

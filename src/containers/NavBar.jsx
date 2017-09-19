@@ -19,11 +19,9 @@ class NavBar extends Component {
     this.setState({
       boardName: '',
     });
-    firebase.database().ref(`/boards/${this.props.user.uid}/`).set({
-      [this.state.boardName]: {
-        columnNames: ['Yes', 'Maybe', 'Interesting'],
-        charts: {},
-      },
+    firebase.database().ref(`/boards/${this.props.user.uid}/${this.state.boardName}`).set({
+      columnNames: ['Yes', 'Maybe', 'Interesting'],
+      charts: {},
     });
   }
 
