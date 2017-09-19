@@ -33,7 +33,7 @@ export default (boardName, favourite, unfavourite, deleteChart, BoardPinDropdown
           </Col>
 
           <Col s={4}>
-            <Chip><div onClick={() => deleteChart(props.chartObject.id, boardName )} /><Icon small className="favourite-button">delete</Icon></Chip>
+            <Chip><div onClick={() => deleteChart(props.chartObject.id, boardName)}><Icon small className="favourite-button">delete</Icon></div></Chip>
           </Col>
 
           <Col s={4}>
