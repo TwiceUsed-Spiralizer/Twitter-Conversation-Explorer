@@ -6,6 +6,7 @@
 }
 
 .favourite-button {
+  transition-duration: 0.5s;
   color: teal;
 }
 
@@ -15,6 +16,7 @@
 }
 
 .starred {
+  transition-duration: 0.3s;
   color: goldenrod;
 }
 
@@ -27,6 +29,7 @@
 }
 
 .unstarred {
+  transition-duration: 0.3s;
   color: black;
 }
 
@@ -37,4 +40,20 @@
 .unstarred:hover:before {
   color: goldenrod;
   content: "star";
+}
+
+button {
+  background: none repeat scroll 0 0 transparent;
+  border: medium none;
+  border-spacing: 0;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  text-indent: 0;
+}
+
+button:active:hover {
+  background-color: transparent;
 }
