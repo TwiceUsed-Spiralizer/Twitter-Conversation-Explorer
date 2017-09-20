@@ -8,6 +8,9 @@ firebase.auth().onAuthStateChanged((user) => {
 
 const embed = (chartObject) => {
   const { resultsIndex, ...restOfObject } = chartObject;
+  if (chartObject.embedId) {
+    return new Promise(resolve => resolve(chartObject.embedId));
+  }
   return embedRef.push(restOfObject).then((item) => {
     if (chartObject.id) {
       return chartsRef.child(`${chartObject.id}/embedId`).set(item.key).then(() => item.key);
