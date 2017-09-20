@@ -62,17 +62,17 @@ class QueryBuilder extends Component {
     //       resultsIndex: this.resultsIndex++,
     //     }),
     //   );
-    axios.post('/api/BucketedBarChartBodySentiment', { keyword })
-      .then(res =>
-        this.props.addToResults({
-          type: 'histogram',
-          icon: 'insert_chart',
-          data: res.data,
-          title: `Breakdown of Use of "${keyword}" by Sentiment`,
-          keyword,
-          resultsIndex: this.resultsIndex++,
-        }),
-      );
+    // axios.post('/api/BucketedBarChartBodySentiment', { keyword })
+    //   .then(res =>
+    //     this.props.addToResults({
+    //       type: 'histogram',
+    //       icon: 'insert_chart',
+    //       data: res.data,
+    //       title: `Breakdown of Use of "${keyword}" by Sentiment`,
+    //       keyword,
+    //       resultsIndex: this.resultsIndex++,
+    //     }),
+    //   );
     axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
       .then(res =>
         this.props.addToResults(
