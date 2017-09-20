@@ -28,16 +28,18 @@ class QueryBuilder extends Component {
     const senderGender = this.state.senderGender;
     const recipientsGender = this.state.recipientsGender;
     const sentiment = this.state.sentiment;
+    const senderFollowerMin = this.state.followerCount.min;
+    const senderFollowerMax = this.state.followerCount.max;
     this.setState({ loading: true });
     const endLoading = () => this.setState({ loading: false });
-    axios.post('/api/KeywordAcrossGender', { keyword })
+    axios.post('/api/KeywordAcrossGender', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults([
-          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
+          // { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
           { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
-    axios.post('/api/SelectionsOverTime', { keyword, senderGender })
+    axios.post('/api/SelectionsOverTime', { keyword, senderGender, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults({
           type: 'line',
@@ -48,22 +50,27 @@ class QueryBuilder extends Component {
           resultsIndex: this.resultsIndex++,
         }),
       );
-    axios.post('/api/BucketedBarChart', { keyword })
-      .then(res =>
-        this.props.addToResults({
-          type: 'histogram',
-          icon: 'insert_chart',
-          data: res.data,
-          title: `Breakdown of Use of "${keyword}" by Gender and Follower Count`,
-          keyword,
-          resultsIndex: this.resultsIndex++,
-        }),
-      );
-    axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
-      .then(res =>
-        this.props.addToResults(
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ }),
-      );
+    // axios.post('/api/BucketedBarChart', { keyword })
+    //   .then(res =>
+    //     this.props.addToResults({
+    //       type: 'histogram',
+    //       icon: 'insert_chart',
+    //       data: res.data,
+    //       title: `Breakdown of Use of "${keyword}" by Gender and Follower Count`,
+    //       keyword,
+    //       resultsIndex: this.resultsIndex++,
+    //     }),
+    //   );
+    // axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
+    //   .then(res =>
+    //     this.props.addToResults(
+    //       { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, resultsIndex: this.resultsIndex++ }),
+    //   );
+    // axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
+    //   .then(res =>
+    //     this.props.addToResults(
+    //       { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, resultsIndex: this.resultsIndex++ }),
+    //   );
   }
 
   render() {

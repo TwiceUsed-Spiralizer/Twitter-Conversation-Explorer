@@ -32,7 +32,7 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
+  }).then(body => body.aggregations.interactions.buckets)
     .then(data => res.send(data));
 });
 
@@ -56,7 +56,7 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
+  }).then(body => body.aggregations.interactions.buckets)
     .then(data => res.send(data));
 });
 
@@ -81,7 +81,7 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
+  }).then(body => body.aggregations.interactions.buckets)
     .then(data => res.send(data));
 });
 
@@ -107,7 +107,7 @@ app.post('/api/SelectionsOverTime', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.histogram.buckets))
+  }).then(body => body.aggregations.histogram.buckets)
     .then(data => res.send(data));
 });
 
