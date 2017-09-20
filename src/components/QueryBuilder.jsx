@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button, Preloader, Card } from 'react-materialize';
-import Slider from 'material-ui/Slider';
+import { Row, Col, Input, Button, Preloader, Card, Collapsible, CollapsibleItem } from 'react-materialize';
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -55,38 +56,52 @@ class QueryBuilder extends Component {
   render() {
     return (
       <Card header={<h3 style={{ textAlign: 'center' }}>Build your Query</h3>}>
-        <Card s={12} title="WHO">
-          <Input s={6} type="select" label="Gender of Sender's Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
-            <option value={0}>Male</option>
-            <option value={1}>Female</option>
-            <option value={2}>None</option>
-          </Input>
-          <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
-            <option value={0}>Male</option>
-            <option value={1}>Female</option>
-            <option value={2}>None</option>
-          </Input>
-        </Card>
-        <Card>
-          <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
-        </Card>
-        <Card>
-          <Slider />
-        </Card>
-        <Card s={12}>
-          <Input s={12} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
-            <option value={0}>Male</option>
-            <option value={1}>Female</option>
-          </Input>
-        </Card>
-        <Row>
-          <Col m={6}>
-            <Button onClick={this.query} >Submit</Button>
-          </Col>
-          <Col m={6}>
-            {this.state.loading ? <Preloader big flashing /> : null}
-          </Col>
-        </Row>
+        <Collapsible popout>
+          <CollapsibleItem header="Gender" icon="wc">
+            <Row>
+              <Input s={6} type="select" label="Gender of Sender's Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
+                <option value={0}>Male</option>
+                <option value={1}>Female</option>
+                <option value={2}>None</option>
+              </Input>
+              <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ gender: event.target.value })} >
+                <option value={0}>Male</option>
+                <option value={1}>Female</option>
+                <option value={2}>None</option>
+              </Input>
+            </Row>
+          </CollapsibleItem>
+          <CollapsibleItem header="Keyword" icon="create">
+            <Row>
+              <Input label="Enter a Keyword" s={12} onChange={event => this.setState({ keyword: event.target.value })} />
+            </Row>
+          </CollapsibleItem>
+          <CollapsibleItem header="Sentiment" icon="insert_emoticon">
+            <Row>
+              <Input s={12} type="select" label="Gender of Recipients Tweets" defaultValue={1} onChange={event => this.setState({ gender: event.target.value })} >
+                <option value={-1}>:(</option>
+                <option value={1}>:)</option>
+              </Input>
+            </Row>
+          </CollapsibleItem>
+          <CollapsibleItem header="Follower Count" icon="group">
+            <Row>
+              <InputRange
+                maxValue={'1000000'.toLocaleString()}
+                minValue={0}
+              />
+            </Row>
+          </CollapsibleItem>
+          <Row />
+          <Row>
+            <Col m={6}>
+              <Button onClick={this.query} >Submit</Button>
+            </Col>
+            <Col m={6}>
+              {this.state.loading ? <Preloader big flashing /> : null}
+            </Col>
+          </Row>
+        </Collapsible>
       </Card>
     );
   }
