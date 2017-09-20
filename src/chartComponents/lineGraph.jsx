@@ -28,7 +28,7 @@ const TCELineGraph = (props) => {
       },
     ],
   };
-  return <Line options={{ maintainAspectRatio: false }} data={data} />;
+  return <Line options={{ maintainAspectRatio: false, animation: false }} data={data} />;
 };
 
 export default TCELineGraph;

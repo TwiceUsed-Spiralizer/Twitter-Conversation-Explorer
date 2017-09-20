@@ -35,7 +35,7 @@ const TCEHistogram = (props) => {
       },
     ],
   };
-  return (<Bar data={dataForGraph} options={{ maintainAspectRatio: false }} />);
+  return (<Bar data={dataForGraph} options={{ maintainAspectRatio: false, animation: false }} />);
 };
 
 export default TCEHistogram;
