@@ -52,9 +52,6 @@ const mapDispatchToProps = (dispatch) => {
     embedItem: (chartObject) => {
       embed(chartObject)
         .then((embedId) => {
-          if (chartObject.id) {
-            firebase.database().ref(`/charts/${firebase.auth().currentUser.uid}/${chartObject.id}/embedId`).set(embedId);
-          }
           changeResults({ ...chartObject, embedId });
         });
     },
