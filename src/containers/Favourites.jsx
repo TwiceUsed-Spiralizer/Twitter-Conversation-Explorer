@@ -1,20 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row } from 'react-materialize';
+import isEqual from 'lodash/isEqual';
 import firebase from '../firebase';
 import ChartComponent from '../chartComponents';
 import FavouritesChart from '../chartWrappers/FavouritesChart';
 import BoardPinModal from '../components/BoardPinModal';
 import embed from '../firebase/embed';
 
-const Favourites = (props) => {
-  const setFavouriteStatus = (id, val) => firebase.database().ref(`/charts/${props.user.uid}/${id}/favourited`).set(val);
-  return (
-    <Row>
-      {props.favourites.map(ChartComponent(FavouritesChart(setFavouriteStatus, embed, BoardPinModal)))}
-    </Row>
-  );
-};
+class Favourites extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      animation: true,
+    }
+    this.setFavouriteStatus = (id, val) => firebase.database().ref(`/charts/${props.user.uid}/${id}/favourited`).set(val);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.favourites.length) {
+      this.setState({
+        animation: false,
+      });
+    }
+  }
+
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(nextProps.favourites, this.props.favourites);
+  }
+  
+  render() {
+    console.log('render');
+    return (
+      <Row>
+        {this.props.favourites
+          .map(ChartComponent(
+            FavouritesChart(this.setFavouriteStatus, embed, BoardPinModal),
+            this.state.animation),
+          )}
+      </Row>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   favourites: Object.keys(state.charts).filter(key => state.charts[key].favourited).map(key => ({ ...state.charts[key], id: key })),
@@ -23,12 +51,4 @@ const mapStateToProps = state => ({
   boardContents: state.boards,
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
-  unfavourite: id => dispatch({ type: 'FAVOURITES_DELETE', id }),
-  pinToBoard: (id, boardName) =>
-    props.boardNames.includes(boardName)
-    && !props.boardContents[boardName].includes(id)
-    && dispatch({ type: 'BOARD_CHART_ADD', id }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Favourites);
+export default connect(mapStateToProps)(Favourites);

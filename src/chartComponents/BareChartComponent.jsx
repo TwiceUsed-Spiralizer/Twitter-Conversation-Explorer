@@ -27,5 +27,5 @@ export default  (chartObject) => {
     default:
       return null;
   }
-  return (<Chart data={chartObject.data} />);
+  return (<Chart options={{ maintainAspectRatio: false, animation: false }} data={chartObject.data} />);
 };
