@@ -3,14 +3,20 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './FavouritesChart.css';
 
-export default (favourite, BoardPinDropdown) =>
+export default (favourite, embed, BoardPinDropdown) =>
   props => (
     <Col xl={4} l={4} m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
-        {props.title}
+        <Row>
+          {props.title}
+        </Row>
+        <Row>
+          {props.chartObject.embedId &&
+            `<iframe width="560" height="315" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${props.chartObject.embedId}" frameborder="0" ></iframe>`}
+        </Row>
         <Row id="favourite-button-group">
           <Col m={3}>{console.log('chart', props.chartObject)}
-            <Chip><div onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}><Icon small className="favourite-button starred" /></div></Chip>
+            <Chip><button onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}><Icon small className="favourite-button starred" /></button></Chip>
           </Col>
           <Col m={3}>
             <Chip>
@@ -18,7 +24,9 @@ export default (favourite, BoardPinDropdown) =>
             </Chip>
           </Col>
           <Col m={3}>
-            <Chip><Icon small className="favourite-button">share</Icon></Chip>
+            <Chip><button onClick={() => embed(props.chartObject)}>
+              <Icon small className="favourite-button">share</Icon>
+            </button></Chip>
           </Col>
           <Col m={3}>
             <Chip>
