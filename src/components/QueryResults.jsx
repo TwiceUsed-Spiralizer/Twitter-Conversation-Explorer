@@ -73,6 +73,12 @@ const mapDispatchToProps = (dispatch) => {
     embedItem: (chartObject) => {
       embed(chartObject)
         .then((embedId) => {
+<<<<<<< 968479fc4d40ce70c427f3729da80fc31fa78641
+=======
+          if (chartObject.id) {
+            firebase.database().ref(`/charts/${firebase.auth().currentUser.uid}/${chartObject.id}/embedId`).set(embedId);
+          }
+>>>>>>> Add clickhandler for consistent embed behaviour
           changeResults({ ...chartObject, embedId });
         });
     },
