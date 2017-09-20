@@ -4,39 +4,42 @@ import ReactTable from 'react-table';
 import chiSquaredCalc from '../utils/chiSquared';
 
 const ChiSquared = (props) => {
-  if (props.data.length === 2) { return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>);
+  if (props.data.length === 2) {
+ return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>);
   }
   const dataFromProps = props.data;
-  const maleKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
-  const femaleKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
-  const maleTotal = dataFromProps[4] ? dataFromProps[4].doc_count : dataFromProps[1].doc_count;
-  const femaleTotal = dataFromProps[0].doc_count;
+
+  const categoryATotal = dataFromProps[0];
+  const categoryAandKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
+  const categoryBTotal = dataFromProps[2];
+  const categoryBandKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
+
   const chiSquaredData = {
-    maleKeyword,
-    maleNotKeyword: maleTotal - maleKeyword,
-    femaleKeyword,
-    femaleNotKeyword: femaleTotal - femaleKeyword,
+    categoryAandKeyword,
+    categoryANotKeyword: categoryATotal - categoryAandKeyword,
+    categoryBandKeyword,
+    categoryBNotKeyword: categoryBTotal - categoryBandKeyword,
   };
   const p = chiSquaredCalc({
-    a1: chiSquaredData.maleKeyword,
-    a2: chiSquaredData.femaleKeyword,
-    b1: chiSquaredData.maleNotKeyword,
-    b2: chiSquaredData.femaleNotKeyword,
+    a1: chiSquaredData.categoryBandKeyword,
+    a2: chiSquaredData.categoryAandKeyword,
+    b1: chiSquaredData.categoryBNotKeyword,
+    b2: chiSquaredData.categoryANotKeyword,
   });
   const data = [{
-    male: chiSquaredData.maleKeyword,
-    female: chiSquaredData.femaleKeyword,
+    categoryA: chiSquaredData.categoryAandKeyword,
+    categoryB: chiSquaredData.categoryBandKeyword,
     chi_squared: `Uses '${props.keyword}'`,
   },
   {
-    male: chiSquaredData.maleNotKeyword,
-    female: chiSquaredData.femaleNotKeyword,
+    categoryA: chiSquaredData.categoryANotKeyword,
+    categoryB: chiSquaredData.categoryBNotKeyword,
     chi_squared: `Does not use '${props.keyword}'`,
   },
   {
     chi_squared: `p: ${p}`,
-    male: '',
-    female: '',
+    categoryA: '',
+    categoryB: '',
   }];
 
   const columns = [{
@@ -45,14 +48,14 @@ const ChiSquared = (props) => {
     accessor: a => a.chi_squared,
   },
   {
-    Header: 'Female',
+    Header: `${props.columnA}`,
     id: 'female',
-    accessor: f => f.female.toLocaleString(),
+    accessor: f => f.categoryA.toLocaleString(),
   },
   {
-    Header: 'Male',
+    Header: `${props.columnB}`,
     id: 'male',
-    accessor: m => m.male.toLocaleString(),
+    accessor: m => m.categoryB.toLocaleString(),
   }];
 
   return (<ReactTable

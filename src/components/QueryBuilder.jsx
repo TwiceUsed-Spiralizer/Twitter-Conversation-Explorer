@@ -10,12 +10,12 @@ class QueryBuilder extends Component {
     super(props);
     this.state = {
       keyword: '',
-      recipientsGender: 1,
-      senderGender: 1,
-      sentiment: 1,
+      recipientsGender: -1,
+      senderGender: -1,
+      sentiment: undefined,
       followerCount: {
-        min: 1000,
-        max: 50000,
+        min: undefined,
+        max: undefined,
       },
     };
     this.query = this.query.bind(this);
@@ -24,8 +24,9 @@ class QueryBuilder extends Component {
   }
 
   query() {
+    this.props.clearResults();
     const keyword = this.state.keyword;
-    const senderGender = this.state.senderGender;
+    const senderGender = Number(this.state.senderGender);
     const recipientsGender = this.state.recipientsGender;
     const sentiment = this.state.sentiment;
     const senderFollowerMin = this.state.followerCount.min;
@@ -35,8 +36,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults([
-          // { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, columnA: 'Female', columnB: 'Male', resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
@@ -56,21 +57,32 @@ class QueryBuilder extends Component {
     //       type: 'histogram',
     //       icon: 'insert_chart',
     //       data: res.data,
-    //       title: `Breakdown of Use of "${keyword}" by Gender and Follower Count`,
+    //       title: `Breakdown of Use of "${keyword}" by Gender`,
     //       keyword,
     //       resultsIndex: this.resultsIndex++,
     //     }),
     //   );
-    // axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
-    //   .then(res =>
-    //     this.props.addToResults(
-    //       { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, resultsIndex: this.resultsIndex++ }),
-    //   );
-    // axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
-    //   .then(res =>
-    //     this.props.addToResults(
-    //       { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, resultsIndex: this.resultsIndex++ }),
-    //   );
+    axios.post('/api/BucketedBarChartBodySentiment', { keyword })
+      .then(res =>
+        this.props.addToResults({
+          type: 'histogram',
+          icon: 'insert_chart',
+          data: res.data,
+          title: `Breakdown of Use of "${keyword}" by Sentiment`,
+          keyword,
+          resultsIndex: this.resultsIndex++,
+        }),
+      );
+    axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
+      .then(res =>
+        this.props.addToResults(
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', resultsIndex: this.resultsIndex++ }),
+      );
+    axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
+      .then(res =>
+        this.props.addToResults(
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', resultsIndex: this.resultsIndex++ }),
+      );
   }
 
   render() {
@@ -80,15 +92,15 @@ class QueryBuilder extends Component {
         <Collapsible popout defaultActiveKey={0}>
           <CollapsibleItem header="Gender" icon="wc" style={{ textAlign: 'left' }} >
             <Row>
-              <Input s={6} type="select" label="Gender of Sender's Tweets" defaultValue={2} onChange={event => this.setState({ senderGender: event.target.value })} >
+              <Input s={6} type="select" label="Gender of Sender's Tweets" defaultValue={-1} onChange={event => this.setState({ senderGender: event.target.value })} >
                 <option value={0}>Male</option>
                 <option value={1}>Female</option>
-                <option value={2}>None</option>
+                <option value={-1}>None</option>
               </Input>
-              <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ recipientsGender: event.target.value })} >
+              <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={-1} onChange={event => this.setState({ recipientsGender: event.target.value })} >
                 <option value={0}>Male</option>
                 <option value={1}>Female</option>
-                <option value={2}>None</option>
+                <option value={-1}>None</option>
               </Input>
             </Row>
           </CollapsibleItem>

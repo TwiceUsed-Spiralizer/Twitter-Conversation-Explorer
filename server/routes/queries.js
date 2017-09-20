@@ -53,8 +53,8 @@ const KeywordAcrossGenderBody = () =>
     interactions: {
       adjacency_matrix: {
         filters: {
-          femaleSender: { terms: { 'sender.gender': [1] } },
-          maleSender: { terms: { 'sender.gender': [0] } },
+          aaa_femaleSender: { terms: { 'sender.gender': [1] } },
+          bbb_maleSender: { terms: { 'sender.gender': [0] } },
         },
       },
     },
@@ -72,8 +72,8 @@ const KeywordAcrossFollowerCountBody = () =>
     interactions: {
       adjacency_matrix: {
         filters: {
-          over500followers: { range: { 'sender.following_count': { gte: 500 } } },
-          under500followers: { range: { 'sender.following_count': { lt: 500 } } },
+          aaa_over500followers: { range: { 'sender.following_count': { gte: 500 } } },
+          bbb_under500followers: { range: { 'sender.following_count': { lt: 500 } } },
         },
       },
     },
@@ -91,8 +91,8 @@ const KeywordAcrossSentimentBody = () =>
     interactions: {
       adjacency_matrix: {
         filters: {
-          positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
-          negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+          aaa_positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
+          bbb_negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
         },
       },
     },
@@ -171,8 +171,8 @@ const BucketedBarChartSentimentBody = () =>
         interactions: {
           adjacency_matrix: {
             filters: {
-              positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
-              negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
+              aaa_positiveSentiment: { range: { 'sentiment.score': { gt: 0 } } },
+              bbb_negativeSentiment: { range: { 'sentiment.score': { lt: 0 } } },
             },
           },
         },
