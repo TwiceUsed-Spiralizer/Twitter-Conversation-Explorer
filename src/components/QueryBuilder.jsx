@@ -26,6 +26,8 @@ class QueryBuilder extends Component {
   query() {
     const keyword = this.state.keyword;
     const senderGender = this.state.senderGender;
+    const recipientsGender = this.state.recipientsGender;
+    const sentiment = this.state.sentiment;
     this.setState({ loading: true });
     const endLoading = () => this.setState({ loading: false });
     axios.post('/api/KeywordAcrossGender', { keyword })
@@ -57,6 +59,11 @@ class QueryBuilder extends Component {
           resultsIndex: this.resultsIndex++,
         }),
       );
+    axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
+      .then(res =>
+        this.props.addToResults(
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ }),
+      );
   }
 
   render() {
@@ -71,7 +78,7 @@ class QueryBuilder extends Component {
                 <option value={1}>Female</option>
                 <option value={2}>None</option>
               </Input>
-              <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ recipientGender: event.target.value })} >
+              <Input s={6} type="select" label="Gender of Recipients Tweets" defaultValue={2} onChange={event => this.setState({ recipientsGender: event.target.value })} >
                 <option value={0}>Male</option>
                 <option value={1}>Female</option>
                 <option value={2}>None</option>

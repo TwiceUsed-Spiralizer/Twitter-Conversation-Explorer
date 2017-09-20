@@ -6,7 +6,7 @@ import ChiSquared from './chiSquared';
 import TCELineGraph from './lineGraph';
 import TCEHistogram from './histogram';
 
-export default  (chartObject) => {
+export default (chartObject) => {
   if (!chartObject.data) {
     return <Container><Preloader size="big" flashing /></Container>;
   }
