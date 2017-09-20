@@ -3,16 +3,24 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './BoardChart.css';
 
-export default (boardName, favourite, unfavourite, deleteChart, moveColumn, BoardPinDropdown) =>
+export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDropdown) =>
   props => (
     <Col m={12} s={12}>{console.log(props)}
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
-        {props.title}
+        <Col>
+          {props.title}
+        </Col>
+        {
+          props.chartObject.embedId &&
+          <Col>
+            {props.chartObject.embedId}
+          </Col>
+        }
         <Row id="favourite-button-group">
           <Col s={4}>
-            <Chip><div onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}>
+            <Chip><button onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}>
               <Icon small className={`favourite-button ${props.chartObject.favourited ? 'starred' : 'unstarred'}`} />
-            </div></Chip>
+            </button></Chip>
           </Col>
 
           <Col s={4}>
@@ -22,7 +30,7 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
           </Col>
 
           <Col s={4}>
-            <Chip><Icon small className="favourite-button">share</Icon></Chip>
+            <Chip><button onClick={() => embed(props.chartObject)}><Icon small className="favourite-button">share</Icon></button></Chip>
           </Col>
 
           <Col s={4}>
@@ -34,12 +42,12 @@ export default (boardName, favourite, unfavourite, deleteChart, moveColumn, Boar
           </Col>
 
           <Col s={4}>
-            <Chip><div onClick={() => deleteChart(props.chartObject.parentKey, boardName)}><Icon small className="favourite-button">delete</Icon></div></Chip>
+            <Chip><button onClick={() => deleteChart(props.chartObject.parentKey, boardName)}><Icon small className="favourite-button">delete</Icon></button></Chip>
           </Col>
 
           <Col s={4}>
             {/* {props.index} */}
-            <Chip><div onClick={() => moveColumn(props.chartObject.parentKey, boardName, (props.chartObject.colIndex + 1) % 3)}><Icon small className="favourite-button">compare_arrows</Icon></div></Chip>
+            <Chip><button onClick={() => moveColumn(props.chartObject.parentKey, boardName, (props.chartObject.colIndex + 1) % 3)}><Icon small className="favourite-button">compare_arrows</Icon></button></Chip>
           </Col>
 
         </Row>

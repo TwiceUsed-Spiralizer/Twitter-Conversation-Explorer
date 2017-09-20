@@ -6,6 +6,7 @@ import ChartComponent from '../chartComponents';
 import BoardChart from '../chartWrappers/BoardChart';
 import BoardPinModal from '../components/BoardPinModal';
 import firebase from '../firebase';
+import embed from '../firebase/embed';
 
 const Board = props =>
   (
@@ -21,7 +22,7 @@ const Board = props =>
           >
             <Row>
               <Input label="Enter a ColumnName" s={12} onChange={event => props.nameColumn(props.boardName, index, event.target.value)} />
-              {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, props.favourite, props.deleteChart, props.moveColumn, BoardPinModal)))}
+              {column.charts.map(ChartComponent(BoardChart(props.boardName, props.favourite, embed, props.deleteChart, props.moveColumn, BoardPinModal)))}
             </Row>
           </Card>
         </Col>),
