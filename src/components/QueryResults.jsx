@@ -26,7 +26,7 @@ const QueryResults = (props) => {
       <div id="results-carousel">
         <Slider adaptiveHeight={false} dots prevArrow={<PrevButton />} nextArrow={<NextButton />} >
           {
-            props.results.map(ChartComponent(CarouselChart(props.favouriteItem, props.embedItem, props.user)))
+            props.results.map(ChartComponent(CarouselChart(props.favouriteItem, props.embedItem, props.user), true))
           }
         </Slider>
       </div>

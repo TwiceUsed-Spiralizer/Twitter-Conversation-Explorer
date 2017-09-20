@@ -1,8 +1,10 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
 
 const TCELineGraph = (props) => {
+  console.log('opt', props.options, props.data);
   if (props.data.length === 0) { return (<div> Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>); }  
   const allDatesFormatted = props.data.map(obj => moment(obj.key).fromNow());
   const allDataFormatted = props.data.map(obj => obj.doc_count);
@@ -28,7 +30,7 @@ const TCELineGraph = (props) => {
       },
     ],
   };
-  return <Line options={{ maintainAspectRatio: false, animation: false }} data={data} />;
+  return <Line options={props.options} data={data} />;
 };
 
 export default TCELineGraph;

@@ -6,11 +6,12 @@ import ChiSquared from './chiSquared';
 import TCELineGraph from './lineGraph';
 import TCEHistogram from './histogram';
 
-export default (Wrapper) => {
-
+export default (Wrapper, animation) => {
+  console.log('anim', animation)
+  
   return (chartObject, index) => {
     if (!chartObject.data) {
-      return <Wrapper><Container><Preloader size="big" flashing /></Container></Wrapper>;
+      return <Wrapper key={index}><Container><Preloader size="big" flashing /></Container></Wrapper>;
     }
     let Chart;
     switch (chartObject.type) {
@@ -29,14 +30,16 @@ export default (Wrapper) => {
       default:
         return null;
     }
+    const options = animation ? { maintainAspectRatio: false } : { maintainAspectRatio: false, animation };
     return (<Wrapper
       icon={chartObject.icon}
       title={chartObject.title}
       index={index}
       id={chartObject.id}
+      key={chartObject.id}
       chartObject={chartObject}
     >
-      <Chart data={chartObject.data} keyword={chartObject.keyword} />
+      <Chart options={options} data={chartObject.data} />
     </Wrapper>);
   };
 };
