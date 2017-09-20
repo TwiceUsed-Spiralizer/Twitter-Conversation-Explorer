@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, Icon, Card, Row, Col } from 'react-materialize';
 import { BoardPinModal } from '../components';
-import embed from '../firebase/embed';
 
-export default (favourite, authenticated) =>
+export default (favourite, embed, authenticated) =>
   props => (
     <Card {...props} title={<Icon left>{props.icon}</Icon>}>
       <h5 style={{ textAlign: 'center' }}>{props.title}</h5>
@@ -18,7 +17,7 @@ export default (favourite, authenticated) =>
             }
           </Col>
           <Col>
-            <Button waves="purple" onClick={() => {embed(props.chartObject)}}><Icon left>share</Icon> Share</Button>
+            <Button waves="purple" onClick={() => embed(props.chartObject)}><Icon left>share</Icon> Share</Button>
           </Col>
           <Col>
             <BoardPinModal
