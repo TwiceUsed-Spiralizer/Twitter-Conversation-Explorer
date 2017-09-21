@@ -7,6 +7,7 @@ import '../index.css';
 class BoardTabs extends React.Component {
   componentShouldUpdate(nextProps) {
     return nextProps.boardNames !== this.props.boardNames;
+    // return false;
   }
 
   render() {
