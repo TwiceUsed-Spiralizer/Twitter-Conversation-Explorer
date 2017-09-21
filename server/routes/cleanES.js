@@ -19,14 +19,42 @@ const cleanAdjacencyMatrix = (buckets, categoryA, categoryB) => {
 };
 
 const cleanBucketedBarChartSentiment = (results) => {
+  const labels = ['0.0-100.0', '101.0-1000.0', '1001.0-10000.0', '10001.0-100000.0', '100001.0-1000000.0', '1000001.0-*'];
   const obj = {};
+
+  for (let i = 0; i < labels.length; i++) {
+    obj[labels[i]] = { positiveSentiment: 0, negativeSentiment: 0 };
+  }
+
   results.buckets.forEach((bucket) => {
-    if (!obj[bucket.key]) {
-      obj[bucket.key] = { positiveSentiment: 0, negativeSentiment: 0 };
+    if (bucket.interactions.buckets[1] !== undefined) {
+      obj[bucket.key].positiveSentiment += bucket.interactions.buckets[1].doc_count;
     }
-    obj[bucket.key].positiveSentiment += bucket.interactions.buckets[1].doc_count;
-    obj[bucket.key].negativeSentiment += bucket.interactions.buckets[0].doc_count;
+    if (bucket.interactions.buckets[0] !== undefined) {
+      obj[bucket.key].negativeSentiment += bucket.interactions.buckets[0].doc_count;
+    }
   });
+
+  return obj;
+};
+
+const cleanBucketedBarChart = (results) => {
+  const labels = ['0.0-100.0', '101.0-1000.0', '1001.0-10000.0', '10001.0-100000.0', '100001.0-1000000.0', '1000001.0-*'];
+  const obj = {};
+
+  for (let i = 0; i < labels.length; i++) {
+    obj[labels[i]] = { women: 0, men: 0 };
+  }
+
+  results.buckets.forEach((bucket) => {
+    if (bucket.gender.buckets[2] !== undefined) {
+      obj[bucket.key].women += bucket.gender.buckets[2].doc_count;
+    }
+    if (bucket.gender.buckets[1] !== undefined) {
+      obj[bucket.key].men += bucket.gender.buckets[1].doc_count;
+    }
+  });
+
   return obj;
 };
 
@@ -44,5 +72,6 @@ const cleanGender = (input) => {
 module.exports = {
   cleanAdjacencyMatrix,
   cleanBucketedBarChartSentiment,
+  cleanBucketedBarChart,
   cleanGender,
 };

@@ -123,7 +123,7 @@ app.post('/api/BucketedBarChart', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => body.aggregations.followerCount_ranges)
+  }).then(body => clean.cleanBucketedBarChart(body.aggregations.followerCount_ranges))
     .then(data => res.send(data));
 });
 
@@ -139,6 +139,6 @@ app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => body.aggregations.followerCount_ranges)
+  }).then(body => clean.cleanBucketedBarChartSentiment(body.aggregations.followerCount_ranges))
     .then(data => res.send(data));
 });
