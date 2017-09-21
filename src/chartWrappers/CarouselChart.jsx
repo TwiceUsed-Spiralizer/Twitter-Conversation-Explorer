@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Card, Row, Col, Input } from 'react-materialize';
+import { Button, Icon, Card, Row, Col } from 'react-materialize';
 import { BoardPinModal, EmbedModal } from '../components';
 
 export default (favourite, embed, authenticated) =>
