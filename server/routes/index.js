@@ -32,7 +32,7 @@ app.post('/api/KeywordAcrossGender', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => body.aggregations.interactions.buckets)
+  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets, 'femaleSender', 'maleSender'))
     .then(data => res.send(data));
 });
 
@@ -56,7 +56,7 @@ app.post('/api/KeywordAcrossFollowerCount', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
+  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets, 'over500followers', 'under500followers'))
     .then(data => res.send(data));
 });
 
@@ -81,7 +81,7 @@ app.post('/api/KeywordAcrossSentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets))
+  }).then(body => clean.cleanAdjacencyMatrix(body.aggregations.interactions.buckets, 'positiveSentiment', 'negativeSentiment'))
     .then(data => res.send(data));
 });
 
@@ -139,6 +139,6 @@ app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanBucketedBarChartSentiment(body.aggregations.followerCount_ranges))
+  }).then(body => body.aggregations.followerCount_ranges)
     .then(data => res.send(data));
 });

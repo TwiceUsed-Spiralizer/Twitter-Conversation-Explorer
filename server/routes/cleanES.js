@@ -1,8 +1,20 @@
-const cleanAdjacencyMatrix = (buckets) => {
+const cleanAdjacencyMatrix = (buckets, categoryA, categoryB) => {
   const obj = {};
   buckets.forEach((bucket) => {
     obj[bucket.key] = bucket.doc_count;
   });
+
+  if (!obj.hasOwnProperty(`aaa_${categoryA}&keyword`)) {
+    obj[`aaa_${categoryA}&keyword`] = 0;
+  }
+
+  if (!obj.hasOwnProperty(`bbb_${categoryB}&keyword`)) {
+    obj[`bbb_${categoryB}&keyword`] = 0;
+  }
+
+  if (!obj.hasOwnProperty('keyword')) {
+    obj.keyword = 0;
+  }
   return obj;
 };
 

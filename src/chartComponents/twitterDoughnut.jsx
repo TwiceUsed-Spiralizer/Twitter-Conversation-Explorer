@@ -5,8 +5,9 @@ const TwitterDoughnut = (props) => {
   if (props.data.length === 2) { return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>); }  
   const totalFemaleSenderTweets = props.data[0];
   const totalFemaleSenderTweetsWithKeyword = props.data[1];
+  const totalMaleSenderTweets = props.data[2];
   const totalMaleSenderTweetsWithKeyword = props.data[3];
-  const totalMaleSenderTweets = props.data[4];
+  
 
   const womenPercent = (totalFemaleSenderTweetsWithKeyword.doc_count / totalFemaleSenderTweets.doc_count) * 100;
   const menPercent = (totalMaleSenderTweetsWithKeyword.doc_count / totalMaleSenderTweets.doc_count) * 100;

@@ -6,7 +6,7 @@ import ChiSquared from './chiSquared';
 import TCELineGraph from './lineGraph';
 import TCEHistogram from './histogram';
 
-export default  (chartObject) => {
+export default (chartObject) => {
   if (!chartObject.data) {
     return <Container><Preloader size="big" flashing /></Container>;
   }
@@ -27,5 +27,5 @@ export default  (chartObject) => {
     default:
       return null;
   }
-  return (<Chart options={{ maintainAspectRatio: false, animation: false }} data={chartObject.data} />);
+  return (<Chart options={{ maintainAspectRatio: false, animation: false }} keyword={chartObject.keyword} data={chartObject.data} params={chartObject.params}/>);
 };
