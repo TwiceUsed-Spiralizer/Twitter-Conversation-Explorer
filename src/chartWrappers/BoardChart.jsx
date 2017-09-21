@@ -11,12 +11,6 @@ export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDr
         <Col>
           {props.title}
         </Col>
-        {
-          props.chartObject.embedId &&
-          <Col>
-            {props.chartObject.embedId}
-          </Col>
-        }
         <Row id="favourite-button-group">
           <Col s={4}>
             <Chip><button onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}>
