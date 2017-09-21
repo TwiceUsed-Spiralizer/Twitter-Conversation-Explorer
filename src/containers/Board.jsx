@@ -13,21 +13,25 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      renders: 0,
+      animation: true,
     }
     this.chart = BoardChart(props.boardName, props.favourite, embed, props.deleteChart, props.moveColumn, BoardPinModal);
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({ renders: this.state.renders + 1 });
+  componentWillReceiveProps(nextProps) {
+    if (this.props.columns) {
+      this.setState({
+        animation: false,
+      });
+    }
   }
 
+
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props, nextProps);
+    return !isEqual(nextProps.columns, this.props.columns);
   }
 
   render() {
-    console.log('render', this.state.renders);
     return (
       <Row>
         <Row>
@@ -42,7 +46,7 @@ class Board extends React.Component {
               <Row>
                 <Input label="Enter a ColumnName" s={12} onChange={event => this.props.nameColumn(this.props.boardName, index, event.target.value)} />
                 {column.charts
-                  .map(ChartComponent(this.chart, this.state.renders < 1))}
+                  .map(ChartComponent(this.chart, this.state.animation))}
               </Row>
             </Card>
           </Col>),
