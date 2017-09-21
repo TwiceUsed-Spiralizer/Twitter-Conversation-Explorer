@@ -52,7 +52,7 @@ class QueryResults extends React.Component {
         </div>
       )
       : (
-        <CardPanel><h2 className="center-align">Welcome to TweetInsight</h2></CardPanel>
+        <CardPanel><h2 className="center-align">Welcome to Tweet Insight</h2></CardPanel>
       );
   }
 };

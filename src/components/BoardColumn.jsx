@@ -32,7 +32,7 @@ class Board extends React.Component {
               title={<div>{column.name} <div><Icon right>edit</Icon></div></div>}
             >
               <Row>
-                {this.state.edit[index] && <Input label="Enter a ColumnName" s={12} onChange={event => this.props.nameColumn(this.props.boardName, index, event.target.value)} />}
+                {this.state.edit[index] && <Input label="Enter a Column Name" s={12} onChange={event => this.props.nameColumn(this.props.boardName, index, event.target.value)} />}
                 {column.charts.map(ChartComponent(BoardChart(this.props.boardName, this.props.favourite, this.props.unfavourite, this.props.deleteChart, this.props.moveColumn, BoardPinModal)))}
               </Row>
             </Card>
