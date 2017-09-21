@@ -1,19 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Tab, Tabs } from 'react-materialize';
+import { Tabs, Tab } from 'react-materialize';
+import { Link } from 'react-router-dom';
+import { Board } from './index';
 
 class BoardTabs extends React.Component {
   componentShouldUpdate(nextProps) {
     return nextProps.boardNames !== this.props.boardNames;
+    // return false;
   }
 
   render() {
     return (
-      <Tabs>
+      <Tabs className="teal">
         {
           this.props.boardNames.map((name, index) =>
-            (<Tab active={index === 0} title={name}>
-              {name}
+            (<Tab active={index === 0} title={<Link to="/">{name}</Link>}>
+              <Board boardName={name} />
             </Tab>)
           )
         }
