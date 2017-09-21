@@ -9,9 +9,9 @@ const ChiSquared = (props) => {
   }
   const dataFromProps = props.data;
 
-  const categoryATotal = dataFromProps[0];
+  const categoryATotal = dataFromProps[0] ? dataFromProps[0].doc_count : 0;
   const categoryAandKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
-  const categoryBTotal = dataFromProps[2];
+  const categoryBTotal = dataFromProps[2] ? dataFromProps[2].doc_count : 0;
   const categoryBandKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
 
   const chiSquaredData = {
