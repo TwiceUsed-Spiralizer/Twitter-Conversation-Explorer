@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
+import { EmbedModal } from '../components';
 import './FavouritesChart.css';
 
 export default (favourite, embed, BoardPinDropdown) =>
@@ -20,9 +21,9 @@ export default (favourite, embed, BoardPinDropdown) =>
             </Chip>
           </Col>
           <Col m={3}>
-            <Chip><button onClick={() => embed(props.chartObject)}>
-              <Icon small className="favourite-button">share</Icon>
-            </button></Chip>
+            <Chip>
+              <EmbedModal trigger={<div><Icon small className="favourite-button">share</Icon></div>} chartObject={props.chartObject} />
+            </Chip>
           </Col>
           <Col m={3}>
             <Chip>
