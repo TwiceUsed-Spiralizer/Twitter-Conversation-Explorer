@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, Input, Icon, ProgressBar, Button } from 'react-materialize';
+import Materialize from 'materialize-css';
+import ClipboardButton from 'react-clipboard.js';
 import embed from '../firebase/embed';
 
 export default class extends React.Component {
@@ -9,6 +11,7 @@ export default class extends React.Component {
       embedId: this.props.chartObject.embedId || 'blank',
     }
     this.getEmbedId = this.getEmbedId.bind(this);
+    this.toaster = () => Materialize.toast('Text copied to clipboard', 1000);
   }
 
   getEmbedId() {
@@ -24,6 +27,7 @@ export default class extends React.Component {
   render() {
     let embedButton;
     let embedContent;
+    let embedText;
     switch (this.state.embedId) {
       case 'blank':
         embedButton = <Button className="modal-action btn-flat" onClick={this.getEmbedId}>Generate embed code</Button>;
@@ -34,10 +38,12 @@ export default class extends React.Component {
         embedContent = <ProgressBar className="pink" />;
         break;
       default:
-        embedButton = <Button className="modal-action btn-flat">Copy code</Button>;
+        embedText = `<iframe width="560" height="315" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${this.state.embedId}" frameborder="0" ></iframe>`;
+        embedButton = <ClipboardButton onClick={this.toaster} data-clipboard-text={embedText} className="modal-action btn-flat clipboard-button">Copy code</ClipboardButton>;
         embedContent = (<Input
+          id={`embed-code-${this.state.embedId}`}
           icon="share"
-          defaultValue={`<iframe width="560" height="315" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${this.state.embedId}" frameborder="0" ></iframe>`}
+          defaultValue={embedText}
         />);
     }
     return (
