@@ -27,7 +27,7 @@ class App extends React.Component {
           <Route exact path="/" component={Query} />
           <Route exact path="/favourites" component={Favourites} />
           <Route exact path="/boards" component={BoardTabs} />
-          <Route path="/board/:boardName" component={Board} />
+          <Route path="/boards/:boardName" component={Board} />
           <Route path="/login" component={Auth} />
         </Switch>
       </div>

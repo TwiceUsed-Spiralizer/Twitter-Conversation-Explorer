@@ -38,13 +38,6 @@ class NavBar extends Component {
           >
             <Input label="Enter a Boardname" s={12} value={this.state.boardName} onChange={event => this.setState({ boardName: event.target.value })} />
           </Modal>
-          {this.props.boards.length ?
-            <Dropdown trigger={
-              <NavItem>My Boards</NavItem>
-            }
-            >
-              {this.props.boards.map(item => <NavItem><Link to={`/board/${item}`}>{item}</Link></NavItem>)}
-            </Dropdown> : null}
           <NavItem><Link to="/boards"><Icon left>dashboard</Icon>My Boards</Link></NavItem>
           <NavItem><Link to="/favourites"><Icon left>star</Icon>Favourites</Link></NavItem>
           <NavItem onClick={() => firebase.auth().signOut()} ><Link to="/"><Icon right>close</Icon>Logout</Link></NavItem>
