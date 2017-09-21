@@ -37,7 +37,7 @@ export default (Wrapper, animation) => {
       key={chartObject.id}
       chartObject={chartObject}
     >
-      <Chart data={chartObject.data} keyword={chartObject.keyword} options={options} columnA={chartObject.columnA} columnB={chartObject.columnB} />
+      <Chart data={chartObject.data} keyword={chartObject.keyword} options={options} params={chartObject.params} />
     </Wrapper>);
   };
 };

@@ -36,8 +36,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults([
-          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, columnA: 'Female', columnB: 'Male', resultsIndex: this.resultsIndex++ },
+          //{ type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Female', dataNameA: 'femaleSender', columnB: 'Male', dataNameB: 'maleSender' } , resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
@@ -76,12 +76,12 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
       .then(res =>
         this.props.addToResults(
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', resultsIndex: this.resultsIndex++ }),
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, params: { columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', dataNameA: 'over500followers', dataNameB: 'under500followers' }, resultsIndex: this.resultsIndex++ }),
       );
     axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults(
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', resultsIndex: this.resultsIndex++ }),
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, params: { columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', dataNameA: 'positiveSentiment', dataNameB: 'negativeSentiment' }, resultsIndex: this.resultsIndex++ }),
       );
   }
 

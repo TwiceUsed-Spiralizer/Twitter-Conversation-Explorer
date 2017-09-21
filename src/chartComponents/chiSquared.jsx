@@ -4,15 +4,14 @@ import ReactTable from 'react-table';
 import chiSquaredCalc from '../utils/chiSquared';
 
 const ChiSquared = (props) => {
-  if (props.data.length === 2) {
+  if (props.data.keyword === 0) {
  return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>);
-  }
+}
   const dataFromProps = props.data;
-
-  const categoryATotal = dataFromProps[0] ? dataFromProps[0].doc_count : 0;
-  const categoryAandKeyword = dataFromProps[1] ? dataFromProps[1].doc_count : 0;
-  const categoryBTotal = dataFromProps[2] ? dataFromProps[2].doc_count : 0;
-  const categoryBandKeyword = dataFromProps[3] ? dataFromProps[3].doc_count : 0;
+  const categoryATotal = dataFromProps[`aaa_${props.params.dataNameA}`];
+  const categoryAandKeyword = dataFromProps[`aaa_${props.params.dataNameA}&keyword`];
+  const categoryBTotal = dataFromProps[`bbb_${props.params.dataNameB}`];
+  const categoryBandKeyword = dataFromProps[`bbb_${props.params.dataNameB}&keyword`];
 
   const chiSquaredData = {
     categoryAandKeyword,
@@ -20,12 +19,14 @@ const ChiSquared = (props) => {
     categoryBandKeyword,
     categoryBNotKeyword: categoryBTotal - categoryBandKeyword,
   };
+
   const p = chiSquaredCalc({
     a1: chiSquaredData.categoryBandKeyword,
     a2: chiSquaredData.categoryAandKeyword,
     b1: chiSquaredData.categoryBNotKeyword,
     b2: chiSquaredData.categoryANotKeyword,
   });
+  
   const data = [{
     categoryA: chiSquaredData.categoryAandKeyword,
     categoryB: chiSquaredData.categoryBandKeyword,
@@ -41,20 +42,20 @@ const ChiSquared = (props) => {
     categoryA: '',
     categoryB: '',
   }];
-
+  
   const columns = [{
     Header: 'Chi Squared',
     id: 'chi_squared',
     accessor: a => a.chi_squared,
   },
   {
-    Header: `${props.columnA}`,
-    id: 'female',
+    Header: `${props.params.columnA}`,
+    id: `${props.params.columnA}`,
     accessor: f => f.categoryA.toLocaleString(),
   },
   {
-    Header: `${props.columnB}`,
-    id: 'male',
+    Header: `${props.params.columnB}`,
+    id: `${props.params.columnB}`,
     accessor: m => m.categoryB.toLocaleString(),
   }];
 
