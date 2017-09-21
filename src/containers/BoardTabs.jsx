@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Card, Row, Col, Collection, CollectionItem, Icon } from 'react-materialize';
 import { Link } from 'react-router-dom';
-import { Board } from './index';
-import BareChartComponent from '../chartComponents/BareChartComponent';
 
 class BoardTabs extends React.Component {
   componentShouldUpdate(nextProps) {

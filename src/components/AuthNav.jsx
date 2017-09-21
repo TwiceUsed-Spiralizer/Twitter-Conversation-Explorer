@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, NavItem, Dropdown, Button, Icon, Modal, Input, Row } from 'react-materialize';
+import { Navbar, NavItem, Button, Icon, Modal, Input, Row } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import firebase from '../firebase';
 import './AuthNav.css';
