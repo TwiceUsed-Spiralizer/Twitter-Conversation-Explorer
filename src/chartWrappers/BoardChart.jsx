@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
+import { EmbedModal } from '../components';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './BoardChart.css';
 
@@ -30,7 +31,9 @@ export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDr
           </Col>
 
           <Col s={4}>
-            <Chip><button onClick={() => embed(props.chartObject)}><Icon small className="favourite-button">share</Icon></button></Chip>
+            <Chip>
+              <EmbedModal trigger={<div><Icon small className="favourite-button">share</Icon></div>} chartObject={props.chartObject} />
+            </Chip>
           </Col>
 
           <Col s={4}>
@@ -46,7 +49,6 @@ export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDr
           </Col>
 
           <Col s={4}>
-            {/* {props.index} */}
             <Chip><button onClick={() => moveColumn(props.chartObject.parentKey, boardName, (props.chartObject.colIndex + 1) % 3)}><Icon small className="favourite-button">compare_arrows</Icon></button></Chip>
           </Col>
 

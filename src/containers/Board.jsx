@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Card, Row, Col, Input, Icon } from 'react-materialize';
 import debounce from 'lodash/debounce';
-import isEqual from 'lodash/isEqual';
+import reduce from 'lodash/reduce';
 import ChartComponent from '../chartComponents';
 import BoardChart from '../chartWrappers/BoardChart';
 import BoardPinModal from '../components/BoardPinModal';
@@ -28,7 +28,9 @@ class Board extends React.Component {
 
 
   shouldComponentUpdate(nextProps) {
-    return !isEqual(nextProps.columns, this.props.columns);
+    return reduce(this.props.columns, (acc, column, index) =>
+      acc || column.length === nextProps.columns[index].length,
+    false);
   }
 
   render() {
