@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Query, Favourites, Board, NavBar } from './index';
+import { Query, Favourites, Board, BoardTabs, NavBar } from './index';
 import { Auth } from '../components';
 import './App.css';
 import firebase from '../firebase';
@@ -26,6 +26,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Query} />
           <Route exact path="/favourites" component={Favourites} />
+          <Route exact path="/boards" component={BoardTabs} />
           <Route path="/board/:boardName" component={Board} />
           <Route path="/login" component={Auth} />
         </Switch>
