@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row } from 'react-materialize';
-import isEqual from 'lodash/isEqual';
 import firebase from '../firebase';
 import ChartComponent from '../chartComponents';
 import FavouritesChart from '../chartWrappers/FavouritesChart';
