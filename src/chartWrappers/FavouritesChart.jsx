@@ -10,10 +10,6 @@ export default (favourite, embed, BoardPinDropdown) =>
         <Row>
           {props.title}
         </Row>
-        <Row>
-          {props.chartObject.embedId &&
-            `<iframe width="560" height="315" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${props.chartObject.embedId}" frameborder="0" ></iframe>`}
-        </Row>
         <Row id="favourite-button-group">
           <Col m={3}>
             <Chip><button onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}><Icon small className="favourite-button starred" /></button></Chip>
