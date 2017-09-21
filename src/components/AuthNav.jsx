@@ -45,6 +45,7 @@ class NavBar extends Component {
             >
               {this.props.boards.map(item => <NavItem><Link to={`/board/${item}`}>{item}</Link></NavItem>)}
             </Dropdown> : null}
+          <NavItem><Link to="/boards"><Icon left>dashboard</Icon>My Boards</Link></NavItem>
           <NavItem><Link to="/favourites"><Icon left>star</Icon>Favourites</Link></NavItem>
           <NavItem onClick={() => firebase.auth().signOut()} ><Link to="/"><Icon right>close</Icon>Logout</Link></NavItem>
         </Row>
