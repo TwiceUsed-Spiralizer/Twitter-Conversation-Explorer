@@ -111,6 +111,7 @@ const SelectionsOverTimeBody = () =>
       date_histogram: {
         field: 'created_at',
         interval: 'day',
+        min_doc_count: 0,
       },
     },
   },
@@ -137,7 +138,12 @@ const BucketedBarChartBody = () =>
         ],
       },
       aggs: {
-        gender: { terms: { field: 'sender.gender', order: { _term: 'asc' } },
+        gender: {
+          terms: {
+            field: 'sender.gender',
+            order: { _term: 'asc' },
+            min_doc_count: 0,
+          },
           aggs: {
             docCountByGender: { value_count: { field: '_index' } },
           },
