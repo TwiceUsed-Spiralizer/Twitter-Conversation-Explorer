@@ -7,8 +7,6 @@ import TCELineGraph from './lineGraph';
 import TCEHistogram from './histogram';
 
 export default (Wrapper, animation) => {
-  console.log('anim', animation)
-  
   return (chartObject, index) => {
     if (!chartObject.data) {
       return <Wrapper key={index}><Container><Preloader size="big" flashing /></Container></Wrapper>;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 const TwitterDoughnut = (props) => {
-  console.log('doughtnut', props)
   if (props.data.length === 2) { return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>); }  
   const totalFemaleSenderTweets = props.data[0];
   const totalFemaleSenderTweetsWithKeyword = props.data[1];

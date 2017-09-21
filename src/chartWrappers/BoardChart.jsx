@@ -5,7 +5,7 @@ import './BoardChart.css';
 
 export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDropdown) =>
   props => (
-    <Col m={12} s={12}>{console.log(props)}
+    <Col m={12} s={12}>
       <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         <Col>
           {props.title}

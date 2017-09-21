@@ -31,7 +31,6 @@ class Favourites extends React.Component {
   }
   
   render() {
-    console.log('render');
     return (
       <Row>
         {this.props.favourites

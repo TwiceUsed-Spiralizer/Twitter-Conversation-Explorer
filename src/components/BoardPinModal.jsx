@@ -10,7 +10,7 @@ const BoardPinModal = props => (
     trigger={props.trigger}
     actions={false}
   >
-    <Row>{console.log('pin modal render')}
+    <Row>
       <Col m={4}>
         <Card title={<div><Icon left>{props.chartObject.icon}</Icon> {`Pinning ${props.chartObject.title}`}</div>}>
           <div style={{ height: '250px' }}>{BareChartComponent(props.chartObject)}</div>
