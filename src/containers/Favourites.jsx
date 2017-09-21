@@ -14,7 +14,7 @@ class Favourites extends React.Component {
     this.state = {
       animation: true,
     }
-    this.setFavouriteStatus = (id, val) => firebase.database().ref(`/charts/${props.user.uid}/${id}/favourited`).set(val);
+    this.setFavouriteStatus = (id, val) => firebase.database().ref(`/charts/${this.props.user.uid}/${id}/favourited`).set(val);
   }
 
   componentWillReceiveProps(nextProps) {
