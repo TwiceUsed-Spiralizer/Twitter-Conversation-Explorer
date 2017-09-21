@@ -36,9 +36,6 @@ class Board extends React.Component {
   render() {
     return (
       <Row>
-        <Row>
-          <h1 style={{ textAlign: 'center' }}>{this.props.boardName}</h1>
-        </Row>
         {this.props.columns.map((column, index) =>
           (<Col m={4}>
             <Card
@@ -59,7 +56,7 @@ class Board extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const boardName = props.match.params.boardName;
+  const boardName = props.boardName || props.match.params.boardName;
   const boardState = state.boards[boardName];
   return {
     boardName,
