@@ -3,7 +3,6 @@ import { Line } from 'react-chartjs-2';
 import moment from 'moment';
 
 const TCELineGraph = (props) => {
-  console.log('opt', props.options, props.data);
   if (props.data.length === 0) { return (<div> Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>); }  
   const allDatesFormatted = props.data.map(obj => moment(obj.key).fromNow());
   const allDataFormatted = props.data.map(obj => obj.doc_count);
