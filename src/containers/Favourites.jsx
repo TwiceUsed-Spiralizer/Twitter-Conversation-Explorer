@@ -27,7 +27,7 @@ class Favourites extends React.Component {
 
 
   shouldComponentUpdate(nextProps) {
-    return !isEqual(nextProps.favourites, this.props.favourites);
+    return nextProps.favourites.length !== this.props.favourites.length;
   }
   
   render() {
