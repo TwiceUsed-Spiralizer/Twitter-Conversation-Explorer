@@ -1,7 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
-import isEqual from 'lodash/isEqual';
 
 const TCELineGraph = (props) => {
   console.log('opt', props.options, props.data);
