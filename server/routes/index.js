@@ -139,6 +139,6 @@ app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
     size: 0,
     from: 0,
     body: esBody,
-  }).then(body => clean.cleanBucketedBarChart(body.aggregations.followerCount_ranges, 'positiveSentiment', 'negativeSentiment'))
+  }).then(body => clean.cleanBucketedBarChart(body.aggregations.followerCount_ranges))
     .then(data => res.send(data));
 });

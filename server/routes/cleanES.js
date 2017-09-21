@@ -18,12 +18,12 @@ const cleanAdjacencyMatrix = (buckets, categoryA, categoryB) => {
   return obj;
 };
 
-const cleanBucketedBarChart = (results, categoryA, categoryB) => {
+const cleanBucketedBarChartSentiment = (results) => {
   const labels = ['0.0-100.0', '101.0-1000.0', '1001.0-10000.0', '10001.0-100000.0', '100001.0-1000000.0', '1000001.0-*'];
   const obj = {};
 
   for (let i = 0; i < labels.length; i++) {
-    obj[labels[i]] = { [categoryA]: 0, [categoryB]: 0 };
+    obj[labels[i]] = { positiveSentiment: 0, negativeSentiment: 0 };
   }
 
   results.buckets.forEach((bucket) => {
@@ -51,6 +51,6 @@ const cleanGender = (input) => {
 
 module.exports = {
   cleanAdjacencyMatrix,
-  cleanBucketedBarChart,
+  cleanBucketedBarChartSentiment,
   cleanGender,
 };
