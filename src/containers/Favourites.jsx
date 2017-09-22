@@ -43,7 +43,7 @@ class Favourites extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  favourites: Object.keys(state.charts).filter(key => state.charts[key].favourited).map(key => ({ ...state.charts[key], id: key })),
+  favourites: Object.keys(state.charts || {}).filter(key => state.charts[key].favourited).map(key => ({ ...state.charts[key], id: key })),
   boardNames: Object.keys(state.boards),
   user: state.user,
   boardContents: state.boards,
