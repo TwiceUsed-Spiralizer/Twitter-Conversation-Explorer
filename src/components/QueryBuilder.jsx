@@ -37,8 +37,8 @@ class QueryBuilder extends Component {
     axios.post('/api/KeywordAcrossGender', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         this.props.addToResults([
-          //{ type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, resultsIndex: this.resultsIndex++ },
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Female', dataNameA: 'femaleSender', columnB: 'Male', dataNameB: 'maleSender' } , resultsIndex: this.resultsIndex++ },
+          { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Women', dataNameA: 'femaleSender', columnB: 'Men', dataNameB: 'maleSender' }, resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Women', dataNameA: 'femaleSender', columnB: 'Men', dataNameB: 'maleSender' }, resultsIndex: this.resultsIndex++ },
         ]))
       .then(endLoading);
     axios.post('/api/SelectionsOverTime', { keyword, senderGender, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
@@ -76,14 +76,40 @@ class QueryBuilder extends Component {
     //   );
     axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
       .then(res =>
-        this.props.addToResults(
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Follower Count`, keyword, params: { columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', dataNameA: 'over500followers', dataNameB: 'under500followers' }, resultsIndex: this.resultsIndex++ }),
-      );
+        this.props.addToResults([
+          { type: 'doughnut',
+            icon: 'pie_chart',
+            data: res.data,
+            title: `Breakdown of "${keyword}" by Follower Count`,
+            keyword,
+            params: { columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', dataNameA: 'over500followers', dataNameB: 'under500followers' },
+            resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared',
+            icon: 'format_list_numbered',
+            data: res.data,
+            title: `Breakdown of "${keyword}" by Follower Count`,
+            keyword,
+            params: { columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', dataNameA: 'over500followers', dataNameB: 'under500followers' },
+            resultsIndex: this.resultsIndex++ }
+        ]));
     axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
       .then(res =>
-        this.props.addToResults(
-          { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Sentiment`, keyword, params: { columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', dataNameA: 'positiveSentiment', dataNameB: 'negativeSentiment' }, resultsIndex: this.resultsIndex++ }),
-      );
+        this.props.addToResults([
+          { type: 'doughnut',
+            icon: 'pie_chart',
+            data: res.data,
+            title: `Breakdown of "${keyword}" by Sentiment`,
+            keyword,
+            params: { columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', dataNameA: 'positiveSentiment', dataNameB: 'negativeSentiment' },
+            resultsIndex: this.resultsIndex++ },
+          { type: 'chiSquared',
+            icon: 'format_list_numbered',
+            data: res.data,
+            title: `Breakdown of "${keyword}" by Sentiment`,
+            keyword,
+            params: { columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', dataNameA: 'positiveSentiment', dataNameB: 'negativeSentiment' },
+            resultsIndex: this.resultsIndex++ },
+        ]));
   }
 
   render() {
@@ -112,9 +138,10 @@ class QueryBuilder extends Component {
           </CollapsibleItem>
           <CollapsibleItem header="Sentiment" icon="insert_emoticon" style={{ textAlign: 'left' }}>
             <Row>
-              <Input s={12} type="select" label="Sentiment of Tweets" defaultValue={1} onChange={event => this.setState({ sentiment: event.target.value })} >
+              <Input s={12} type="select" label="Sentiment of Tweets" defaultValue={0} onChange={event => this.setState({ sentiment: event.target.value })} >
                 <option value={-1}>:(</option>
                 <option value={1}>:)</option>
+                <option value={0}>None</option>
               </Input>
             </Row>
           </CollapsibleItem>
