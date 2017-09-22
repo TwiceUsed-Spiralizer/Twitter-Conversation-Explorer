@@ -7,11 +7,11 @@
 
 .favourite-button {
   transition-duration: 0.5s;
-  color: teal;
+  color: #4484CE;
 }
 
 .favourite-button:hover {
-  color: black;
+  color: #F19F4D;
   cursor: pointer;
 }
 
@@ -30,7 +30,7 @@
 
 .unstarred {
   transition-duration: 0.3s;
-  color: black;
+  color: #4484CE;
 }
 
 .unstarred:before {

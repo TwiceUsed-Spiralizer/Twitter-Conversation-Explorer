@@ -1,12 +1,27 @@
 body {
-  background-color: #fefefb;
+  /* background-color: #fff9f2; */
+  background-color: #D9D9D9;
+}
+
+nav {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  background-color: #4182CE;
 }
 
 .cerulean {
   background-color: #4484CE;
 }
 
-.alumnium {
+.cerulean-background {
+  background-color: #f5fcff;
+}
+
+.cerulean-text {
+  color: #4484CE;
+}
+
+.aluminium {
   background-color: #D9D9D9;
 }
 
@@ -14,6 +29,38 @@ body {
   background-color: #F9CF00;
 }
 
+.light-text {
+  color: #F9CF00;
+}
+
+.light-background {
+  background-color: #fffef9;
+}
+
+.light.btn:hover {
+  background-color: #e5f900;
+}
+
+.light.btn:focus {
+  background-color: #f99100;
+}
+
 .tangerine {
   background-color: #F19F4D;
+}
+
+.tangerine-background {
+  background-color: #fff9f2;
+}
+
+.tangerine-text {
+  color: #F19F4D;
+}
+
+.btn.tangerine:hover {
+  background-color: #f2c200;
+}
+
+.btn.tangerine:focus {
+  background-color: #f24900;
 }

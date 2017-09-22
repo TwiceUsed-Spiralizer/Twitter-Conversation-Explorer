@@ -3,11 +3,12 @@ import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import { EmbedModal } from '../components';
 import './FavouritesChart.css';
+import '../index.css';
 
 export default (favourite, embed, BoardPinDropdown) =>
   props => (
     <Col xl={4} l={4} m={12} s={12}>
-      <Card horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
+      <Card className="light-background" textClassName="cerulean-text" horizontal header={<div style={{ height: '300px', margin: '10px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
         <Row>
           {props.title}
         </Row>
@@ -22,12 +23,12 @@ export default (favourite, embed, BoardPinDropdown) =>
           </Col>
           <Col m={3}>
             <Chip>
-              <EmbedModal trigger={<div><Icon small className="favourite-button">share</Icon></div>} chartObject={props.chartObject} />
+              <EmbedModal trigger={<div><Icon small className="favourite-button tangerine-text">share</Icon></div>} chartObject={props.chartObject} />
             </Chip>
           </Col>
           <Col m={3}>
             <Chip>
-              <Modal trigger={<div><Icon small className="favourite-button">zoom_in</Icon></div>}id="chart-modal" header={props.chartObject.title}>
+              <Modal trigger={<div><Icon small className="favourite-button light-text">zoom_in</Icon></div>}id="chart-modal" header={props.chartObject.title}>
                 <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
               </Modal>
             </Chip>

@@ -16,8 +16,8 @@ const TCEHistogram = (props) => {
     datasets: [
       {
         label: 'Women',
-        backgroundColor: 'rgba(104, 142, 234,0.2)',
-        borderColor: 'rgba(104, 142, 234,1)',
+        backgroundColor: '#4484CE',
+        borderColor: '#f5fcff',
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(104, 142, 234,0.4)',
         hoverBorderColor: 'rgba(104, 142, 234,1)',

@@ -16,6 +16,7 @@ class Board extends React.Component {
       animation: true,
     }
     this.chart = BoardChart(props.boardName, props.favourite, embed, props.deleteChart, props.moveColumn, BoardPinModal);
+    this.classes = ['light', 'cerulean-text', 'cerulean', 'light-text', 'tangerine', 'cerulean-text'];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,6 +42,8 @@ class Board extends React.Component {
             <Card
               horizontal
               title={<div>{column.name} <div><Icon right>edit</Icon></div></div>}
+              className={this.classes[index * 2]}
+              textClassName={this.classes[index * 2 + 1]}
             >
               <Row>
                 <Input label="Enter a ColumnName" s={12} onChange={event => this.props.nameColumn(this.props.boardName, index, event.target.value)} />
