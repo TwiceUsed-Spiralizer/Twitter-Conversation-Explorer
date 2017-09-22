@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Modal, Collection, CollectionItem, Icon, Card } from 'react-materialize';
 import { connect } from 'react-redux';
+import Materialize from 'materialize-css';
 import firebase from '../firebase';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 
@@ -48,11 +49,13 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   pinToBoard: (uid, boardName, chartObject) => {
-    firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+    firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 })
+      .then(() => Materialize.toast(`Pinned to ${boardName}`, 1500));
   },
   pinResultToBoard: (uid, boardName, chartObject) => {
     if (chartObject.id) {
-      firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+      firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 })
+        .then(() => Materialize.toast(`Pinned to ${boardName}`, 1500));
     } else {
       const { resultsIndex, ...restOfObject } = chartObject;
       firebase.database().ref(`/charts/${uid}`).push(restOfObject)
@@ -66,6 +69,7 @@ const mapDispatchToProps = dispatch => ({
               id: item.key,
             },
           });
+          Materialize.toast(`Pinned to ${boardName}`, 1500);
         });
     }
   },
