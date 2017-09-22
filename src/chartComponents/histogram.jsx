@@ -31,10 +31,10 @@ const TCEHistogram = (props) => {
       },
       {
         label: `${props.params.columnB}`,
-        backgroundColor: 'rgba(255,99,132,0.2)',
+        backgroundColor: '#F19F4D',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+        hoverBackgroundColor: '#f2c200',
         hoverBorderColor: 'rgba(255,99,132,1)',
         data: arrayOfDataForCategoryB,
       },
