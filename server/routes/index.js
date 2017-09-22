@@ -112,7 +112,16 @@ app.post('/api/SelectionsOverTime', (req, res) => {
 
 app.post('/api/BucketedBarChart', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
+  const senderGender = false;
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : clean.cleanGender(req.body.recipientsGender);
+  const sentiment = req.body.sentiment || false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
   let esBody = queries.BucketedBarChartBody();
+
+  esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
 
   esBody = queries.addKeywordToMusts(esBody, keyword);
 
@@ -128,10 +137,19 @@ app.post('/api/BucketedBarChart', (req, res) => {
 
 app.post('/api/BucketedBarChartBodySentiment', (req, res) => {
   const keyword = req.body.keyword ? req.body.keyword.toLowerCase().replace(' ', '*') : '*';
+  const senderGender = req.body.senderGender === undefined ?
+    false : clean.cleanGender(req.body.senderGender);
+  const recipientsGender = req.body.recipientsGender === undefined ?
+    false : clean.cleanGender(req.body.recipientsGender);
+  const sentiment = false;
+  const senderFollowerMin = req.body.senderFollowerMin || false;
+  const senderFollowerMax = req.body.senderFollowerMax || false;
   let esBody = queries.BucketedBarChartSentimentBody();
 
-  esBody = queries.addKeywordToMusts(esBody, keyword);
+  esBody = queries.applyFilters(esBody, senderGender, recipientsGender,
+    sentiment, senderFollowerMin, senderFollowerMax);
 
+  esBody = queries.addKeywordToMusts(esBody, keyword);
   client.search({
     index,
     type,
