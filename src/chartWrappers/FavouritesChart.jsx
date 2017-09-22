@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
-import { EmbedModal } from '../components';
+import { EmbedModal, ZoomModal } from '../components';
 import './FavouritesChart.css';
 import '../index.css';
 
@@ -28,7 +28,7 @@ export default (favourite, embed, BoardPinDropdown) =>
           </Col>
           <Col m={3}>
             <Chip>
-              <Modal trigger={<div><Icon small className="favourite-button light-text">zoom_in</Icon></div>}id="chart-modal" header={props.chartObject.title}>
+              <Modal trigger={<div><Icon small className="favourite-button light-text">zoom_in</Icon></div>} header={props.chartObject.title}>
                 <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
               </Modal>
             </Chip>
