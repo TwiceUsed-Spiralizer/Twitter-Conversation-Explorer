@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Row } from 'react-materialize';
 import { Link } from 'react-router-dom';
+import '../index.css';
 
 export default () =>
   (

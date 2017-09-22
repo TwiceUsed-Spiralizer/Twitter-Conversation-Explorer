@@ -1,4 +1,30 @@
+@import url("../index.css");
+
+#auth-nav {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  background-color: #4182CE;
+}
+
+#auth-nav a {
+  transition-duration: 250ms;
+  /* color: #e5f900; */
+}
+
+#auth-nav a:hover {
+  background-color: #6394ED;
+  color: white;
+}
+
+#title {
+  padding: 10px;
+}
+
+#title:hover {
+  background-color: #4182CE;
+}
+
 #create-board:hover {
   cursor: pointer;
-  background-color: salmon;
+  background-color: cornflowerblue;
 }

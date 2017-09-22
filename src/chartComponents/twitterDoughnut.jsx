@@ -11,7 +11,7 @@ const TwitterDoughnut = (props) => {
 
   const womenPercent = (totalFemaleSenderTweetsWithKeyword.doc_count / totalFemaleSenderTweets.doc_count) * 100;
   const menPercent = (totalMaleSenderTweetsWithKeyword.doc_count / totalMaleSenderTweets.doc_count) * 100;
-  return (<Doughnut options={props.options} data={{ datasets: [{ data: [womenPercent, menPercent], backgroundColor: ['blue', 'hotpink'] }], labels: ['Women', 'Men'] }} />);
+  return (<Doughnut options={props.options} data={{ datasets: [{ data: [womenPercent, menPercent], backgroundColor: ['#F9CF00', '#F19F4D'] }], labels: ['Women', 'Men'] }} />);
 };
 
 export default TwitterDoughnut;

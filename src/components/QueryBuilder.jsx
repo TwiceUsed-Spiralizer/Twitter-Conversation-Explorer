@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button, Preloader, Card, Collapsible, CollapsibleItem } from 'react-materialize';
+import { Row, Col, Input, Button, ProgressBar, Card, Collapsible, CollapsibleItem } from 'react-materialize';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import '../index.css';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -87,7 +88,7 @@ class QueryBuilder extends Component {
 
   render() {
     return (
-      <Card title="Build Your Query" style={{ textAlign: 'center' }}>
+      <Card title="Build Your Query" className="light-background cerulean-text" actions={[<Button flat className="tangerine" waves="yellow" onClick={this.query} >Submit</Button>]} style={{ textAlign: 'center' }}>
         <Row />
         <Collapsible popout defaultActiveKey={0}>
           <CollapsibleItem header="Gender" icon="wc" style={{ textAlign: 'left' }} >
@@ -132,11 +133,8 @@ class QueryBuilder extends Component {
           </CollapsibleItem>
           <Row />
           <Row>
-            <Col m={6}>
-              <Button onClick={this.query} >Submit</Button>
-            </Col>
-            <Col m={6}>
-              {this.state.loading ? <Preloader big flashing /> : null}
+            <Col m={12}>
+              {this.state.loading ? <ProgressBar big className="red" /> : null}
             </Col>
           </Row>
         </Collapsible>
