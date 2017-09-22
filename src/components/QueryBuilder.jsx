@@ -58,7 +58,7 @@ class QueryBuilder extends Component {
           resultsIndex: this.resultsIndex++,
         }),
       );
-    axios.post('/api/BucketedBarChart', { keyword })
+    axios.post('/api/BucketedBarChart', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
         handleResults({
           type: 'histogram',
@@ -70,7 +70,7 @@ class QueryBuilder extends Component {
           resultsIndex: this.resultsIndex++,
         }),
       );
-    axios.post('/api/BucketedBarChartBodySentiment', { keyword })
+    axios.post('/api/BucketedBarChartBodySentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
       .then(res =>
         handleResults({
           type: 'histogram',
