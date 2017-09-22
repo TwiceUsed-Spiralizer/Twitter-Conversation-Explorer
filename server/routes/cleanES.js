@@ -43,15 +43,15 @@ const cleanBucketedBarChart = (results) => {
   const obj = {};
 
   for (let i = 0; i < labels.length; i++) {
-    obj[labels[i]] = { women: 0, men: 0 };
+    obj[labels[i]] = { Women: 0, Men: 0 };
   }
 
   results.buckets.forEach((bucket) => {
     if (bucket.gender.buckets[2] !== undefined) {
-      obj[bucket.key].women += bucket.gender.buckets[2].doc_count;
+      obj[bucket.key].Women += bucket.gender.buckets[2].doc_count;
     }
     if (bucket.gender.buckets[1] !== undefined) {
-      obj[bucket.key].men += bucket.gender.buckets[1].doc_count;
+      obj[bucket.key].Men += bucket.gender.buckets[1].doc_count;
     }
   });
 

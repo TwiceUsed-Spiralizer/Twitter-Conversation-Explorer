@@ -52,28 +52,30 @@ class QueryBuilder extends Component {
           resultsIndex: this.resultsIndex++,
         }),
       );
-    // axios.post('/api/BucketedBarChart', { keyword })
-    //   .then(res =>
-    //     this.props.addToResults({
-    //       type: 'histogram',
-    //       icon: 'insert_chart',
-    //       data: res.data,
-    //       title: `Breakdown of Use of "${keyword}" by Gender`,
-    //       keyword,
-    //       resultsIndex: this.resultsIndex++,
-    //     }),
-    //   );
-    // axios.post('/api/BucketedBarChartBodySentiment', { keyword })
-    //   .then(res =>
-    //     this.props.addToResults({
-    //       type: 'histogram',
-    //       icon: 'insert_chart',
-    //       data: res.data,
-    //       title: `Breakdown of Use of "${keyword}" by Sentiment`,
-    //       keyword,
-    //       resultsIndex: this.resultsIndex++,
-    //     }),
-    //   );
+    axios.post('/api/BucketedBarChart', { keyword })
+      .then(res =>
+        this.props.addToResults({
+          type: 'histogram',
+          icon: 'insert_chart',
+          data: res.data,
+          title: `Breakdown of Use of "${keyword}" by Gender & Follower Count`,
+          keyword,
+          params: { columnA: 'Women', columnB: 'Men', dataNameA: 'Women', dataNameB: 'Men' },
+          resultsIndex: this.resultsIndex++,
+        }),
+      );
+    axios.post('/api/BucketedBarChartBodySentiment', { keyword })
+      .then(res =>
+        this.props.addToResults({
+          type: 'histogram',
+          icon: 'insert_chart',
+          data: res.data,
+          title: `Breakdown of Use of "${keyword}" by Sentiment & Follower Count`,
+          keyword,
+          params: { columnA: 'Positive Sentiment', columnB: 'Negative Sentiment', dataNameA: 'positiveSentiment', dataNameB: 'negativeSentiment' },          
+          resultsIndex: this.resultsIndex++,
+        }),
+      );
     axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
       .then(res =>
         this.props.addToResults([
@@ -90,7 +92,7 @@ class QueryBuilder extends Component {
             title: `Breakdown of "${keyword}" by Follower Count`,
             keyword,
             params: { columnA: 'Over 500 Followers', columnB: 'Under 500 Followers', dataNameA: 'over500followers', dataNameB: 'under500followers' },
-            resultsIndex: this.resultsIndex++ }
+            resultsIndex: this.resultsIndex++ },
         ]));
     axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
       .then(res =>
