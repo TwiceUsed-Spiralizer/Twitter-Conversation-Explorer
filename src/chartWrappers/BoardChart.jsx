@@ -32,7 +32,7 @@ export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDr
 
           <Col s={4}>
             <Chip>
-              <Modal trigger={<div><Icon small className="favourite-button">zoom_in</Icon></div>}id="chart-modal" header={props.chartObject.title}>
+              <Modal trigger={<div><Icon small className="favourite-button">zoom_in</Icon></div>} header={props.chartObject.title}>
                 <div style={{ height: '500px' }}>{BareChartComponent(props.chartObject)}</div>
               </Modal>
             </Chip>
