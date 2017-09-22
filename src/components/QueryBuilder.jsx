@@ -29,7 +29,7 @@ class QueryBuilder extends Component {
     this.setState({ loading: true });
     const keyword = this.state.keyword;
     const senderGender = Number(this.state.senderGender);
-    const recipientsGender = this.state.recipientsGender;
+    const recipientsGender = Number(this.state.recipientsGender);
     const sentiment = this.state.sentiment;
     const senderFollowerMin = this.state.followerCount.min;
     const senderFollowerMax = this.state.followerCount.max;
