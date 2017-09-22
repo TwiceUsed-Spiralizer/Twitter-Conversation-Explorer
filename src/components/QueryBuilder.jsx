@@ -34,6 +34,7 @@ class QueryBuilder extends Component {
     const senderFollowerMin = Number(this.state.followerCount.min);
     const senderFollowerMax = Number(this.state.followerCount.max);
     this.setState({ loading: true });
+    let results = [];
     const handleResults = (chartObjects) => {
       results = results.concat(chartObjects);
       if (results.length >= 9) {
