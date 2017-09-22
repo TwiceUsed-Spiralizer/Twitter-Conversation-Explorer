@@ -5,6 +5,7 @@ import 'react-input-range/lib/css/index.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import '../index.css';
+import './QueryBuilder.css';
 
 class QueryBuilder extends Component {
   constructor(props) {
@@ -15,8 +16,8 @@ class QueryBuilder extends Component {
       senderGender: -1,
       sentiment: undefined,
       followerCount: {
-        min: undefined,
-        max: undefined,
+        min: 0,
+        max: 1000000,
       },
     };
     this.query = this.query.bind(this);
@@ -158,12 +159,25 @@ class QueryBuilder extends Component {
             <Row>
               <InputRange
                 draggableTrack
-                maxValue={'1000000'.toLocaleString()}
+                maxValue={1000000}
                 minValue={0}
                 step={500}
-                formatLabel={value => `${value} followers`}
+                formatLabel={value => `${value.toLocaleString()}`}
                 value={this.state.followerCount}
-                onChangeComplete={value => this.setState({ followerCount: value })}
+                onChange={followerCount => this.setState({ followerCount })}
+                onChangeComplete={followerCount => this.setState({ followerCount })}
+                classNames={{
+                  activeTrack: 'activeTrack',
+                  disabledInputRange: 'disabledInputRange',
+                  inputRange: 'inputRange',
+                  labelContainer: 'labelContainer',
+                  maxLabel: 'maxLabel label',
+                  minLabel: 'minLabel label',
+                  slider: 'slider',
+                  sliderContainer: 'sliderContainer',
+                  track: 'track',
+                  valueLabel: 'valueLabel',
+                }}
               />
             </Row>
           </CollapsibleItem>
