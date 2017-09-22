@@ -30,10 +30,10 @@ class QueryBuilder extends Component {
     const keyword = this.state.keyword;
     const senderGender = Number(this.state.senderGender);
     const recipientsGender = Number(this.state.recipientsGender);
-    const sentiment = this.state.sentiment;
-    const senderFollowerMin = this.state.followerCount.min;
-    const senderFollowerMax = this.state.followerCount.max;
-    let results = [];
+    const sentiment = Number(this.state.sentiment);
+    const senderFollowerMin = Number(this.state.followerCount.min);
+    const senderFollowerMax = Number(this.state.followerCount.max);
+    this.setState({ loading: true });
     const handleResults = (chartObjects) => {
       results = results.concat(chartObjects);
       if (results.length >= 9) {
