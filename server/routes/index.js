@@ -7,7 +7,6 @@ const clean = require('./cleanES.js');
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTICSEARCH_HOST,
-  log: 'trace',
 });
 const index = 'twitter';
 const type = 'tweet';
