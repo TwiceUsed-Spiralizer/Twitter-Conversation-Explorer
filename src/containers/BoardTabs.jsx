@@ -31,6 +31,7 @@ class BoardTabs extends React.Component {
                       <BoardRenameModal
                         trigger={<Button flat className="light" style={{ marginLeft: '20px' }}>Rename</Button>}
                         boardName={board.boardName}
+                        rename={newName => this.props.renameBoard(board.boardName, newName)}
                       />,
                     ]}
                   >
@@ -59,6 +60,10 @@ const mapStateToProps = (state) => {
       }),
       ).sort((a, b) => b.charts.length - a.charts.length),
     deleteBoard: boardName => firebase.database().ref(`/boards/${uid}/${boardName}`).remove(),
+    renameBoard: (boardName, newName) => firebase.database().ref(`/boards/${uid}/${boardName}`).once('value', (board) => {
+      firebase.database().ref(`/boards/${uid}/${newName}`).set(board.val());
+      firebase.database().ref(`/boards/${uid}/${boardName}`).remove();
+    }),
   }
 };
 
