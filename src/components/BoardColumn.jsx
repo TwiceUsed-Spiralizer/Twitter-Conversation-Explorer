@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Input, Icon } from 'react-materialize';
+import { Card, Row, Col, Input, Icon, Modal } from 'react-materialize';
 import debounce from 'lodash/debounce';
 import ChartComponent from '../chartComponents';
 import BoardChart from '../chartWrappers/BoardChart';
