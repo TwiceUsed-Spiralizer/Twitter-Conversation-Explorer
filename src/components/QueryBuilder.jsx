@@ -26,24 +26,31 @@ class QueryBuilder extends Component {
 
   query() {
     this.props.clearResults();
+    this.setState({ loading: true });
     const keyword = this.state.keyword;
     const senderGender = Number(this.state.senderGender);
     const recipientsGender = this.state.recipientsGender;
     const sentiment = this.state.sentiment;
     const senderFollowerMin = this.state.followerCount.min;
     const senderFollowerMax = this.state.followerCount.max;
-    this.setState({ loading: true });
-    const endLoading = () => this.setState({ loading: false });
+    let results = [];
+    const handleResults = (chartObjects) => {
+      results = results.concat(chartObjects);
+      if (results.length >= 9) {
+        console.log(results);
+        this.setState({ loading: false });
+        this.props.addToResults(results);
+      }
+    };
     axios.post('/api/KeywordAcrossGender', { keyword, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
-        this.props.addToResults([
+        handleResults([
           { type: 'doughnut', icon: 'pie_chart', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Women', dataNameA: 'femaleSender', columnB: 'Men', dataNameB: 'maleSender' }, resultsIndex: this.resultsIndex++ },
           { type: 'chiSquared', icon: 'format_list_numbered', data: res.data, title: `Breakdown of "${keyword}" by Gender`, keyword, params: { columnA: 'Women', dataNameA: 'femaleSender', columnB: 'Men', dataNameB: 'maleSender' }, resultsIndex: this.resultsIndex++ },
-        ]))
-      .then(endLoading);
+        ]));
     axios.post('/api/SelectionsOverTime', { keyword, senderGender, recipientsGender, sentiment, senderFollowerMin, senderFollowerMax })
       .then(res =>
-        this.props.addToResults({
+        handleResults({
           type: 'line',
           icon: 'show_chart',
           data: res.data,
@@ -54,7 +61,7 @@ class QueryBuilder extends Component {
       );
     axios.post('/api/BucketedBarChart', { keyword })
       .then(res =>
-        this.props.addToResults({
+        handleResults({
           type: 'histogram',
           icon: 'insert_chart',
           data: res.data,
@@ -66,7 +73,7 @@ class QueryBuilder extends Component {
       );
     axios.post('/api/BucketedBarChartBodySentiment', { keyword })
       .then(res =>
-        this.props.addToResults({
+        handleResults({
           type: 'histogram',
           icon: 'insert_chart',
           data: res.data,
@@ -78,7 +85,7 @@ class QueryBuilder extends Component {
       );
     axios.post('/api/KeywordAcrossFollowerCount', { keyword, senderGender, recipientsGender, sentiment })
       .then(res =>
-        this.props.addToResults([
+        handleResults([
           { type: 'doughnut',
             icon: 'pie_chart',
             data: res.data,
@@ -96,7 +103,7 @@ class QueryBuilder extends Component {
         ]));
     axios.post('/api/KeywordAcrossSentiment', { keyword, senderGender, recipientsGender, senderFollowerMin, senderFollowerMax })
       .then(res =>
-        this.props.addToResults([
+        handleResults([
           { type: 'doughnut',
             icon: 'pie_chart',
             data: res.data,
