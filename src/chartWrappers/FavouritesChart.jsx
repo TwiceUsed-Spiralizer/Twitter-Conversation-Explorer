@@ -18,7 +18,7 @@ export default (favourite, embed, BoardPinDropdown) =>
           </Col>
           <Col m={3}>
             <Chip>
-              <BoardPinDropdown trigger={<div><Icon small className="favourite-button">play_for_work</Icon></div>} chartObject={props.chartObject} />
+              <BoardPinDropdown trigger={<div><Icon small className="favourite-button">pin_drop</Icon></div>} chartObject={props.chartObject} />
             </Chip>
           </Col>
           <Col m={3}>

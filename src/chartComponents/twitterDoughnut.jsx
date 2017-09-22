@@ -14,7 +14,7 @@ const TwitterDoughnut = (props) => {
 
   const categoryAPercent = (categoryAandKeyword / categoryATotal) * 100;
   const categoryBPercent = (categoryBandKeyword / categoryBTotal) * 100;
-  return (<Doughnut options={props.options} data={{ datasets: [{ data: [categoryAPercent, categoryBPercent], backgroundColor: ['blue', 'hotpink'] }], labels: [props.params.columnA, props.params.columnB] }} />);
+  return (<Doughnut options={props.options} data={{ datasets: [{ data: [categoryAPercent, categoryBPercent], backgroundColor: ['#4484CE', '#F19F4D'] }], labels: [props.params.columnA, props.params.columnB] }} />);
 };
 
 export default TwitterDoughnut;
