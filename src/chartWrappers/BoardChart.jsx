@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
+import { Col, Row, Icon, Card, Chip, Modal, Button } from 'react-materialize';
 import { EmbedModal } from '../components';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 import './BoardChart.css';
@@ -7,11 +7,26 @@ import './BoardChart.css';
 export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDropdown) =>
   props => (
     <Col m={12} s={12}>
-      <Card horizontal header={<div style={{ height: '300px' }}>{props.children}</div>} title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}>
+      <Card
+horizontal
+header={<div style={{ height: '300px' }}>{props.children}</div>}
+title={<div><Icon left>{props.icon}</Icon> {props.chartObject.keyword}</div>}
+        actions={[
+          <EmbedModal trigger={<Button flat waves="orange"><Icon left>share</Icon></Button>} chartObject={props.chartObject} />,
+          props.chartObject.favourited
+            ? <Button flat waves="orange"><Icon left style={{ color: 'gold' }}>star</Icon></Button>
+            : <Button flat waves="orange" onClick={() => favourite(props.chartObject)}><Icon left>star_border</Icon></Button>,
+          <BoardPinDropdown
+            results
+            trigger={<Button flat><Icon waves="orange" left>pin_drop</Icon></Button>}
+            chartObject={props.chartObject}
+          />,
+        ]}
+      >
         <Col>
           {props.title}
         </Col>
-        <Row id="favourite-button-group">
+        {/* <Row id="favourite-button-group">
           <Col s={4}>
             <Chip><button onClick={() => favourite(props.chartObject.id, !props.chartObject.favourited)}>
               <Icon small className={`favourite-button ${props.chartObject.favourited ? 'starred' : 'unstarred'}`} />
@@ -44,9 +59,9 @@ export default (boardName, favourite, embed, deleteChart, moveColumn, BoardPinDr
 
           <Col s={4}>
             <Chip><button onClick={() => moveColumn(props.chartObject.parentKey, boardName, (props.chartObject.colIndex + 1) % 3)}><Icon small className="favourite-button">compare_arrows</Icon></button></Chip>
-          </Col>
+          </Col> */}
 
-        </Row>
+        {/* </Row> */}
       </Card>
     </Col>
   );
