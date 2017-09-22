@@ -12,7 +12,7 @@ import './index.css';
 
 const Embed = Loadable({
   loader: () => import('./containers/Embed'),
-  loading: Loading,
+  loading: Preloader,
 })
 
 const App = Loadable({
