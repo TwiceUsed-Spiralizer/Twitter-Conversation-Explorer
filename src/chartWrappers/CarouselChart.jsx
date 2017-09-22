@@ -16,7 +16,7 @@ export default (favourite, embed, authenticated) =>
           : <Button flat waves="orange" onClick={() => favourite(props.chartObject)}><Icon left>star_border</Icon> Favourite</Button>,
         <BoardPinModal
           results
-          trigger={<Button flat><Icon waves="orange" left>play_for_work</Icon> Pin</Button>}
+          trigger={<Button flat><Icon waves="orange" left>pin_drop</Icon> Pin</Button>}
           chartObject={props.chartObject}
         />
       ]}
