@@ -8,7 +8,6 @@ import Loadable from 'react-loadable';
 import { Preloader } from 'react-materialize';
 import { Loading } from './components';
 import reducer from './reducers';
-import './index.css';
 
 const Embed = Loadable({
   loader: () => import('./containers/Embed'),
