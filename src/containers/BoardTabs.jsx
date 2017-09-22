@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Card, Row, Col, Collection, CollectionItem, Icon, Button, Modal } from 'react-materialize';
+import { Container, Card, Row, Col, Collection, CollectionItem, Icon, Button } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import firebase from '../firebase';
 import { BoardDeleteModal, BoardRenameModal } from '../components';

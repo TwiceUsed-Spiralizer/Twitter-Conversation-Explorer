@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, Icon, Card, Chip, Modal } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
-import { EmbedModal, ZoomModal } from '../components';
+import { EmbedModal } from '../components';
 import './FavouritesChart.css';
 import '../index.css';
 

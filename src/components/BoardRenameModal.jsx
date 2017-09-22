@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Button, Input } from 'react-materialize';
-import firebase from '../firebase';
 
 export default class extends React.Component {
   constructor(props) {
