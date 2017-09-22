@@ -1,0 +1,85 @@
+.slider {
+  appearance: none;
+  background: #3f51b5;
+  border: 1px solid #3f51b5;
+  border-radius: 100%;
+  cursor: pointer;
+  display: block;
+  height: 1rem;
+  margin-left: -0.5rem;
+  margin-top: -0.65rem;
+  outline: none;
+  position: absolute;
+  top: 50%;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  width: 1rem; }
+  .slider:active {
+    transform: scale(1.3); }
+  .slider:focus {
+    box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2); }
+  .disabledInputRange .slider {
+    background: #cccccc;
+    border: 1px solid #cccccc;
+    box-shadow: none;
+    transform: none; }
+
+.sliderContainer {
+  transition: left 0.3s ease-out; }
+
+.label {
+  color: #aaaaaa;
+  font-family: "Helvetica Neue", san-serif;
+  font-size: 0.8rem;
+  transform: translateZ(0);
+  white-space: nowrap; }
+
+.minLabel,
+.maxLabel {
+  font-size: 0}
+
+.minLabel {
+  left: 0; }
+
+.maxLabel {
+  right: 20; }
+
+.valueLabel {
+  font-family: 'Roboto';
+  color: #4182CE;
+  position: absolute;
+  top: -1.8rem; }
+
+.labelContainer {
+  left: -80%;
+  top: -5px;
+  position: relative; }
+  .maxLabel .labelContainer {
+    left: 50%; }
+
+.track {
+  background: #F9CF00;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: block;
+  height: 0.3rem;
+  position: relative;
+  transition: left 0.3s ease-out, width 0.3s ease-out; }
+  .disabledInputRange {
+    background: #eeeeee; }
+
+.trackBackground {
+  left: 0;
+  margin-top: -0.15rem;
+  position: absolute;
+  right: 0;
+  top: 50%; }
+
+.activeTrack {
+  background-color: blue;
+  top: 0px; }
+
+.inputRange {
+  height: 1rem;
+  position: relative;
+  width: 100%; }
+  
