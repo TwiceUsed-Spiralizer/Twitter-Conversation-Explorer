@@ -22,24 +22,40 @@ const TCEHistogram = (props) => {
     datasets: [
       {
         label: `${props.params.columnA}`,
-        backgroundColor: '#4484CE',
+        backgroundColor: '#688EEA',
         borderColor: '#f5fcff',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(104, 142, 234,0.4)',
+        hoverBackgroundColor: '#4484CE',
         hoverBorderColor: 'rgba(104, 142, 234,1)',
         data: arrayOfDataForCategoryA,
       },
       {
         label: `${props.params.columnB}`,
-        backgroundColor: '#F19F4D',
+        backgroundColor: '#f0bc89',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1,
-        hoverBackgroundColor: '#f2c200',
+        hoverBackgroundColor: '#F19F4D',
         hoverBorderColor: 'rgba(255,99,132,1)',
         data: arrayOfDataForCategoryB,
       },
     ],
   };
+
+  props.options.scales = {
+    yAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Tweets',
+      },
+    }],
+    xAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: 'Number Of Followers',
+      },
+    }],
+  };
+
   return (<Bar options={props.options} data={dataForGraph} />);
 };
 
