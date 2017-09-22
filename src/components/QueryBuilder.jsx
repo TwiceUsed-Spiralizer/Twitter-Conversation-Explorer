@@ -37,7 +37,6 @@ class QueryBuilder extends Component {
     const handleResults = (chartObjects) => {
       results = results.concat(chartObjects);
       if (results.length >= 9) {
-        console.log(results);
         this.setState({ loading: false });
         this.props.addToResults(results);
       }
