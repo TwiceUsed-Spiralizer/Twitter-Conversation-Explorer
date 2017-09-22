@@ -20,42 +20,22 @@ const NextButton = (props) => {
   );
 };
 
-class QueryResults extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      animation: true,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.results.length) {
-      this.setState({
-        animation: false,
-      });
-    } else {
-      this.setState({
-        animation: true,
-      });
-    }
-  }
-
-  render() {
-    return this.props.results.length
+const QueryResults = props =>
+  ( 
+    props.results.length
       ? (
         <div id="results-carousel">
           <Slider adaptiveHeight={false} dots prevArrow={<PrevButton />} nextArrow={<NextButton />} >
             {
-              this.props.results.map(ChartComponent(CarouselChart(this.props.favouriteItem, this.props.embedItem, this.props.user), this.state.animation))
+              props.results.map(ChartComponent(CarouselChart(props.favouriteItem, props.embedItem, props.user), false))
             }
           </Slider>
         </div>
       )
       : (
         <CardPanel><h2 className="center-align">Welcome to Tweet Insight</h2></CardPanel>
-      );
-  }
-};
+      )
+  )
 
 const mapStateToProps = state => ({
   results: state.results,
