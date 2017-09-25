@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button, Input } from 'react-materialize';
 
-export default class extends React.Component {
+class BoardRenameModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,3 +34,11 @@ export default class extends React.Component {
     );
   }
 }
+
+BoardRenameModal.propTypes = {
+  trigger: PropTypes.node.isRequired,
+  rename: PropTypes.func.isRequired,
+  boardName: PropTypes.string.isRequired,
+}
+
+export default BoardRenameModal;

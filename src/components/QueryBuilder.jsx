@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, Input, Button, ProgressBar, Card, Collapsible, CollapsibleItem } from 'react-materialize';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
@@ -193,16 +194,14 @@ class QueryBuilder extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  charts: state.charts,
-  favourites: state.favourites,
-  boards: state.boards,
-});
+QueryBuilder.propTypes = {
+  addToResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => ({
   addToResults: results => dispatch({ type: 'RESULTS_RECEIVED', results }),
-  loadingResults: () => dispatch({ type: 'RESULTS_RESET' }),
   clearResults: () => dispatch({ type: 'RESULTS_CLEAR' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(QueryBuilder);
+export default connect(null, mapDispatchToProps)(QueryBuilder);
