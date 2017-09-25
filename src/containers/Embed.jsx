@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Preloader } from 'react-materialize';
 import BareChartComponent from '../chartComponents/BareChartComponent';
+import './Embed.css';
 
 export default class extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class extends React.Component {
       case true:
         return (<div>Bad embed</div>);
       default:
-        return BareChartComponent(this.state.data);
+        return <div style={{ height: '250px', width: '250px' }}>{BareChartComponent(this.state.data)}</div>;
     }
   }
 };

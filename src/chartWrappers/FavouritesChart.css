@@ -54,6 +54,6 @@ button {
   text-indent: 0;
 }
 
-button:active:hover {
+button:focus {
   background-color: transparent;
 }

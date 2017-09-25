@@ -38,7 +38,7 @@ export default class extends React.Component {
         embedContent = <ProgressBar className="pink" />;
         break;
       default:
-        embedText = `<iframe width="560" height="315" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${this.state.embedId}" frameborder="0" ></iframe>`;
+        embedText = `<iframe width="250" height="250" style="float:left;" src="http://twinsighttest-env.eiwejfj7bv.us-east-2.elasticbeanstalk.com/embed/${this.state.embedId}" frameborder="0" ></iframe>`;
         embedButton = <ClipboardButton onClick={this.toaster} data-clipboard-text={embedText} className="modal-action btn-flat clipboard-button">Copy code</ClipboardButton>;
         embedContent = (<Input
           id={`embed-code-${this.state.embedId}`}
