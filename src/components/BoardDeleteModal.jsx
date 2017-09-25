@@ -13,3 +13,11 @@ export default props => (
     This action is not reversible.
   </Modal>
 );
+
+BoardDeleteModal.propTypes = {
+  trigger: PropTypes.node.isRequired,
+  boardName: PropTypes.string.isRequired,
+  delete: PropTypes.func.isRequired,
+}
+
+export default BoardDeleteModal;
