@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Navbar, NavItem, Button, Icon, Modal, Input, Row } from 'react-materialize';
 import { Link } from 'react-router-dom';
@@ -45,6 +46,12 @@ class NavBar extends Component {
       </Navbar>
     );
   }
+}
+
+NavBar.propTypes = {
+  createBoard: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  boards: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = state => ({

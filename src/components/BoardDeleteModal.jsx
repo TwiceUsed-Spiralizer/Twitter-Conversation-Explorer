@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 
-export default props => (
+const BoardDeleteModal = props => (
   <Modal
     trigger={props.trigger}
     header={`Are you sure you wish to delete ${props.boardName}?`}
@@ -13,3 +14,11 @@ export default props => (
     This action is not reversible.
   </Modal>
 );
+
+BoardDeleteModal.propTypes = {
+  trigger: PropTypes.node.isRequired,
+  boardName: PropTypes.string.isRequired,
+  delete: PropTypes.func.isRequired,
+}
+
+export default BoardDeleteModal;
