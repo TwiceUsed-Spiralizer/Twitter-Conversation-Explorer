@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, Modal, Collection, CollectionItem, Icon, Card } from 'react-materialize';
 import { connect } from 'react-redux';
+import Materialize from 'materialize-css';
+import { chartObject } from '../utils/propTypes';
 import firebase from '../firebase';
 import BareChartComponent from '../chartComponents/BareChartComponent';
 
@@ -36,8 +39,15 @@ const BoardPinModal = props => (
   </Modal>
 );
 
+BoardPinModal.propTypes = {
+  trigger: PropTypes.node.isRequired,
+  chartObject: PropTypes.shape(chartObject).isRequired,
+  boards: PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = (state, props) => ({
-  boards:  props.chartObject.id
+  boards: props.chartObject.id
     ? Object.keys(state.boards)
       .map(name => ({ ...state.boards[name], name }))
       .filter(board => !Object.keys(board.charts || {}).map(key => board.charts[key].id).includes(props.chartObject.id))
@@ -48,11 +58,13 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   pinToBoard: (uid, boardName, chartObject) => {
-    firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+    firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 })
+      .then(() => Materialize.toast(`Pinned to ${boardName}`, 1500));
   },
   pinResultToBoard: (uid, boardName, chartObject) => {
     if (chartObject.id) {
-      firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 });
+      firebase.database().ref(`/boards/${uid}/${boardName}/charts`).push({ id: chartObject.id, colIndex: 0 })
+        .then(() => Materialize.toast(`Pinned to ${boardName}`, 1500));
     } else {
       const { resultsIndex, ...restOfObject } = chartObject;
       firebase.database().ref(`/charts/${uid}`).push(restOfObject)
@@ -66,6 +78,7 @@ const mapDispatchToProps = dispatch => ({
               id: item.key,
             },
           });
+          Materialize.toast(`Pinned to ${boardName}`, 1500);
         });
     }
   },

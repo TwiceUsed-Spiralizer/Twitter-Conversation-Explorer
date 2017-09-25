@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import { Button, Col, Row, Icon } from 'react-materialize';
 import { connect } from 'react-redux';
+import { chartObject } from '../utils/propTypes';
 import firebase from '../firebase';
 import embed from '../firebase/embed';
 import './QueryResults.css';
@@ -50,6 +52,13 @@ const QueryResults = props =>
         </div>
       )
   );
+
+QueryResults.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.shape(chartObject)).isRequired,
+  user: PropTypes.object,
+  favouriteItem: PropTypes.func.isRequired,
+  embedItem: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   results: state.results,

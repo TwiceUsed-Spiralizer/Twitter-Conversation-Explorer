@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Query, Favourites, Board, BoardTabs, NavBar } from './index';
 import { Auth } from '../components';
 import './App.css';
+import '../index.css';
 import firebase from '../firebase';
 
 class App extends React.Component {

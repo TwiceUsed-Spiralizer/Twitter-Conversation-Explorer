@@ -11,10 +11,10 @@ export default (favourite, embed, authenticated) =>
       title={<Icon left>{props.icon}</Icon>}
       actions={[
         <EmbedModal trigger={<Button flat waves="orange"><Icon left>share</Icon> Share</Button>} chartObject={props.chartObject} />,
-        props.chartObject.favourited
+        authenticated && (props.chartObject.favourited
           ? <Button flat waves="orange"><Icon left style={{ color: 'gold' }}>star</Icon>Favourited</Button>
-          : <Button flat waves="orange" onClick={() => favourite(props.chartObject)}><Icon left>star_border</Icon> Favourite</Button>,
-        <BoardPinModal
+          : <Button flat waves="orange" onClick={() => favourite(props.chartObject)}><Icon left>star_border</Icon> Favourite</Button>),
+        authenticated && <BoardPinModal
           results
           trigger={<Button flat><Icon waves="orange" left>pin_drop</Icon> Pin</Button>}
           chartObject={props.chartObject}
