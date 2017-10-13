@@ -29,7 +29,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Navbar brand={<Link id="title" to="/">Tweet Insight</Link>} right id="auth-nav">
+      <Navbar brand={'Tweet Insight'} right id="auth-nav">
         <Row>
           <Modal
             counter={this.props.boards}

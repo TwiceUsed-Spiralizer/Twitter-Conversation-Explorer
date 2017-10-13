@@ -5,7 +5,7 @@ import '../index.css';
 
 export default () =>
   (
-    <Navbar brand={<Link to="/">Tweet Insight</Link>} right style={{ 'margin-bottom': '20px', 'padding-left': '20px' }}>
+    <Navbar brand={'Tweet Insight'} right style={{ marginBottom: '20px', paddingLeft: '20px' }}>
       <Row>
         <NavItem><Link to="/login"><Icon right>account_circle</Icon>Login</Link></NavItem>
       </Row>

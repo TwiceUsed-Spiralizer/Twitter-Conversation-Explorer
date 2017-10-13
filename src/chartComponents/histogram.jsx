@@ -5,8 +5,10 @@ const TCEHistogram = (props) => {
   const data = props.data;
   const arrayOfDataForCategoryA = [];
   const arrayOfDataForCategoryB = [];
-
-  const arrayOfFollowerRanges = Object.keys(data);
+  const arrayOfFollowerRanges = Object.keys(data)
+    .sort((a, b) =>
+      a.split('-')[0] - b.split('-')[0],
+    );
   arrayOfFollowerRanges.forEach((key) => {
     arrayOfDataForCategoryA.push(data[key][props.params.dataNameA]);
     arrayOfDataForCategoryB.push(data[key][props.params.dataNameB]);
@@ -14,7 +16,9 @@ const TCEHistogram = (props) => {
 
   const allZeroes = array => array.every(item => item === 0);
   if (allZeroes(arrayOfDataForCategoryA.concat(arrayOfDataForCategoryB))) {
-    return (<div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>);
+    return (
+      <div>Sorry, there are no tweets with the keyword {props.keyword} in our database!</div>
+    );
   }
 
   const dataForGraph = {
